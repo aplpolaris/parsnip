@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>edu.jhuapl.vis</groupId>
+    <artifactId>parsnip-docs</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}-${project.version}</name>
+    <description>Documentation for Parsnip</description>
+    <url>TBD</url>
+    <inceptionYear>2019</inceptionYear>
+	
+    <organization>
+        <name>The Johns Hopkins University Applied Physics Laboratory</name>
+        <url>http://www.jhuapl.edu</url>
+    </organization>
+    
+    <developers>
+        <developer>
+            <name>Elisha Peterson</name>
+            <organization>JHU-APL</organization>
+            <organizationUrl>http://www.jhuapl.edu</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <app.name>Parsnip</app.name>
+        <pdf.name>Parsnip User Guide</pdf.name>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <license.organizationName>Johns Hopkins University Applied Physics Laboratory</license.organizationName>
+        <license.licenseName>apache_v2</license.licenseName>
+    </properties>
+    
+    <build>
+        <plugins>                
+            <!-- override to customize release plugin options -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>perform</goal>
+                        </goals>
+                        <configuration>
+                            <pomFileName>${project.artifactId}/pom.xml</pomFileName>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+			
+            <!-- copy sources into target w/ filtering -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-to-target</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/sphinx/source</outputDirectory>
+                            <resources>      
+                                <resource>
+                                    <directory>${basedir}/src/main/site/rst</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.rst</include>
+                                        <include>**/conf.py</include>
+                                    </includes>
+                                </resource> 
+                                <resource>
+                                    <directory>${basedir}/src/main/site/rst</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>**/*.rst</exclude>
+                                        <exclude>**/conf.py</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- generate the html documentation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>generate-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                            <target name="run sphinx">
+                                <mkdir dir="target/sphinx/html" />
+                                <exec executable="sphinx-build">
+                                    <arg value="-b" />
+                                    <arg value="html" />
+                                    <arg value="target/sphinx/source" />
+                                    <arg value="target/site" />
+                                </exec>
+                                <exec executable="sphinx-build">
+                                    <arg value="-b" />
+                                    <arg value="latex" />
+                                    <arg value="target/sphinx/source" />
+                                    <arg value="target/sphinx/build/latex" />
+                                </exec>
+                                <!-- repeat latex build twice to get table of contents -->
+                                <exec dir="target/sphinx/build/latex" executable="pdflatex" failifexecutionfails="false">
+                                    <arg value="${pdf.name}.tex" />
+                                </exec>
+                                <exec dir="target/sphinx/build/latex" executable="pdflatex" failifexecutionfails="false">
+                                    <arg value="${pdf.name}.tex" />
+                                </exec>
+                                <copy file="target/sphinx/build/latex/${pdf.name}.pdf" tofile="target/site/${pdf.name}.pdf" failonerror="false" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.8.2</version>
+            </plugin>
+        </plugins>
+    </build>    
+
+</project>
