@@ -275,6 +275,13 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Version specified for compatibility with maven-project-info-reports-plugin 3.0.0-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.8.2</version>
+            </plugin>
         </plugins>
     </build>
     
