@@ -74,7 +74,7 @@ Processing Data Sets
 Data Conversions
 *********************
 The ``Create`` type makes it easy to convert an input datum object to an output datum object by specifying the fields that should be populated in the output and their associated functions.
-In YAML, this type is represented as a *field-value computation map of the form ``{ field1: compute1, field2: compute2, ... }``.
+In YAML, this type is represented as a *field-value* computation map of the form ``{ field1: compute1, field2: compute2, ... }``.
 Fields may be simple strings, or for nested results, can be JSON Pointer notation.
 The following type of "compute" values are supported:
 
