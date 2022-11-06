@@ -28,7 +28,6 @@ import java.lang.IllegalArgumentException
  * Returns a set of likelihood scores for each input, drawn from a set of categories.
  * @param <O> type of object being classified
  * @param <T> space of categories for the classification
- * @author Elisha Peterson
  */
 abstract class Classifier<O, T>(protected val values: Array<T>) : (O) -> Map<T, Float> {
 

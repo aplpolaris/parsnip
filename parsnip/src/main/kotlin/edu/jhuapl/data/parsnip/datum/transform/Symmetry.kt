@@ -32,8 +32,6 @@ import edu.jhuapl.util.types.SimpleValue
  *
  * The transformation is encoded in a map, e.g. `ip1->ip2, host1->host2, port1->port2`. Both the map and its inverse are
  * applied in the data transformation.
- *
- * @author Elisha Peterson
  */
 data class Symmetry(var transform: MutableMap<String, String> = mutableMapOf()) : DatumTransform, SimpleValue {
 

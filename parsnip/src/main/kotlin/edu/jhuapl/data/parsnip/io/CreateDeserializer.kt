@@ -41,7 +41,6 @@ class AugmentDeserializer(loader: ClassLoader) : MapCreateDeserializerSupport<Au
 
 /**
  * Handles serialization of [Create].
- * @author Elisha Peterson
  */
 open class MapCreateDeserializerSupport<T : Create>(val loader: ClassLoader, val init: () -> T) : JsonDeserializer<T>() {
 

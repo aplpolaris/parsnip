@@ -46,7 +46,6 @@ private val LIKELIHOOD_CACHE = CacheBuilder.newBuilder()
 
 /**
  * Classifies a string as represented by one of several standard decoder types.
- * @author Elisha Peterson
  */
 object DecoderGuesser : Classifier<String?, StandardDecoders>(values()) {
     override fun score(value: String?, decoder: StandardDecoders) = when {
@@ -58,7 +57,6 @@ object DecoderGuesser : Classifier<String?, StandardDecoders>(values()) {
 
 /**
  * Classifies a string as represented by one of several standard decoder types.
- * @author Elisha Peterson
  */
 private object DecoderTypeLikelihoodGuesser : Classifier<TypeLikelihoods, StandardDecoders>(values()) {
     override fun score(value: TypeLikelihoods, decoder: StandardDecoders): Float {

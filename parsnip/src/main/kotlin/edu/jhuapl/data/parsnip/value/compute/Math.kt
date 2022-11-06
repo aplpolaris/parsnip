@@ -49,10 +49,11 @@ class Divide @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(value:
  * Looks up a value in a field and applies a linear transformation to convert it to a target value. The transformation is
  * defined by domain and range intervals.
  * @param <X> input type
- * @author Elisha Peterson
  */
-class Linear @JsonCreator constructor(@JsonProperty("domain") domain: DoubleArray = doubleArrayOf(0.0, 1.0),
-                                           @JsonProperty("range") range: DoubleArray = doubleArrayOf(0.0, 1.0)) : ValueCompute<Double> {
+class Linear @JsonCreator constructor(
+    @JsonProperty("domain") domain: DoubleArray = doubleArrayOf(0.0, 1.0),
+    @JsonProperty("range") range: DoubleArray = doubleArrayOf(0.0, 1.0)
+) : ValueCompute<Double> {
 
     constructor(domain: Pair<Number, Number>, range: Pair<Number, Number>) : this(domain.asDoubleArray(), range.asDoubleArray())
 
@@ -70,7 +71,9 @@ class Linear @JsonCreator constructor(@JsonProperty("domain") domain: DoubleArra
     val scale
         get() = (range[1] - range[0]) / (domain[1] - domain[0])
 
-    override fun invoke(input: Any?) = input?.toNumberOrNull()?.let { range[0] + (it.toDouble() - domain[0]) * scale }
+    override fun invoke(input: Any?) = input?.toNumberOrNull()?.let {
+        range[0] + (it.toDouble() - domain[0]) * scale
+    }
 }
 
 //region HELPER FUNCTIONS

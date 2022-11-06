@@ -34,7 +34,6 @@ import java.io.IOException
 /**
  * Handles serialization of simple value objects. Uses the simple value for serialization if present, otherwise uses
  * the standard class serialization embedded in a single key-value map.
- * @author Elisha Peterson
  */
 object SimpleValueSerializer : JsonSerializer<Any>() {
 

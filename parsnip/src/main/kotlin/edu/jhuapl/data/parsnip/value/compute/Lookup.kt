@@ -30,7 +30,6 @@ import edu.jhuapl.util.types.SimpleValue
 
 /**
  * Performs lookup operations to transform values from a source field. The lookup table uses strings for matching inputs.
- * @author Elisha Peterson
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 data class Lookup(

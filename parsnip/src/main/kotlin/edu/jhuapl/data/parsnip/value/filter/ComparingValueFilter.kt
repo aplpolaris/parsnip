@@ -31,8 +31,6 @@ import edu.jhuapl.utilkt.core.fine
 /**
  * A filter implementation based on a single arbitrary value, that tests inputs by comparing to the value. Also provides a
  * default implementation that catches [IllegalArgumentException].
- *
- * @author Elisha Peterson
  */
 abstract class ComparingValueFilter(var value: Any?, private val tester: (Int) -> Boolean) : ValueFilter, SimpleValue {
 
