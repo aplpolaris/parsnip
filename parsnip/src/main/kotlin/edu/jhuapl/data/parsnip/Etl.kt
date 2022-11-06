@@ -34,8 +34,6 @@ import java.util.*
 /**
  * Performs a generic extract-transform-load operation on input data, including a single filter operation, a set of transform
  * operations, and a single load operation. Operations are applied one datum at a time.
- *
- * @author Elisha Peterson
  */
 @JsonPropertyOrder("extract", "transform", "load")
 open class Etl {

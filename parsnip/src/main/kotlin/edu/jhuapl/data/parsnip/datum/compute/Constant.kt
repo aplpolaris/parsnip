@@ -29,7 +29,6 @@ import edu.jhuapl.util.types.SimpleValue
 
 /**
  * Looks up a value in a field. The field may be a simple key/JSON pointer.
- * @author Elisha Peterson
  */
 data class Constant @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(var value: Any?) : DatumCompute<Any>, SimpleValue {
 

@@ -84,7 +84,6 @@ internal fun <E> List<E>.toNullableNumberList() = map { it?.toNumberOrNull() }
 
 /**
  * Operations that can be performed on numeric inputs. May handle dates for operations that make sense (e.g. min/max).
- * @author Elisha Peterson
  */
 enum class Operate(internal val returnsDates: Boolean) : (List<Number?>?, Any?) -> Any? {
     /** First value equal to all others */

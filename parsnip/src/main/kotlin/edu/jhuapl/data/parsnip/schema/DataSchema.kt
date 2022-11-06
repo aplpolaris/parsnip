@@ -32,7 +32,6 @@ import java.util.*
 
 /**
  * Combines name/description with a list of field names and associated types.
- * @author Elisha Peterson
  */
 class DataSchema(var name: String = "", var description: String? = null, _fields: Map<String, Class<*>> = mapOf()) {
 

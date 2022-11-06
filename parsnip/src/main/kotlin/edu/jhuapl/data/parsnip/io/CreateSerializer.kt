@@ -34,7 +34,6 @@ import edu.jhuapl.util.types.SimpleValue
 
 /**
  * Handles serialization of [Create].
- * @author Elisha Peterson
  */
 object CreateSerializer : JsonSerializer<Create>() {
     override fun serialize(value: Create?, gen: JsonGenerator, serializers: SerializerProvider) {

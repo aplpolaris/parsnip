@@ -30,7 +30,6 @@ import edu.jhuapl.data.parsnip.datum.DatumTransform
  * new datum with just the fields described by the value encodings. If there are no input fields, keeps all input fields.
  *
  * @param <X> type of input values
- * @author Elisha Peterson
  */
 open class Create(var fields: MutableList<FieldEncode<*>> = mutableListOf()) : DatumTransform {
 

@@ -27,7 +27,6 @@ import java.time.Instant
 
 /**
  * Returns current timestamp.
- * @author Elisha Peterson
  */
 class Now : DatumCompute<Any> {
 
