@@ -6,7 +6,7 @@ package edu.jhuapl.data.parsnip.datum.filter
  * DatumFieldFilterTest.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2022 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2024 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ import edu.jhuapl.data.parsnip.datum.DatumFilter
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.value.filter.*
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.printJsonTest
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.printJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 import java.io.IOException
 

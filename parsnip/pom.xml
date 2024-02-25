@@ -61,6 +61,12 @@
             <version>${kotlin.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>edu.jhuapl.util</groupId>
+            <artifactId>ekotlin-util-types</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- used for type/string coding -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

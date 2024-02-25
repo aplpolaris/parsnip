@@ -6,7 +6,7 @@ package edu.jhuapl.data.parsnip.datum.transform
  * ChangeTest.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2022 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2024 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ package edu.jhuapl.data.parsnip.datum.transform
  */
 
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.printPlainMapperJsonTest
-import edu.jhuapl.util.internal.recyclePlainMapperJsonTest
+import edu.jhuapl.testkt.printPlainMapperJsonTest
+import edu.jhuapl.testkt.recyclePlainMapperJsonTest
 import junit.framework.TestCase
 import java.io.IOException
 

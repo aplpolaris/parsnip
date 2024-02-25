@@ -9,7 +9,7 @@ import edu.jhuapl.data.parsnip.set.compute.Stats
  * ValueSetFunctions.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2022 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2024 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

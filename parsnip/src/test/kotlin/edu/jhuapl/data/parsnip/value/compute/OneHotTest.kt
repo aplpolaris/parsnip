@@ -4,7 +4,7 @@
  * OneHotTest.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2022 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2024 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ package edu.jhuapl.data.parsnip.value.compute
 
 import edu.jhuapl.data.parsnip.value.ValueCompute
 import edu.jhuapl.testkt.contentShouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Test
 import java.io.IOException
 

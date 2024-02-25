@@ -6,7 +6,7 @@ package edu.jhuapl.data.parsnip.datum.compute
  * CalculateTest.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2022 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2024 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,7 @@ import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.googlecode.blaisemath.parser.BooleanGrammar
 import com.googlecode.blaisemath.parser.RealGrammar
-import edu.jhuapl.util.internal.printJsonTest
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.printJsonTest
 import junit.framework.TestCase
 import org.junit.Test
 import kotlin.test.assertFails

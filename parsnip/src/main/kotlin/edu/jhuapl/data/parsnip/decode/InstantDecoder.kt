@@ -6,7 +6,7 @@ package edu.jhuapl.data.parsnip.decode
  * InstantDecoder.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2022 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2024 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,10 +56,10 @@ class InstantDecoder(pattern: String = "yyyy-MM-dd'T'HH:mm:ss") : Decoder<Instan
                 acc.isSupported(ChronoField.NANO_OF_SECOND) && acc.isSupported(ChronoField.INSTANT_SECONDS) -> Instant.from(acc)
                 acc.isSupported(ChronoField.HOUR_OF_DAY) && acc.isSupported(ChronoField.DAY_OF_MONTH) -> {
                     val dt = LocalDateTime.from(acc)
-                    return if (pattern.contains('Z')) dt.atZone(ZoneId.of("Z")).toInstant() else dt.toInstant()!!
+                    return if (pattern.contains('Z')) dt.atZone(ZoneId.of("Z")).toInstant() else dt.toInstant()
                 }
-                acc.isSupported(ChronoField.DAY_OF_MONTH) -> LocalDate.from(acc).toInstant()!!
-                acc.isSupported(ChronoField.HOUR_OF_DAY) -> LocalTime.from(acc).toInstant()!!
+                acc.isSupported(ChronoField.DAY_OF_MONTH) -> LocalDate.from(acc).toInstant()
+                acc.isSupported(ChronoField.HOUR_OF_DAY) -> LocalTime.from(acc).toInstant()
                 else -> throw DecoderException("$input not convertible to local date/time or Instant")
             }
         } catch (x: DateTimeException) {
