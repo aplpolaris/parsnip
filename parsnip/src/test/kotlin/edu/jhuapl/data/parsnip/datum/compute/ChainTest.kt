@@ -27,7 +27,7 @@ import edu.jhuapl.data.parsnip.value.compute.Add
 import edu.jhuapl.data.parsnip.value.compute.As
 import edu.jhuapl.data.parsnip.value.compute.Decode
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Test
 
 class ChainTest {

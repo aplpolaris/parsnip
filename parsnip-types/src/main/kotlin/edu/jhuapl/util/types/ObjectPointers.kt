@@ -22,8 +22,6 @@
 package edu.jhuapl.util.types
 
 import com.fasterxml.jackson.databind.JsonNode
-import edu.jhuapl.data.parsnip.datum.Datum
-import edu.jhuapl.data.parsnip.datum.MutableDatum
 import edu.jhuapl.utilkt.core.javaTrim
 
 /**
@@ -58,10 +56,10 @@ fun Any.atPointer(jsonPointer: String?, type: Class<*>?): Any? {
 }
 
 /** Puts content in a map, where the result may be multiply nested if any keys in the provided datum are JSON pointers. */
-fun MutableDatum.nestedPutAll(from: Datum) = from.forEach { (t, u) -> nestedPut(t, u) }
+fun MutableMap<String, Any?>.nestedPutAll(from: Map<String, Any?>) = from.forEach { (t, u) -> nestedPut(t, u) }
 
 /** Puts content in a map, where the result may be nested if the parameter [jsonPointer] is a JSON pointer. */
-fun MutableDatum.nestedPut(jsonPointer: String, u: Any?) {
+fun MutableMap<String, Any?>.nestedPut(jsonPointer: String, u: Any?) {
     if (jsonPointer.startsWith("/")) {
         when (val i = jsonPointer.indexOf("/", 1)) {
             -1 -> put(jsonPointer.substring(1), u)
@@ -98,10 +96,10 @@ private fun Map<*, *>.mapAtPointer(jsonPointer: String): Any? {
  * @param tailPointer pointer relative to the head object
  * @param u final value to add to datum
  */
-private fun MutableDatum.putIntermediate(headPointer: String, headObject: Any?, tailPointer: String, u: Any?) {
+private fun MutableMap<String, Any?>.putIntermediate(headPointer: String, headObject: Any?, tailPointer: String, u: Any?) {
     when (headObject) {
         is List<*> -> headObject.nestedPut(tailPointer, u)
-        is MutableMap<*, *> -> (headObject as MutableDatum).nestedPut(tailPointer, u)
+        is MutableMap<*, *> -> (headObject as MutableMap<String, Any?>).nestedPut(tailPointer, u)
         null -> {
             val newMap = mutableMapOf<String, Any?>()
             newMap.nestedPut(tailPointer, u)
@@ -140,7 +138,7 @@ private fun List<*>.nestedPut(jsonPointer: String, u: Any?) {
 private fun List<*>.putIntermediate(headPointer: String, headObject: Any?, tailPointer: String, u: Any?) {
     when (headObject) {
         is List<*> -> headObject.nestedPut(tailPointer, u)
-        is MutableMap<*, *> -> (headObject as MutableDatum).nestedPut(tailPointer, u)
+        is MutableMap<*, *> -> (headObject as MutableMap<String, Any?>).nestedPut(tailPointer, u)
         else -> throw IllegalArgumentException("Expected a mutable list at $headPointer but was $headObject")
     }
 }

@@ -23,7 +23,7 @@ package edu.jhuapl.data.parsnip.value.compute
 
 import edu.jhuapl.data.parsnip.value.ValueCompute
 import edu.jhuapl.testkt.contentShouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Test
 import java.io.IOException
 

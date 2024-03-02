@@ -23,7 +23,7 @@ package edu.jhuapl.data.parsnip.datum.compute
  */
 
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.printJsonTest
+import edu.jhuapl.testkt.printJsonTest
 import junit.framework.TestCase
 import org.junit.Test
 

@@ -24,7 +24,7 @@ package edu.jhuapl.data.parsnip.dataset.compute
 import edu.jhuapl.data.parsnip.dataset.DataSetCompute
 import edu.jhuapl.data.parsnip.dataset.stats
 import edu.jhuapl.data.parsnip.datum.Datum
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 import edu.jhuapl.testkt.shouldBe
 

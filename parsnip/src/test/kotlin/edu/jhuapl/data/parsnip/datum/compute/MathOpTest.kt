@@ -26,7 +26,7 @@ import edu.jhuapl.data.parsnip.datum.Datum
 import edu.jhuapl.data.parsnip.datum.DatumCompute
 import edu.jhuapl.data.parsnip.datum.compute.Operate.*
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Test
 import java.util.*
 

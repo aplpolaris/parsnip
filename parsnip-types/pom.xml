@@ -2,14 +2,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.googlecode.blaisemath</groupId>
-    <artifactId>parsnip</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>parsnip-types</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}-${project.version}</name>
-    <description>Utilities for data processing and analysis.</description>
+    <description>Utilities for parsing types.</description>
     <url>https://github.com/aplpolaris/parsnip</url>
-    <inceptionYear>2019</inceptionYear>
+    <inceptionYear>2024</inceptionYear>
 
     <!-- configuration of the default license to use -->
     <licenses>
@@ -50,8 +50,7 @@
         <license.organizationName>Johns Hopkins University Applied Physics Laboratory</license.organizationName>
         <license.licenseName>apache_v2</license.licenseName>
         <kotlin.version>1.6.21</kotlin.version>
-        <jackson.version>2.13.3</jackson.version>
-        <javafx.version>15.0.1</javafx.version>
+        <jackson.version>2.16.1</jackson.version>
     </properties>
 
     <dependencies>
@@ -61,58 +60,18 @@
             <version>${kotlin.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.googlecode.blaisemath</groupId>
-            <artifactId>parsnip-types</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
         <!-- used for type/string coding -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-kotlin</artifactId>
-            <version>${jackson.version}</version>
-            <exclusions>
-                <exclusion>  <!-- TODO: remove after jackson-module-kotlin uses 1.6+ Kotlin -->
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-reflect</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>  <!-- replacing excluded dep -->
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
 
         <!-- used for caching -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.googlecode.blaisemath</groupId>
-            <artifactId>blaise-parser</artifactId>
-            <version>0.6.3</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.8.0</version>
-        </dependency>
-
-        <!-- used for web color mappings -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>${javafx.version}</version>
+            <version>32.0.0-jre</version>
         </dependency>
 
         <!-- test libraries -->
@@ -125,7 +84,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -134,33 +93,7 @@
             <version>3.2</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>no.tornado</groupId>
-            <artifactId>tornadofx</artifactId>
-<!--            <version>2.0.0-rc0</version>-->
-            <version>1.7.20</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-            <scope>test</scope>
-        </dependency>
+		
     </dependencies>
     
     <build>
@@ -270,6 +203,9 @@
                         <root>src/test/kotlin</root>
                     </roots>
                     <canUpdateCopyright>true</canUpdateCopyright>
+                    <excludes>
+                        <exclude>**/SubnetUtils.java</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>

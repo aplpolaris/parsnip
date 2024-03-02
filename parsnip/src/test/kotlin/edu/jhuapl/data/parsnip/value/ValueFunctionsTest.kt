@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.value.filter.*
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import edu.jhuapl.util.types.ObjectOrdering
 import junit.framework.TestCase
 import java.io.IOException

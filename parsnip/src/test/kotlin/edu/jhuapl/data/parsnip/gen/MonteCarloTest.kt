@@ -21,7 +21,7 @@
  */
 package edu.jhuapl.data.parsnip.gen
 
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Test
 
 class MonteCarloTest {

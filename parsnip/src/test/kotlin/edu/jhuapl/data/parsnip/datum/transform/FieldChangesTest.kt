@@ -24,7 +24,7 @@ package edu.jhuapl.data.parsnip.datum.transform
 
 import edu.jhuapl.data.parsnip.datum.DatumTransform
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

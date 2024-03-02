@@ -39,8 +39,8 @@ import edu.jhuapl.data.parsnip.value.filter.IsCidr
 import edu.jhuapl.data.parsnip.value.filter.OneOf
 import edu.jhuapl.data.parsnip.value.filter.Range
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.prettyPrintJsonTest
-import edu.jhuapl.util.internal.prettyPrintYamlTest
+import edu.jhuapl.testkt.prettyPrintJsonTest
+import edu.jhuapl.testkt.prettyPrintYamlTest
 import junit.framework.TestCase
 import java.io.IOException
 

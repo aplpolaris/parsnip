@@ -23,7 +23,7 @@ package edu.jhuapl.data.parsnip.datum.transform
  */
 
 import com.google.common.collect.ImmutableMap
-import edu.jhuapl.util.internal.printJsonTest
+import edu.jhuapl.testkt.printJsonTest
 import org.junit.Test
 
 import org.junit.Assert.*

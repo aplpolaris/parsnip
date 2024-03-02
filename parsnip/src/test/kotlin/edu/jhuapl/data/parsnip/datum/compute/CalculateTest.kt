@@ -27,8 +27,7 @@ import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.googlecode.blaisemath.parser.BooleanGrammar
 import com.googlecode.blaisemath.parser.RealGrammar
-import edu.jhuapl.util.internal.printJsonTest
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.printJsonTest
 import junit.framework.TestCase
 import org.junit.Test
 import kotlin.test.assertFails

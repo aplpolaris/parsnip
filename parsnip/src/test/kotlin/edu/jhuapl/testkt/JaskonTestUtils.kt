@@ -19,15 +19,13 @@
  * limitations under the License.
  * #L%
  */
-package edu.jhuapl.util.internal
+package edu.jhuapl.testkt
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.io.parsnipModule
-import edu.jhuapl.testkt.shouldBe
-import kotlin.test.assertNotNull
 
 fun Any.printPlainMapperJsonTest() = println(ObjectMapper().writeValueAsString(this))
 fun Any.prettyPrintPlainMapperJsonTest() = println(ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this))

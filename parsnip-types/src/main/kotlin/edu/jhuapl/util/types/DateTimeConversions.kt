@@ -112,6 +112,21 @@ fun cachedInstantFrom(n: Any?, guessMilli: Boolean = false): Instant? = with(cac
 fun Any.toEpochMilli(guessMilli: Boolean = false): Long? = toInstant(guessMilli)?.toEpochMilli()
 
 /**
+ * Convert from [LocalDate] to [Instant]. Uses the default time zone, and the start of the day.
+ */
+fun LocalDate.toInstant(): Instant = atStartOfDay(ZoneId.systemDefault()).toInstant()
+
+/**
+ * Convert from [LocalTime] to [Instant]. Uses the default time zone, and the current date.
+ */
+fun LocalTime.toInstant(): Instant = atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant()
+
+/**
+ * Convert from [LocalDateTime] to [Instant]. Uses the default time zone.
+ */
+fun LocalDateTime.toInstant(): Instant = atZone(ZoneId.systemDefault()).toInstant()
+
+/**
  * Convert from src type to [Instant]. Uses [ZoneId.systemDefault] for the time zone where one is required but unavailable.
  * If called on a numeric type, uses [Instant.ofEpochMilli]. If called on a string, attempts to parse the string as a
  * date/time (which can be slow).

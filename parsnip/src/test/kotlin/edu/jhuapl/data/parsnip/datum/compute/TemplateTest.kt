@@ -25,7 +25,7 @@ package edu.jhuapl.data.parsnip.datum.compute
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import edu.jhuapl.util.internal.printJsonTest
+import edu.jhuapl.testkt.printJsonTest
 import junit.framework.TestCase
 import org.junit.Test
 import java.time.ZoneOffset.UTC

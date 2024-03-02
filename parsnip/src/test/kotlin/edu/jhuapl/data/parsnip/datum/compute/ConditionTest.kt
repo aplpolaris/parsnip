@@ -28,7 +28,7 @@ import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.value.filter.Gte
 import edu.jhuapl.data.parsnip.value.filter.Lt
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import org.junit.Test
 
 class ConditionTest {

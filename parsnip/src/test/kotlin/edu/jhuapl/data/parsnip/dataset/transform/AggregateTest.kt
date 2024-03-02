@@ -27,7 +27,7 @@ import edu.jhuapl.data.parsnip.datum.Datum
 import edu.jhuapl.data.parsnip.set.compute.Min
 import edu.jhuapl.testkt.shouldBe
 import edu.jhuapl.testkt.shouldThrow
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 
 class AggregateTest : TestCase() {

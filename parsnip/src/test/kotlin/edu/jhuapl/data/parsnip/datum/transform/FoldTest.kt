@@ -24,7 +24,7 @@ package edu.jhuapl.data.parsnip.datum.transform
 
 import edu.jhuapl.data.parsnip.datum.MultiDatumTransform
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 import org.junit.Test
 import java.io.IOException

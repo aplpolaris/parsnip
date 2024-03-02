@@ -23,7 +23,6 @@ package edu.jhuapl.data.parsnip
  */
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.datum.compute.*
@@ -33,16 +32,14 @@ import edu.jhuapl.data.parsnip.datum.transform.Change
 import edu.jhuapl.data.parsnip.datum.transform.FieldEncode
 import edu.jhuapl.data.parsnip.datum.transform.FlattenFields
 import edu.jhuapl.data.parsnip.datum.transform.Transition
-import edu.jhuapl.data.parsnip.io.parsnipModule
 import edu.jhuapl.data.parsnip.value.compute.As
 import edu.jhuapl.data.parsnip.value.compute.IpToInt
 import edu.jhuapl.data.parsnip.value.compute.Lookup
 import edu.jhuapl.data.parsnip.value.filter.*
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.prettyPrintJsonTest
-import edu.jhuapl.util.internal.prettyPrintYamlTest
+import edu.jhuapl.testkt.prettyPrintJsonTest
+import edu.jhuapl.testkt.prettyPrintYamlTest
 import junit.framework.TestCase
-import org.hamcrest.core.IsNot
 import java.io.IOException
 
 class EtlTest : TestCase() {

@@ -22,7 +22,7 @@
 package edu.jhuapl.data.parsnip.value.compute
 
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.printJsonTest
+import edu.jhuapl.testkt.printJsonTest
 import org.junit.Test
 import java.time.LocalDateTime
 import java.time.ZoneId

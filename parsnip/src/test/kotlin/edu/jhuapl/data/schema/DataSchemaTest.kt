@@ -23,7 +23,7 @@ package edu.jhuapl.data.schema
  */
 import edu.jhuapl.data.parsnip.schema.schema
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 
 fun sampleSchema() = schema("event") {

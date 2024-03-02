@@ -22,7 +22,7 @@ package edu.jhuapl.data.parsnip.value.compute
  * #L%
  */
 
-import edu.jhuapl.util.internal.printPlainMapperJsonTest
+import edu.jhuapl.testkt.printPlainMapperJsonTest
 import junit.framework.TestCase
 import org.junit.Test
 import java.io.IOException

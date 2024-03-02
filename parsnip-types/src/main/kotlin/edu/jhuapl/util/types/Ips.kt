@@ -26,7 +26,9 @@ import java.util.regex.Pattern
 
 
 internal const val IPV4_ADDRESS = "\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b"
-internal val IPV4_PATTERN = Pattern.compile(IPV4_ADDRESS)
+
+/** Pattern for an IPv4 address. */
+val IPV4_PATTERN: Pattern = Pattern.compile(IPV4_ADDRESS)
 
 /**
  * Test whether argument is IPv4 address.

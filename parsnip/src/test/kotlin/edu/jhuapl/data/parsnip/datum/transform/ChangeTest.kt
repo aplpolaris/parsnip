@@ -23,8 +23,8 @@ package edu.jhuapl.data.parsnip.datum.transform
  */
 
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.printPlainMapperJsonTest
-import edu.jhuapl.util.internal.recyclePlainMapperJsonTest
+import edu.jhuapl.testkt.printPlainMapperJsonTest
+import edu.jhuapl.testkt.recyclePlainMapperJsonTest
 import junit.framework.TestCase
 import java.io.IOException
 

@@ -26,8 +26,8 @@ import edu.jhuapl.data.parsnip.datum.DatumFilter
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.value.filter.*
 import edu.jhuapl.testkt.shouldBe
-import edu.jhuapl.util.internal.printJsonTest
-import edu.jhuapl.util.internal.recycleJsonTest
+import edu.jhuapl.testkt.printJsonTest
+import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 import java.io.IOException
 
