@@ -22,6 +22,7 @@ package edu.jhuapl.data.parsnip.io
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
+import com.googlecode.blaisemath.util.Colors
 import java.awt.Color
 import java.io.IOException
 import java.util.*
@@ -31,19 +32,8 @@ object ColorDeserializer : JsonDeserializer<Color>() {
 
     @Throws(IOException::class)
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Color {
-        return decode(p.readValueAs(String::class.java))
-    }
-
-    /**
-     * Flexible color decoder. Uses [javafx.scene.paint.Color.web] to decode.
-     * @param v color string
-     * @return color
-     * @throws NullPointerException if v is null
-     * @throws IllegalArgumentException if v is an invalid string
-     */
-    fun decode(v: String): Color {
-        val fx: javafx.scene.paint.Color = javafx.scene.paint.Color.web(v)
-        return Color(fx.red.toFloat(), fx.green.toFloat(), fx.blue.toFloat(), fx.opacity.toFloat())
+        val str = p.readValueAs(String::class.java)
+        return Colors.decode(str)
     }
 
 }
