@@ -30,9 +30,25 @@ class ObjectPointersTest {
     @Test
     fun testAtPointer() {
         Point(1, 2).atPointer("x") shouldBe 1.0
+        Point(1, 2).atPointer("x ") shouldBe null
         Point(1, 2).atPointer("/x") shouldBe 1.0
+        Point(1, 2).atPointer("/x ") shouldBe null
         Point(1, 2).atPointer("y") shouldBe 2.0
         Point(1, 2).atPointer("z") shouldBe null
+    }
+
+    @Test
+    fun testAtPointerSpaces() {
+        val map = mapOf(
+            "a" to 1,
+            "b" to mapOf("c" to 2),
+            " d " to mapOf(" x" to 4)
+        )
+        map.atPointer("a") shouldBe 1
+        map.atPointer("b/c") shouldBe 2
+        map.atPointer("b / c") shouldBe null
+        map.atPointer("d/x") shouldBe null
+        map.atPointer(" d / x") shouldBe 4
     }
 
     @Test

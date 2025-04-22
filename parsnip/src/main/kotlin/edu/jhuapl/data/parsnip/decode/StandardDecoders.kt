@@ -22,6 +22,7 @@
 package edu.jhuapl.data.parsnip.decode
 
 import edu.jhuapl.util.types.*
+import edu.jhuapl.utilkt.core.javaTrim
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -65,5 +66,3 @@ private fun String.toIpAddressOrNull(): String? = javaTrim()
 private fun String.toDomainNameOrNull(): String? = javaTrim()
 private fun String.toHexStringOrNull(): String? = with(javaTrim()) { if (startsWith("0x")) this else "0x$this" }
 private fun String.toList(sep: Char = ','): List<String> = javaTrim().split(sep).map { it.javaTrim() }
-
-private fun String.javaTrim() = this.trim { it <= ' ' }

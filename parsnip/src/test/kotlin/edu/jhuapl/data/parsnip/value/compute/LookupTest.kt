@@ -40,10 +40,12 @@ class LookupTest : TestCase() {
         val lookup = Lookup()
         assertEquals(null, lookup(0))
 
-        lookup.table = mapOf("0" to "zero", "2" to "two", "null" to "fifteen")
+        lookup.table = mapOf("0" to "zero", "2" to "two", "null" to "fifteen", " i" to 5)
 
         assertEquals("zero", lookup(0))
         assertEquals("fifteen", lookup(null))
+        assertEquals(5, lookup(" i"))
+        assertEquals(null, lookup("i"))
 
         lookup.table = mapOf("0" to "zero", "2" to "two")
         lookup.ifNull = "fifteen"

@@ -28,6 +28,7 @@ import edu.jhuapl.data.parsnip.decode.StandardDecoders.*
 import edu.jhuapl.util.classifier.Classifier
 import edu.jhuapl.util.classifier.bestGuess
 import edu.jhuapl.util.types.IPV4_PATTERN
+import edu.jhuapl.utilkt.core.javaTrim
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -166,7 +167,5 @@ private fun likelyList(s: String, sep: Char = ','): Boolean {
     }
     return types.size == 1 && types.keys.first() != STRING
 }
-
-private fun String.javaTrim() = this.trim { it <= ' ' }
 
 //endregion

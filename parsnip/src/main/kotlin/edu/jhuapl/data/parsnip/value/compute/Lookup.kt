@@ -24,7 +24,6 @@ package edu.jhuapl.data.parsnip.value.compute
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
 import edu.jhuapl.data.parsnip.value.ValueCompute
 import edu.jhuapl.util.types.SimpleValue
 
@@ -55,7 +54,7 @@ data class Lookup(
         return this
     }
 
-    override fun invoke(p1: Any?): Any? = with(p1.toString().javaTrim()) {
+    override fun invoke(p1: Any?): Any? = with(p1.toString()) {
         when {
             caseSensitive -> table[this]
             else -> table.getIgnoreCase(this)
@@ -67,5 +66,3 @@ data class Lookup(
 private fun <V> Map<String, V>.getIgnoreCase(key: String): V? {
     return keys.find { it.equals(key, ignoreCase = true) }?.let { get(it) }
 }
-
-private fun String.javaTrim() = this.trim { it <= ' ' }

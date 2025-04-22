@@ -22,7 +22,6 @@
 package edu.jhuapl.util.types
 
 import com.fasterxml.jackson.databind.JsonNode
-import edu.jhuapl.utilkt.core.javaTrim
 
 /**
  * Get value at expected location in message body. Expects it to be of the
@@ -44,8 +43,8 @@ fun Any.atPointer(jsonPointer: String?, type: Class<*>?): Any? {
     val targetType = type ?: Object::class.java
     val validPointer = when {
         jsonPointer.isNullOrEmpty() -> "/"
-        jsonPointer.startsWith("/") -> jsonPointer.javaTrim()
-        else -> "/${jsonPointer.javaTrim()}"
+        jsonPointer.startsWith("/") -> jsonPointer
+        else -> "/$jsonPointer"
     }
 
     return when {
