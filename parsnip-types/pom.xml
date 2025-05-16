@@ -3,7 +3,7 @@
 
     <groupId>com.googlecode.blaisemath</groupId>
     <artifactId>parsnip-types</artifactId>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.2.1</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}-${project.version}</name>
@@ -37,7 +37,7 @@
         <url>https://github.com/aplpolaris/parsnip</url>
         <connection>scm:git:git://github.com/aplpolaris/parsnip.git</connection>
         <developerConnection>scm:git:git@github.com:aplpolaris/parsnip.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>parsnip-types-0.2.1</tag>
     </scm>
 
     <issueManagement>
