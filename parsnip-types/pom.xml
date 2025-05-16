@@ -3,7 +3,7 @@
 
     <groupId>com.googlecode.blaisemath</groupId>
     <artifactId>parsnip-types</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}-${project.version}</name>
@@ -49,8 +49,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <license.organizationName>Johns Hopkins University Applied Physics Laboratory</license.organizationName>
         <license.licenseName>apache_v2</license.licenseName>
-        <kotlin.version>1.6.21</kotlin.version>
-        <jackson.version>2.16.1</jackson.version>
+        <kotlin.version>1.9.25</kotlin.version>
+        <jackson.version>2.19.0</jackson.version>
     </properties>
 
     <dependencies>
