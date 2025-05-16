@@ -104,7 +104,7 @@ class EtlTest : TestCase() {
         etl.prettyPrintYamlTest()
         println(output)
 
-        val person = ObjectMapper().registerModule(KotlinModule()).convertValue(output, Person::class.java)
+        val person = ObjectMapper().registerModule(KotlinModule.Builder().build()).convertValue(output, Person::class.java)
         println(person)
     }
 

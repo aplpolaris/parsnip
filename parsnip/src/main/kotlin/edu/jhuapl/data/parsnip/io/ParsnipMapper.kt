@@ -74,7 +74,7 @@ object ParsnipMapper: CustomParsnipMapper(RuntimeServiceClassLoader)
  */
 open class CustomParsnipMapper(loader: ClassLoader, mapper: ObjectMapper = ObjectMapper()): ObjectMapper(mapper) {
     init {
-        registerModule(KotlinModule())
+        registerModule(KotlinModule.Builder().build())
         registerModule(parsnipModule(loader))
         registerModule(commonTypeModule())
     }
