@@ -38,14 +38,20 @@ class TemplateTest : TestCase() {
         Template("").printJsonTest()
         Template("{/a} then {/b/c}").printJsonTest()
 
+        // TODO fix serialization (Elisha)
         println(ObjectMapper().convertValue<Template>("{/a} then {/b/c}").simpleValue)
         println(jacksonObjectMapper().convertValue<Template>("{/a} then {/b/c}").simpleValue)
     }
 
     @Test
     fun testApply() {
-        val tf = Template("{/a} then {/b/c}")
+        val tf = Template("{/a} then {/b/c}", true)
 
+        assertEquals(null, tf(emptyMap<String, Any>()))
+        assertEquals(null, tf(mapOf("a" to "one")))
+        assertEquals(null, tf(mapOf("a" to "", "b" to mapOf("c" to ""))))
+
+        tf.skipOnEmpty = false
         assertEquals("null then null", tf(emptyMap<String, Any>()))
         assertEquals("one then null", tf(mapOf("a" to "one")))
         assertEquals("one then two", tf(mapOf("a" to "one", "b" to mapOf("c" to "two"))))
