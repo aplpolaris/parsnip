@@ -37,15 +37,17 @@ import java.util.stream.Stream
  * Also allows a single JSON pointer (if the template starts with /), or checking multiple fields if /key1;/key2.
  */
 class Template @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
-    var template: String,
-    var skipOnEmpty: Boolean = false
+    var template: String
 ) : DatumCompute<String>, SimpleValue {
+    /** If true, returns null if any template pointer result cannot be resolved. */
+    var requireAllValues: Boolean = false
+    /** Value used as a placeholder if a template pointer result is null or empty. */
     var forNull = "null"
 
     override val simpleValue: Any?
         get() = if (forNull == "null") template else this
 
-    override fun invoke(map: Map<String, *>): String? = valueFromTemplate(map, template, skipOnEmpty, forNull)
+    override fun invoke(map: Map<String, *>): String? = valueFromTemplate(map, template, requireAllValues, forNull)
 }
 
 /**
@@ -55,13 +57,13 @@ class Template @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
  *
  * @param obj object to reference
  * @param jsonPointerTemplate the string template with JSON pointers.
- * @param skipOnEmpty whether to skip if a template pointer is null/empty
+ * @param requireAllValues if true, returns null if any template pointer result cannot be resolved
  * @param useForNull value to insert if a template pointer is null
  * @return reconstructed string value (missing if the template is null or invalid)
  */
 fun valueFromTemplate(
     obj: Any, jsonPointerTemplate: String?,
-    skipOnEmpty: Boolean = false,
+    requireAllValues: Boolean = false,
     useForNull: String = "null"
 ): String? {
     if (jsonPointerTemplate == null) {
@@ -89,7 +91,7 @@ fun valueFromTemplate(
             likelyDateTimeField(field) -> userFriendlyDateTime(obj.atPointer(field))
             else -> obj.atPointer(field, String::class.java)
         }
-        if (value?.toString().isNullOrEmpty() && skipOnEmpty) { // Skip if template pointer is null/empty
+        if (value?.toString().isNullOrEmpty() && requireAllValues) { // skip if value at template pointer is null/empty
             return null
         }
         res.append(value ?: useForNull)

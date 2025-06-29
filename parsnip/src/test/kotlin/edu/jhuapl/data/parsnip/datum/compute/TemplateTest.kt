@@ -38,32 +38,32 @@ class TemplateTest : TestCase() {
         Template("").printJsonTest()
         Template("{/a} then {/b/c}").printJsonTest()
 
-        // TODO fix serialization (Elisha)
         println(ObjectMapper().convertValue<Template>("{/a} then {/b/c}").simpleValue)
         println(jacksonObjectMapper().convertValue<Template>("{/a} then {/b/c}").simpleValue)
     }
 
     @Test
     fun testApply() {
-        val tf = Template("{/a} then {/b/c}", true)
+        val tf = Template("{/a} then {/b/c}")
 
-        assertEquals(null, tf(emptyMap<String, Any>()))
-        assertEquals(null, tf(mapOf("a" to "one")))
-        assertEquals(null, tf(mapOf("a" to "", "b" to mapOf("c" to ""))))
-
-        tf.skipOnEmpty = false
+        tf.requireAllValues = false
         assertEquals("null then null", tf(emptyMap<String, Any>()))
         assertEquals("one then null", tf(mapOf("a" to "one")))
         assertEquals("one then two", tf(mapOf("a" to "one", "b" to mapOf("c" to "two"))))
+
+        val inst = ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, UTC)
+        assertEquals("2000-01-01T00:00Z then null", tf(mapOf("a" to inst)))
+
+        tf.requireAllValues = true
+        assertEquals(null, tf(emptyMap<String, Any>()))
+        assertEquals(null, tf(mapOf("a" to "one")))
+        assertEquals(null, tf(mapOf("a" to "", "b" to mapOf("c" to ""))))
 
         val tf2 = Template("/a;/b")
         assertEquals("one", tf2(mapOf("a" to "one")))
         assertEquals("two", tf2(mapOf("b" to "two")))
         assertEquals("one", tf2(mapOf("a" to "one", "b" to "two")))
         assertEquals(null, tf2(emptyMap<String, Any>()))
-
-        val inst = ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, UTC)
-        assertEquals("2000-01-01T00:00Z then null", tf(mapOf("a" to inst)))
     }
 
 }
