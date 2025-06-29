@@ -27,7 +27,6 @@ import edu.jhuapl.data.parsnip.datum.DatumCompute
 import edu.jhuapl.util.types.SimpleValue
 import edu.jhuapl.util.types.atPointer
 import edu.jhuapl.utilkt.core.fine
-import edu.jhuapl.utilkt.core.warning
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Stream
@@ -37,13 +36,16 @@ import java.util.stream.Stream
  * Requires all content between successive braces { and } to be a JSON pointer to an element in the given object.
  * Also allows a single JSON pointer (if the template starts with /), or checking multiple fields if /key1;/key2.
  */
-class Template @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(var template: String) : DatumCompute<String>, SimpleValue {
+class Template @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
+    var template: String,
+    var skipOnEmpty: Boolean = false
+) : DatumCompute<String>, SimpleValue {
     var forNull = "null"
 
     override val simpleValue: Any?
         get() = if (forNull == "null") template else this
 
-    override fun invoke(map: Map<String, *>): String? = valueFromTemplate(map, template, forNull)
+    override fun invoke(map: Map<String, *>): String? = valueFromTemplate(map, template, skipOnEmpty, forNull)
 }
 
 /**
@@ -53,10 +55,15 @@ class Template @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(var 
  *
  * @param obj object to reference
  * @param jsonPointerTemplate the string template with JSON pointers.
+ * @param skipOnEmpty whether to skip if a template pointer is null/empty
  * @param useForNull value to insert if a template pointer is null
  * @return reconstructed string value (missing if the template is null or invalid)
  */
-fun valueFromTemplate(obj: Any, jsonPointerTemplate: String?, useForNull: String = "null"): String? {
+fun valueFromTemplate(
+    obj: Any, jsonPointerTemplate: String?,
+    skipOnEmpty: Boolean = false,
+    useForNull: String = "null"
+): String? {
     if (jsonPointerTemplate == null) {
         return null
     } else if (jsonPointerTemplate.startsWith("/")) {
@@ -80,10 +87,12 @@ fun valueFromTemplate(obj: Any, jsonPointerTemplate: String?, useForNull: String
         val field = jsonPointerTemplate.substring(i1 + 1, i2)
         val value = when {
             likelyDateTimeField(field) -> userFriendlyDateTime(obj.atPointer(field))
-                    ?: useForNull
-            else -> obj.atPointer(field, String::class.java) ?: useForNull
+            else -> obj.atPointer(field, String::class.java)
         }
-        res.append(value)
+        if (value?.toString().isNullOrEmpty() && skipOnEmpty) { // Skip if template pointer is null/empty
+            return null
+        }
+        res.append(value ?: useForNull)
         i0 = i2 + 1
         i1 = jsonPointerTemplate.indexOf('{', i0)
     }
