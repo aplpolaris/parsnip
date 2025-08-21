@@ -58,6 +58,20 @@ jobs:
           cp -r target/dokka/* ../docs-output/api/
         fi
 
+    - name: Verify documentation structure
+      run: |
+        echo "Checking documentation build output..."
+        ls -la docs-output/
+        if [ ! -f "docs-output/user-guide/index.html" ]; then
+          echo "ERROR: User guide index.html not found"
+          exit 1
+        fi
+        if [ ! -f "docs-output/api/index.html" ]; then
+          echo "ERROR: API documentation index.html not found"
+          exit 1
+        fi
+        echo "✅ Documentation structure verified successfully"
+
     - name: Create documentation index page
       run: |
         mkdir -p docs-output

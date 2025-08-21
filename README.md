@@ -17,3 +17,12 @@ within JSON/YAML files.
 
 - **parsnip-types** [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip-types/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip-types) *general utilities, mostly for type deserialization*
 - **parsnip** [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip) *primary library for data manipulation and ETL*
+
+## Documentation
+
+Complete documentation is available at **[aplpolaris.github.io/parsnip](https://aplpolaris.github.io/parsnip/)** including:
+
+- **[User Guide](https://aplpolaris.github.io/parsnip/user-guide/)** - Comprehensive guide to using Parsnip for data manipulation and ETL
+- **[API Reference](https://aplpolaris.github.io/parsnip/api/)** - Complete API documentation for all classes and methods
+
+For local development and documentation setup instructions, see [DOCS_SETUP.md](DOCS_SETUP.md).
