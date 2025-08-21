@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search &mdash; Parsnip User Guide</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6f037312"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="#" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2c5aa0" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsnip
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#summary-of-parsnip-data-concepts">Summary of Parsnip Data Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-types">Parsnip Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-operations">Parsnip Data Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#notes-on-json-and-yaml">Notes on JSON and YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">Using Parsnip for Configurable Data Transformation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using.html#filtering-data">Filtering Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#processing-data-sets">Processing Data Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using.html#data-conversions">Data Conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#data-extract-transform-load-pipeline">Data Extract-Transform-Load Pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="value.html">Value Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-filters">Value Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="value.html#equality-tests">Equality Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#comparison-tests">Comparison Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#string-tests">String Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#date-time-tests">Date/Time Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#ip-cidr-tests">IP/CIDR Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-computations">Value Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="value.html#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#structure">Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#type-conversions">Type Conversions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-transformations">Value Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="set.html">Set Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-filters">Set Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-computations">Set Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="set.html#counting">Counting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set.html#statistics">Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-transformations">Set Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datum.html">Datum Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-filters">Datum Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#filtering-by-fields">Filtering by Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-computations">Datum Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#compound">Compound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#structure">Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-transform">Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#id3">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#field-operations">Field Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#field-creation">Field Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#mapping-and-conditional-operations">Mapping and Conditional Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#multi-datum-transformations">Multi-Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#id4">Structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">DataSet Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-filters">DataSet Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-computations">DataSet Computations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#id1">DataSet Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#basic-functions">Basic Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#sorting">Sorting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#aggregation">Aggregation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2c5aa0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsnip</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Search</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <noscript>
+  <div id="fallback" class="admonition warning">
+    <p class="last">
+      Please activate JavaScript to enable the search functionality.
+    </p>
+  </div>
+  </noscript>
+
+  
+  <div id="search-results">
+  
+  </div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2020, JHU-APL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+  <script>
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+  
+  <script id="searchindexloader"></script>
+   
+
+
+</body>
+</html>

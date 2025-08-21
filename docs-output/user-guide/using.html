@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using Parsnip for Configurable Data Transformation &mdash; Parsnip User Guide</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6f037312"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Value Operations" href="value.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2c5aa0" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsnip
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#summary-of-parsnip-data-concepts">Summary of Parsnip Data Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-types">Parsnip Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-operations">Parsnip Data Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#notes-on-json-and-yaml">Notes on JSON and YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using Parsnip for Configurable Data Transformation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#filtering-data">Filtering Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#processing-data-sets">Processing Data Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-conversions">Data Conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-extract-transform-load-pipeline">Data Extract-Transform-Load Pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="value.html">Value Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-filters">Value Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="value.html#equality-tests">Equality Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#comparison-tests">Comparison Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#string-tests">String Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#date-time-tests">Date/Time Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#ip-cidr-tests">IP/CIDR Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-computations">Value Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="value.html#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#structure">Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#type-conversions">Type Conversions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-transformations">Value Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="set.html">Set Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-filters">Set Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-computations">Set Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="set.html#counting">Counting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set.html#statistics">Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-transformations">Set Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datum.html">Datum Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-filters">Datum Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#filtering-by-fields">Filtering by Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-computations">Datum Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#compound">Compound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#structure">Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-transform">Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#id3">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#field-operations">Field Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#field-creation">Field Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#mapping-and-conditional-operations">Mapping and Conditional Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#multi-datum-transformations">Multi-Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#id4">Structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">DataSet Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-filters">DataSet Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-computations">DataSet Computations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#id1">DataSet Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#basic-functions">Basic Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#sorting">Sorting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#aggregation">Aggregation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2c5aa0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsnip</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using Parsnip for Configurable Data Transformation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/using.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-parsnip-for-configurable-data-transformation">
+<h1>Using Parsnip for Configurable Data Transformation<a class="headerlink" href="#using-parsnip-for-configurable-data-transformation" title="Link to this heading"></a></h1>
+<p>When using Parsnip, generally users will be configuring <code class="docutils literal notranslate"><span class="pre">Datum</span></code> operations.
+For instance:</p>
+<ul class="simple">
+<li><p>When filtering or querying data, <em>Parsnip</em> allows you to configure a filter on arbitrary structured data, similar to a SQL query.</p></li>
+<li><p>When processing data, making one or more data, value, or filter operations, <em>Parsnip</em> can chain together multiple operations.</p></li>
+</ul>
+<p>This section describes the starting point for these common use cases.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When representing Parsnip in YAML, it is common to represent types as an outer field and the type’s parameters in the inner field, e.g. <code class="docutils literal notranslate"><span class="pre">Type:</span> <span class="pre">{</span> <span class="pre">key:</span> <span class="pre">value,</span> <span class="pre">key2:</span> <span class="pre">value2</span> <span class="pre">}</span></code>.
+For types that do not require parameters, the syntax is <code class="docutils literal notranslate"><span class="pre">Type:</span> <span class="pre">{</span> <span class="pre">}</span></code>.
+<em>Parsnip</em> allows this syntax to be abbreviated in some cases when the type is clear from context.
+We call this the <strong>type-parameter object convention</strong>.</p>
+</div>
+<section id="filtering-data">
+<h2>Filtering Data<a class="headerlink" href="#filtering-data" title="Link to this heading"></a></h2>
+<p>When filtering data, use the <code class="docutils literal notranslate"><span class="pre">DatumFilter</span></code> type within Parsnip, which provides an object that maps a <em>key-value map</em> into a <em>boolean</em>.
+The following types of filters can be combined to create a <code class="docutils literal notranslate"><span class="pre">DatumFilter</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DatumFieldFilter</span></code> filters datums based on values in specific fields using <code class="docutils literal notranslate"><span class="pre">ValueFilter``s,</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">form</span> <span class="pre">``{</span> <span class="pre">field1:</span> <span class="pre">filter1,</span> <span class="pre">field2:</span> <span class="pre">filter2,</span> <span class="pre">...</span> <span class="pre">}</span></code>.</p>
+<ul>
+<li><p>If the value is a scalar value (string, number, or boolean), the filter looks for a matching value.
+By default, the matching operation ignores types, i.e. the string <cite>“10”</cite> is considered the same as the integer <cite>10</cite> and the floating-point value <cite>10.0</cite>.</p></li>
+<li><p>If the value is a list, the filter looks for a value matching any of the items in the list.</p></li>
+<li><p>If the value is an object, the filter expects a <em>type-parameter object</em> representing a <code class="docutils literal notranslate"><span class="pre">ValueFilter</span></code>.</p></li>
+<li><p>See <a class="reference internal" href="datum.html#datum-filters"><span class="std std-ref">Datum Filters</span></a> for more on datum filters and <a class="reference internal" href="value.html#value-filters"><span class="std std-ref">Value Filters</span></a> for the specific types of value filters supported.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Not</span></code>, <code class="docutils literal notranslate"><span class="pre">And</span></code>, and <code class="docutils literal notranslate"><span class="pre">Or</span></code> logically combine 1 or more other filters into a single filter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">All</span></code> and <code class="docutils literal notranslate"><span class="pre">None</span></code> are provided for completeness.</p></li>
+</ul>
+<p>Here is an example YAML configuration that uses both types of filters:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Or</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">DatumFieldFilter</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">/messageBody/sensorId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">      </span><span class="nt">/messageBody/vehicleId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">/messageBody/state</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">Gte</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">DatumFieldFilter</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">/messageBody/sensorId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</pre></div>
+</div>
+<p>When using just a <code class="docutils literal notranslate"><span class="pre">DatumFieldFilter</span></code>, the object type can be omitted, so the above is equivalent to:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Or</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">/messageBody/sensorId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">    </span><span class="nt">/messageBody/vehicleId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">/messageBody/state</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Gte</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">/messageBody/sensorId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</pre></div>
+</div>
+<p>Here is the code for using a YAML-configured mapper in Java code:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// here&#39;s where we load the filter from a YAML file or other source</span>
+<span class="n">File</span><span class="w"> </span><span class="n">yamlSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">();</span>
+<span class="n">ObjectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">YAMLMapper</span><span class="p">().</span><span class="na">registerModule</span><span class="p">(</span><span class="n">parsnipModule</span><span class="p">());</span>
+<span class="n">DatumFilter</span><span class="w"> </span><span class="n">filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">yamlSource</span><span class="p">,</span><span class="w"> </span><span class="n">DatumFilter</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="c1">// now we can use it to filter data, assuming we get datum from somewhere interesting</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">datum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filter</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">datum</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="processing-data-sets">
+<h2>Processing Data Sets<a class="headerlink" href="#processing-data-sets" title="Link to this heading"></a></h2>
+<section id="data-conversions">
+<h3>Data Conversions<a class="headerlink" href="#data-conversions" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Create</span></code> type makes it easy to convert an input datum object to an output datum object by specifying the fields that should be populated in the output and their associated functions.
+In YAML, this type is represented as a <em>field-value</em> computation map of the form <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">field1:</span> <span class="pre">compute1,</span> <span class="pre">field2:</span> <span class="pre">compute2,</span> <span class="pre">...</span> <span class="pre">}</span></code>.
+Fields may be simple strings, or for nested results, can be JSON Pointer notation.
+The following type of “compute” values are supported:</p>
+<ul class="simple">
+<li><p>If the value is a scalar value (string, number, or boolean), the field will be populated with the given constant.</p></li>
+<li><p>If the value is an object with a single key-value pair, it should be a <em>type-parameter object</em> for <code class="docutils literal notranslate"><span class="pre">DatumCompute</span></code>.</p></li>
+<li><p>If the value is an object with multiple key-value pairs, the first should be a <code class="docutils literal notranslate"><span class="pre">DatumCompute</span></code> object, and the rest should be <code class="docutils literal notranslate"><span class="pre">ValueCompute</span></code> objects (must have different types to ensure they have different keys).</p></li>
+<li><p>If the value is a list, the first should be a <em>type-parameter object</em> for <code class="docutils literal notranslate"><span class="pre">DatumCompute</span></code> and the remainder should be <code class="docutils literal notranslate"><span class="pre">ValueCompute</span></code> objects.</p></li>
+<li><p>See <a class="reference internal" href="datum.html#datum-compute"><span class="std std-ref">Datum Computations</span></a> and <a class="reference internal" href="value.html#value-compute"><span class="std std-ref">Value Computations</span></a> for the specific types of computations supported. In some cases <code class="docutils literal notranslate"><span class="pre">ValueFilter</span></code> objects can be used in place of <code class="docutils literal notranslate"><span class="pre">ValueCompute</span></code> objects to provide boolean values.</p></li>
+</ul>
+<p>Here is an example YAML configuration of <code class="docutils literal notranslate"><span class="pre">Create</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">text</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Template</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{/a}</span><span class="nv"> </span><span class="s">{/b}</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">stuff&quot;</span>
+<span class="w">  </span><span class="nt">As</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;String&quot;</span>
+<span class="nt">sensor</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my</span><span class="nv"> </span><span class="s">sensor&quot;</span>
+<span class="nt">state</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Field</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;xx&quot;</span>
+<span class="w">  </span><span class="nt">Lookup</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;two&quot;</span>
+<span class="nt">source</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Field</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;source&quot;</span>
+<span class="w">  </span><span class="nt">IpToInt</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">conditional result</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Condition</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> x</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Gte</span><span class="p">:</span><span class="w"> </span><span class="nv">5</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Field</span><span class="p">:</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> x</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Lt</span><span class="p">:</span><span class="w"> </span><span class="nv">5</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Field</span><span class="p">:</span><span class="w"> </span><span class="nv">b</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>Here is an example in Java:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">String</span><span class="w"> </span><span class="n">yaml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;description:\\n  Template: {/a} and {/b}&quot;</span>
+<span class="n">ObjectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">YAMLMapper</span><span class="p">().</span><span class="na">registerModule</span><span class="p">(</span><span class="n">parsnipModule</span><span class="p">());</span>
+<span class="n">Create</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span><span class="w"> </span><span class="n">Create</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImmutableMap</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;up&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;down&quot;</span><span class="p">);</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">ImmutableMap</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;description&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;up and down&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If all that is needed is to add fields on top of the existing data structure, use <code class="docutils literal notranslate"><span class="pre">Augment</span></code> instead:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">String</span><span class="w"> </span><span class="n">yaml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;description:\\n  Template: {/a} and {/b}&quot;</span>
+<span class="n">ObjectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">YAMLMapper</span><span class="p">().</span><span class="na">registerModule</span><span class="p">(</span><span class="n">parsnipModule</span><span class="p">());</span>
+<span class="n">Create</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span><span class="w"> </span><span class="n">Create</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImmutableMap</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;up&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;down&quot;</span><span class="p">);</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+
+<span class="n">assertEquals</span><span class="p">(</span><span class="n">ImmutableMap</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;up&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;down&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;description&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;up and down&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="data-extract-transform-load-pipeline">
+<h3>Data Extract-Transform-Load Pipeline<a class="headerlink" href="#data-extract-transform-load-pipeline" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Etl</span></code> is a special type in <em>Parsnip</em> that allows a complete <strong>Extract-Transform-Load (ETL)</strong> pipeline to be configured in a single YAML file.
+It is configured as in the following example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">extract</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">// DatumFieldFilter object definition with field keys and ValueFilter values</span>
+<span class="nt">transform</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">// DatumCompute object</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">// DatumCompute object</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">// ...</span>
+<span class="nt">load</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">// Create object</span>
+</pre></div>
+</div>
+<p>When processing data, this converts an input datum to either null or an output datum.
+If the <em>extract</em> condition does not match the data, the result is null.
+Otherwise, a series of transformation steps are applied as <code class="docutils literal notranslate"><span class="pre">DatumCompute</span></code> objects, each of which converts the input datum to another datum; if omitted, data is passed through unchanged.
+The last step in the process is the <em>load</em> operation, which constructs the resulting output object; if omitted, data is passed through unchanged.</p>
+<p>Here are two complete example YAMLs:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">extract</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> sensorId</span><span class="p">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;@type&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">ClockMessage</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">transform</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">FlattenFields</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">timeUtc</span><span class="w"> </span><span class="p p-Indicator">]</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">load</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">text</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Template</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{/messageTimestamp}</span><span class="nv"> </span><span class="s">{/componentId}</span><span class="nv"> </span><span class="s">{/messageBody/sensor}</span><span class="nv"> </span><span class="s">{/messageBody/state}&quot;</span>
+</pre></div>
+</div>
+<p>This can be used in Java as follows:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// here&#39;s where we load the filter from a YAML file or other source</span>
+<span class="n">File</span><span class="w"> </span><span class="n">yamlSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">();</span>
+<span class="n">ObjectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">YAMLMapper</span><span class="p">().</span><span class="na">registerModule</span><span class="p">(</span><span class="n">parsnipModule</span><span class="p">());</span>
+<span class="n">Etl</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">yamlSource</span><span class="p">,</span><span class="w"> </span><span class="n">Etl</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="c1">// now we can use it to process data, assuming we get datum from somewhere interesting</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">datum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipeline</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">datum</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="intro.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="value.html" class="btn btn-neutral float-right" title="Value Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2020, JHU-APL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

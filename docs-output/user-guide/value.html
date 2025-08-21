@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Value Operations &mdash; Parsnip User Guide</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6f037312"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Set Operations" href="set.html" />
+    <link rel="prev" title="Using Parsnip for Configurable Data Transformation" href="using.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2c5aa0" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsnip
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#summary-of-parsnip-data-concepts">Summary of Parsnip Data Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-types">Parsnip Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-operations">Parsnip Data Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#notes-on-json-and-yaml">Notes on JSON and YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">Using Parsnip for Configurable Data Transformation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using.html#filtering-data">Filtering Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#processing-data-sets">Processing Data Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using.html#data-conversions">Data Conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#data-extract-transform-load-pipeline">Data Extract-Transform-Load Pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Value Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#value-filters">Value Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#equality-tests">Equality Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-tests">Comparison Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#string-tests">String Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#date-time-tests">Date/Time Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ip-cidr-tests">IP/CIDR Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#value-computations">Value Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structure">Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#type-conversions">Type Conversions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#value-transformations">Value Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="set.html">Set Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-filters">Set Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-computations">Set Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="set.html#counting">Counting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set.html#statistics">Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-transformations">Set Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datum.html">Datum Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-filters">Datum Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#filtering-by-fields">Filtering by Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-computations">Datum Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#compound">Compound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#structure">Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#datum-transform">Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#id3">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#field-operations">Field Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#field-creation">Field Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#mapping-and-conditional-operations">Mapping and Conditional Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datum.html#multi-datum-transformations">Multi-Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datum.html#id4">Structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">DataSet Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-filters">DataSet Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-computations">DataSet Computations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#id1">DataSet Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#basic-functions">Basic Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#sorting">Sorting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#aggregation">Aggregation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2c5aa0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsnip</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Value Operations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/value.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="value-operations">
+<h1>Value Operations<a class="headerlink" href="#value-operations" title="Link to this heading"></a></h1>
+<p>When operating on values, Parsnip provides <em>filters</em> and <em>computations</em> for common value types.</p>
+<section id="value-filters">
+<span id="id1"></span><h2>Value Filters<a class="headerlink" href="#value-filters" title="Link to this heading"></a></h2>
+<section id="equality-tests">
+<h3>Equality Tests<a class="headerlink" href="#equality-tests" title="Link to this heading"></a></h3>
+<p><strong>Equality Matches</strong> check the current value against another. Comparisons are flexible with types, e.g. <cite>10</cite> is considered the same as <cite>10.0</cite> or the string <cite>“10”</cite>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IsNull:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Test if the given value is null.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IsNotNull:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Test if the given value is not null.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IsEmpty:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Test if the given value is null or an empty string.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IsNotEmpty:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Test if the given value is not null or an empty string.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Equal:</span> <span class="pre">x</span></span></dt>
+<dd><p>Test equality with the given value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">NotEqual:</span> <span class="pre">x</span></span></dt>
+<dd><p>Test inequality with the given value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OneOf:</span> <span class="pre">[</span> <span class="pre">x1,</span> <span class="pre">x2,</span> <span class="pre">x3</span> <span class="pre">]</span></span></dt>
+<dd><p>Test whether value matches one of the provided elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of values for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="comparison-tests">
+<h3>Comparison Tests<a class="headerlink" href="#comparison-tests" title="Link to this heading"></a></h3>
+<p><strong>Comparison Matches</strong> check that a value is less than or greater than a given value.
+Any value that is <code class="docutils literal notranslate"><span class="pre">Comparable</span></code> is permitted, e.g. string values are allowed and will lead to string comparisons.
+Non-comparable values are also permitted, but will be compared using their <code class="docutils literal notranslate"><span class="pre">toString</span></code> representation.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Gt:</span> <span class="pre">x</span></span></dt>
+<dd><p>Test if value is greater than parameter value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Gte:</span> <span class="pre">x</span></span></dt>
+<dd><p>Test if value is greater than or equal to parameter value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Lt:</span> <span class="pre">x</span></span></dt>
+<dd><p>Test if value is less than parameter value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Lte:</span> <span class="pre">x</span></span></dt>
+<dd><p>Test if value is less than or equal to parameter value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value for comparison</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Range:</span> <span class="pre">[</span> <span class="pre">min,</span> <span class="pre">max</span> <span class="pre">]</span></span></dt>
+<dd><p>Test if value is greater than or equal to min value and less than or equal to max value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of two elements with min and max value</p>
+</dd>
+</dl>
+<p>Test if value is less than or equal to parameter value.</p>
+</dd></dl>
+
+</section>
+<section id="string-tests">
+<h3>String Tests<a class="headerlink" href="#string-tests" title="Link to this heading"></a></h3>
+<p>Strings can be filtered using the functions below.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Contains:</span> <span class="pre">&quot;s&quot;</span></span></dt>
+<dd><p>Tests if value contains the parameter string (case-sensitive).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>substring to look for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">StartsWith:</span> <span class="pre">&quot;s&quot;</span></span></dt>
+<dd><p>Tests if value starts with the parameter string (case-sensitive).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>substring to look for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EndsWith:</span> <span class="pre">&quot;s&quot;</span></span></dt>
+<dd><p>Tests if value ends with the parameter string (case-sensitive).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>substring to look for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Matches:</span> <span class="pre">&quot;regex&quot;</span></span></dt>
+<dd><p>Tests if value contains a substring that matches the given regex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>regex for substring matching</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ContainsMatch:</span> <span class="pre">&quot;regex&quot;</span></span></dt>
+<dd><p>Tests if value matches the given regex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>regex for entire string matching</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="date-time-tests">
+<h3>Date/Time Tests<a class="headerlink" href="#date-time-tests" title="Link to this heading"></a></h3>
+<p><em>These are TBD</em></p>
+</section>
+<section id="ip-cidr-tests">
+<h3>IP/CIDR Tests<a class="headerlink" href="#ip-cidr-tests" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IsIp:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Test whether format of string matches an IP, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;192.168.0.1&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IsCidr:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Test whether format of string matches a CIDR, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;192.168.0.0/16&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IpContainedIn:</span> <span class="pre">&quot;cidr&quot;</span></span></dt>
+<dd><p>Test whether the value is an IP contained in the parameter CIDR. Returns false if the value is not an IP string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CIDR string, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;192.168.0.0/16&quot;</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CidrContains:</span> <span class="pre">&quot;ip&quot;</span></span></dt>
+<dd><p>Test whether the value is a CIDR that contains the parameter IP. Returns false if the value is not a CIDR string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>IP string, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;192.168.0.1&quot;</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="combination-tests">
+<h3>Combination Tests<a class="headerlink" href="#combination-tests" title="Link to this heading"></a></h3>
+<p>The following tests are either trivial (and provided for completeness) or operate with other filters as inputs.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">All:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Matches all values (always returns true).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">None:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Matches no values (always returns false).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Not:</span> <span class="pre">filter</span></span></dt>
+<dd><p>Negates the given filter, e.g. <code class="docutils literal notranslate"><span class="pre">Not:</span> <span class="pre">{</span> <span class="pre">OneOf:</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span> <span class="pre">}</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>filter to negate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">And:</span> <span class="pre">[</span> <span class="pre">filter1,</span> <span class="pre">filter2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Returns true if all provided filters match (or if list of filters is empty).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of filters to combine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Or:</span> <span class="pre">[</span> <span class="pre">filter1,</span> <span class="pre">filter2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Returns true if any of the provided filters match (returns false if the list is empty).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of filters to combine</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="value-computations">
+<span id="value-compute"></span><h2>Value Computations<a class="headerlink" href="#value-computations" title="Link to this heading"></a></h2>
+<p><strong>Value Computations</strong> have a single value as an input, and produce a single value as output.</p>
+<section id="basic">
+<h3>Basic<a class="headerlink" href="#basic" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Constant:</span> <span class="pre">x</span></span></dt>
+<dd><p>Return a fixed value no matter the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>constant to return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Identity:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Return the input value without making any changes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LogValue:</span> <span class="pre">{</span> <span class="pre">level:</span> <span class="pre">&quot;X&quot;</span> <span class="pre">}</span></span></dt>
+<dd><p>Log and return the input value without any other changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>level</strong> – log level string (one of <code class="docutils literal notranslate"><span class="pre">SEVERE</span></code>, <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>, <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, <code class="docutils literal notranslate"><span class="pre">CONFIG</span></code>, <code class="docutils literal notranslate"><span class="pre">FINE</span></code>, <code class="docutils literal notranslate"><span class="pre">FINER</span></code>, <code class="docutils literal notranslate"><span class="pre">FINEST</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Lookup:</span> <span class="pre">{</span> <span class="pre">table:</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">},</span> <span class="pre">ifNull:</span> <span class="pre">x,</span> <span class="pre">caseSensitive:</span> <span class="pre">bool</span> <span class="pre">}</span></span></dt>
+<dd><p>Return a value based on a lookup table.
+Input values are checked against the lookup table by comparing string values, trimmed of spaces before/after characters, and checking for either exact or case-insensitive matches.
+Example: <code class="docutils literal notranslate"><span class="pre">Lookup:</span> <span class="pre">{</span> <span class="pre">table:</span> <span class="pre">{</span> <span class="pre">&quot;0&quot;:</span> <span class="pre">&quot;zero&quot;,</span> <span class="pre">&quot;1&quot;:</span> <span class="pre">&quot;one&quot;,</span> <span class="pre">&quot;2&quot;:</span> <span class="pre">&quot;two&quot;</span> <span class="pre">},</span> <span class="pre">ifNull:</span> <span class="pre">&quot;something</span> <span class="pre">else&quot;,</span> <span class="pre">caseSensitive:</span> <span class="pre">false</span> <span class="pre">}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> – the lookup table, with string keys (the value to look for) and arbitrary values (the result if a match is found)</p></li>
+<li><p><strong>ifNull</strong> – (optional) value to return if no match is found; defaults to <code class="docutils literal notranslate"><span class="pre">null</span></code></p></li>
+<li><p><strong>caseSensitive</strong> – (optional) whether matches should be case-sensitive; if false, permits case-insensitive value matching; defaults to false</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="numbers">
+<h3>Numbers<a class="headerlink" href="#numbers" title="Link to this heading"></a></h3>
+<p><strong>Numeric computations</strong> perform mathematical operations on a value. These functions return <code class="docutils literal notranslate"><span class="pre">null</span></code> for invalid inputs.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Add:</span> <span class="pre">n</span></span></dt>
+<dd><p>Return value plus <em>n</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number to add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Subtract:</span> <span class="pre">n</span></span></dt>
+<dd><p>Return value minus <em>n</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number to subtract</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Multiply:</span> <span class="pre">n</span></span></dt>
+<dd><p>Return value times <em>n</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number to multiply</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Divide:</span> <span class="pre">n</span></span></dt>
+<dd><p>Return value divided by <em>n</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number to divide</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Linear:</span> <span class="pre">{</span> <span class="pre">domain:</span> <span class="pre">[</span> <span class="pre">dmin,</span> <span class="pre">dmax</span> <span class="pre">],</span> <span class="pre">range:</span> <span class="pre">[</span> <span class="pre">rmin,</span> <span class="pre">rmax</span> <span class="pre">]</span> <span class="pre">}</span></span></dt>
+<dd><p>Apply a linear transformation to the (numeric) input, so that <em>dmin</em> maps to <em>rmin</em> and <em>dmax</em> maps to <em>rmax</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain</strong> – list of min and max value for the domain (inputs)</p></li>
+<li><p><strong>range</strong> – list of min and max value for the range (outputs)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Link to this heading"></a></h3>
+<p><strong>String computations</strong> operate on string values.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">RegexCapture:</span> <span class="pre">{</span> <span class="pre">regex:</span> <span class="pre">&quot;regex&quot;,</span> <span class="pre">as:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">]</span> <span class="pre">}</span></span></dt>
+<dd><p>Capture values from an input string using the given regex’s capture groups. For instance, <code class="docutils literal notranslate"><span class="pre">RegexCapture:</span> <span class="pre">{</span> <span class="pre">regex:</span> <span class="pre">&quot;([0-9]*)\\.([0-9]*)&quot;,</span> <span class="pre">as:</span> <span class="pre">[x,</span> <span class="pre">y]</span> <span class="pre">}</span></code> converts <code class="docutils literal notranslate"><span class="pre">&quot;123.456&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">{x:123,</span> <span class="pre">y:456}</span></code>. Returns null for invalid regular expressions, or when the input doesn’t match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>regex</strong> – the regular expression, with parentheticals indicating capture groups</p></li>
+<li><p><strong>as</strong> – list of field names for the capture groups; use an empty string to skip the field</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="structure">
+<h3>Structure<a class="headerlink" href="#structure" title="Link to this heading"></a></h3>
+<p><strong>Structural computations</strong> alter the structure of an input in some way.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">FlattenList:</span> <span class="pre">{</span> <span class="pre">as:</span> <span class="pre">f1,</span> <span class="pre">index:</span> <span class="pre">f2</span> <span class="pre">}</span></span></dt>
+<dd><p>Convert each element of a list to a datum with an additional index field, e.g. <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> might be converted to <code class="docutils literal notranslate"><span class="pre">{a:1,</span> <span class="pre">i:0},</span> <span class="pre">{a:2,</span> <span class="pre">i:1},</span> <span class="pre">{a:3,</span> <span class="pre">i:2}</span></code>. (If the input is not a list, it is left unchanged.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>as</strong> – name of field name used for values in the list</p></li>
+<li><p><strong>index</strong> – name of field name used for index in the list</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">FlattenMatrix:</span> <span class="pre">{</span> <span class="pre">as:</span> <span class="pre">f1,</span> <span class="pre">index1:</span> <span class="pre">f2,</span> <span class="pre">index2:</span> <span class="pre">f3</span> <span class="pre">}</span></span></dt>
+<dd><p>Convert each element of a matrix to a datum with additional row and column fields, e.g. <code class="docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">0],</span> <span class="pre">[2,</span> <span class="pre">3]]</span></code> might be converted to <code class="docutils literal notranslate"><span class="pre">{a:1,</span> <span class="pre">i:0,</span> <span class="pre">j:0},</span> <span class="pre">{a:0,</span> <span class="pre">i:0,</span> <span class="pre">j:1},</span> <span class="pre">...</span></code>. (If the input is not a matrix, it is left unchanged.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>as</strong> – name of field name used for values in the list</p></li>
+<li><p><strong>index1</strong> – name of field name used for row index in the list</p></li>
+<li><p><strong>index2</strong> – name of field name used for column index in the list</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OneHot:</span> <span class="pre">[</span> <span class="pre">value1,</span> <span class="pre">value2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Convert an “enum” value into an array of 0 or 1 depending on the value, e.g. <code class="docutils literal notranslate"><span class="pre">OneHot:</span> <span class="pre">[</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">c</span> <span class="pre">]</span></code> would map <code class="docutils literal notranslate"><span class="pre">&quot;b&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0]</span></code>.
+If there are no matching values, the result will contain all zeros.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of possible enum values</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="type-conversions">
+<h3>Type Conversions<a class="headerlink" href="#type-conversions" title="Link to this heading"></a></h3>
+<p>A number of <strong>type conversions</strong> are provided to convert values from one type to another, sometimes with additional parameters so user can set precise formats.
+The <code class="docutils literal notranslate"><span class="pre">As</span></code> function attempts a direct conversion, while the <code class="docutils literal notranslate"><span class="pre">Decode</span></code> function specifies a specific conversion and allows more precise (and often faster) conversions.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">As:</span> <span class="pre">type</span></span></dt>
+<dd><p>Convert value to target (Java) type, e.g. <code class="docutils literal notranslate"><span class="pre">As:</span> <span class="pre">Double</span></code> or <code class="docutils literal notranslate"><span class="pre">As:</span> <span class="pre">LocalDateTime</span></code>, using best available conversion. (This can handle some date/time string formats but not all.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Java type; should be fully-qualified unless in the <code class="docutils literal notranslate"><span class="pre">java.util</span></code>, <code class="docutils literal notranslate"><span class="pre">java.lang</span></code>, or <code class="docutils literal notranslate"><span class="pre">java.time</span></code> packages.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Decode:</span> <span class="pre">decoder</span></span></dt>
+<dd><p>Convert value to target type, using a custom decoder rather than attempting conversion directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>decoder type string (one of <code class="docutils literal notranslate"><span class="pre">NULL,</span> <span class="pre">STRING,</span> <span class="pre">BOOLEAN,</span> <span class="pre">LONG,</span> <span class="pre">INTEGER,</span> <span class="pre">SHORT,</span> <span class="pre">BYTE,</span> <span class="pre">DOUBLE,</span> <span class="pre">FLOAT,</span> <span class="pre">IP_ADDRESS,</span> <span class="pre">DOMAIN_NAME,</span> <span class="pre">HEX_STRING,</span> <span class="pre">LIST,</span> <span class="pre">DATE_TIME,</span> <span class="pre">DATE,</span> <span class="pre">TIME,</span> <span class="pre">EPOCH</span></code>);
+may also be a <em>type-parameter</em> object such as <code class="docutils literal notranslate"><span class="pre">InstantDecoder:</span> <span class="pre">&quot;yyyy-MM-dd'T'HH:mm:ss&quot;</span></code> (converting string with given format to an <code class="docutils literal notranslate"><span class="pre">Instant</span></code> type)
+or <code class="docutils literal notranslate"><span class="pre">InstantEpochDecoder:</span> <span class="pre">&quot;yyyy-MM-dd'T'HH:mm:ss&quot;</span></code> (converting string with given format to a <code class="docutils literal notranslate"><span class="pre">long</span></code> representing the epoch timestamp)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DecodeIntant:</span> <span class="pre">date_time_foramt</span></span></dt>
+<dd><p>Convert value to an <code class="docutils literal notranslate"><span class="pre">Instant</span></code> using the given format string, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;yyyy-MM-dd'T'HH:mm:ss&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>date/time format string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="value-transformations">
+<h2>Value Transformations<a class="headerlink" href="#value-transformations" title="Link to this heading"></a></h2>
+<p>Value transformations are considered the same as value computations.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="using.html" class="btn btn-neutral float-left" title="Using Parsnip for Configurable Data Transformation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="set.html" class="btn btn-neutral float-right" title="Set Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2020, JHU-APL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

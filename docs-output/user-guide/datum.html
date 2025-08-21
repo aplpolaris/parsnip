@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datum Transformations &mdash; Parsnip User Guide</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6f037312"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DataSet Transformations" href="dataset.html" />
+    <link rel="prev" title="Set Operations" href="set.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2c5aa0" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsnip
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#summary-of-parsnip-data-concepts">Summary of Parsnip Data Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-types">Parsnip Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intro.html#parsnip-data-operations">Parsnip Data Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#notes-on-json-and-yaml">Notes on JSON and YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">Using Parsnip for Configurable Data Transformation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using.html#filtering-data">Filtering Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#processing-data-sets">Processing Data Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using.html#data-conversions">Data Conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#data-extract-transform-load-pipeline">Data Extract-Transform-Load Pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="value.html">Value Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-filters">Value Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="value.html#equality-tests">Equality Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#comparison-tests">Comparison Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#string-tests">String Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#date-time-tests">Date/Time Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#ip-cidr-tests">IP/CIDR Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-computations">Value Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="value.html#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#structure">Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="value.html#type-conversions">Type Conversions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html#value-transformations">Value Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="set.html">Set Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-filters">Set Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-computations">Set Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="set.html#counting">Counting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set.html#statistics">Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="set.html#set-transformations">Set Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Datum Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#datum-filters">Datum Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#filtering-by-fields">Filtering by Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combination-tests">Combination Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#datum-computations">Datum Computations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compound">Compound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numbers">Numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strings">Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structure">Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#datum-transform">Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Basic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#field-operations">Field Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#field-creation">Field Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mapping-and-conditional-operations">Mapping and Conditional Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-datum-transformations">Multi-Datum Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">DataSet Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-filters">DataSet Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#dataset-computations">DataSet Computations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#id1">DataSet Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#basic-functions">Basic Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#sorting">Sorting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html#aggregation">Aggregation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2c5aa0" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsnip</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Datum Transformations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/datum.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="datum-transformations">
+<h1>Datum Transformations<a class="headerlink" href="#datum-transformations" title="Link to this heading"></a></h1>
+<p>Recall that <em>datums</em> are maps (or dictionaries for python users) with string keys and arbitrary values. This is equivalent to
+rows of data in a database, lines in a CSV file, etc.</p>
+<section id="datum-filters">
+<span id="id1"></span><h2>Datum Filters<a class="headerlink" href="#datum-filters" title="Link to this heading"></a></h2>
+<section id="filtering-by-fields">
+<h3>Filtering by Fields<a class="headerlink" href="#filtering-by-fields" title="Link to this heading"></a></h3>
+<p>A <em>compound field filter</em> called <strong>DatumFieldFilter</strong> filters datums based on expected values for individual fields.
+It is configured as a key-value map where the keys are fields (or JSON pointers) and values may be values, lists of values, or other filter objects.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DatumFieldFilter:</span> <span class="pre">{</span> <span class="pre">fieldPointer1:</span> <span class="pre">value/filter1,</span> <span class="pre">fieldPointer2:</span> <span class="pre">value/filter2,</span> <span class="pre">...</span> <span class="pre">}</span></span></dt>
+<dd><p>Filter data by requiring fields to match given values or filters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Key-value object where keys are either fields or <em>JSON pointers</em> to fields, and values are either scalar values (for exact matching),
+list values (for matching multiple values), or filter objects (for general matches).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The values for each field may be a scalar value, a list value, or an object:</p>
+<ul class="simple">
+<li><p>When the value is a simple value (string, number, or boolean), the filter looks for a match with the associated field.
+By default, the matching operation ignores types, i.e. the string <cite>“10”</cite> is considered the same as the integer <cite>10</cite> and the floating-point value <cite>10.0</cite>.</p></li>
+<li><p>When the value is a list, the filter looks for matches with any of the values in the list.</p></li>
+<li><p>When the value is an object, it is assumed to be a <em>value filter</em> and may be configured either with a single key indicating the filter type, and either a single value or a compound value describing parameters of the filter.</p></li>
+</ul>
+<p>Here is an example with all three kinds of matching:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">DatumFieldFilter</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">/messageBody/sensorId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">/messageBody/vehicleId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">/messageBody/state</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Gte</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40.0</span>
+</pre></div>
+</div>
+</section>
+<section id="combination-tests">
+<h3>Combination Tests<a class="headerlink" href="#combination-tests" title="Link to this heading"></a></h3>
+<p>The following tests are either trivial (and provided for completeness) or operate with other filters as inputs.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">All:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Matches all values (always returns true).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">None:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Matches no values (always returns false).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Not:</span> <span class="pre">filter</span></span></dt>
+<dd><p>Negates the given filter, e.g. <code class="docutils literal notranslate"><span class="pre">Not:</span> <span class="pre">{</span> <span class="pre">DatumFieldFilter:</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span> <span class="pre">}</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>filter to negate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">And:</span> <span class="pre">[</span> <span class="pre">filter1,</span> <span class="pre">filter2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Returns true if all provided filters match (or if list of filters is empty).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of filters to combine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Or:</span> <span class="pre">[</span> <span class="pre">filter1,</span> <span class="pre">filter2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Returns true if any of the provided filters match (returns false if the list is empty).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of filters to combine</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="datum-computations">
+<span id="datum-compute"></span><h2>Datum Computations<a class="headerlink" href="#datum-computations" title="Link to this heading"></a></h2>
+<p>Datum computations convert an input datum to an output value (other than a datum).</p>
+<section id="basic">
+<h3>Basic<a class="headerlink" href="#basic" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Constant:</span> <span class="pre">x</span></span></dt>
+<dd><p>Return a fixed value no matter the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>constant to return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Field:</span> <span class="pre">&quot;f&quot;</span></span></dt>
+<dd><p>Return the value in the given field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>name of field to get value from</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="conditionals">
+<h3>Conditionals<a class="headerlink" href="#conditionals" title="Link to this heading"></a></h3>
+<p>Conditional functions calculate values differently depending on different conditions:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Condition:</span> <span class="pre">[</span> <span class="pre">{</span> <span class="pre">when:</span> <span class="pre">{</span> <span class="pre">field1:</span> <span class="pre">filter1,</span> <span class="pre">...</span> <span class="pre">},</span> <span class="pre">value:</span> <span class="pre">compute1</span> <span class="pre">},</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Return a different computed value depending on which filter matches first.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>when</strong> – A key-value object where keys are <em>field</em> names and values are <code class="docutils literal notranslate"><span class="pre">ValueFilter</span></code> objects.</p></li>
+<li><p><strong>value</strong> – A <code class="docutils literal notranslate"><span class="pre">DatumCompute</span></code> object used to compute the return value when this condition is met.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Condition</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> /messageBody/state</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Lt</span><span class="p">:</span><span class="w"> </span><span class="nv">20.0</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Constant</span><span class="p">:</span><span class="w"> </span><span class="nv">low</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> /messageBody/state</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">20.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">39.99</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Constant</span><span class="p">:</span><span class="w"> </span><span class="nv">med</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> /messageBody/state</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Gt</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">40.0</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Constant</span><span class="p">:</span><span class="w"> </span><span class="nv">high</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</section>
+<section id="compound">
+<h3>Compound<a class="headerlink" href="#compound" title="Link to this heading"></a></h3>
+<p>Compound computations put together multiple computations of different types.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Chain:</span> <span class="pre">{</span> <span class="pre">from:</span> <span class="pre">compute1,</span> <span class="pre">process:</span> <span class="pre">[</span> <span class="pre">compute2,</span> <span class="pre">compute3,</span> <span class="pre">...</span> <span class="pre">]</span> <span class="pre">}</span></span></dt>
+<dd><p>Apply a single datum computation, followed by multiple value computations, allowing a sequence of operations to be performed before obtaining a final result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from</strong> – A <code class="docutils literal notranslate"><span class="pre">DatumCompute</span></code> object that is applied first.</p></li>
+<li><p><strong>process</strong> – Zero or more subsequent computations of type <code class="docutils literal notranslate"><span class="pre">ValueCompute</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Chain</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">from</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Field</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">a.capital</span>
+<span class="w">  </span><span class="nt">process</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Add</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Divide</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
+</pre></div>
+</div>
+</section>
+<section id="numbers">
+<h3>Numbers<a class="headerlink" href="#numbers" title="Link to this heading"></a></h3>
+<p>Numeric computations can combine values from one or more input fields to produce a result.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Calculate:</span> <span class="pre">&quot;template</span> <span class="pre">expression&quot;</span></span></dt>
+<dd><p>Compute a mathematical expression on the datum fields. Allows insertion of values using JSON pointer notation within braces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>template expression string, e.g. <code class="docutils literal notranslate"><span class="pre">{a}</span> <span class="pre">+</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">{\a\b}</span> <span class="pre">+</span> <span class="pre">{\c}</span></code>, etc.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>For combining lists of numeric values from different fields, the following is an alternative:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MathOp:</span> <span class="pre">{</span> <span class="pre">operator:</span> <span class="pre">XX,</span> <span class="pre">fields:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">],</span> <span class="pre">ifInvalid:</span> <span class="pre">x</span> <span class="pre">}</span></span></dt>
+<dd><p>Apply the given numeric operation to the values in the given fields and return the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operator</strong> – one of: <code class="docutils literal notranslate"><span class="pre">ADD,</span> <span class="pre">SUBTRACT,</span> <span class="pre">NEGATE,</span> <span class="pre">MULTIPLY,</span> <span class="pre">DIVIDE,</span> <span class="pre">MIN,</span> <span class="pre">MAX,</span> <span class="pre">AVERAGE,</span> <span class="pre">STD_DEV</span></code> (defaults to <code class="docutils literal notranslate"><span class="pre">ADD</span></code>) for numeric values, or one of: <code class="docutils literal notranslate"><span class="pre">EQUAL,</span> <span class="pre">NOT_EQUAL,</span> <span class="pre">GT,</span> <span class="pre">GTE,</span> <span class="pre">LT,</span> <span class="pre">LTE</span></code> for boolean values</p></li>
+<li><p><strong>fields</strong> – list of field names whose values are being combined (number of required fields and order differs based on operator)</p></li>
+<li><p><strong>ifInvalid</strong> – (optional) value to return if there’s an error in the calculation, e.g. some of the values are not numbers; defaults to null</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Boolean-valued computations can combine values from one or more input fields to produce a result.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CalculateBoolean:</span> <span class="pre">&quot;template</span> <span class="pre">expression&quot;</span></span></dt>
+<dd><p>Compute a boolean expression on the datum fields. Allows insertion of values using JSON pointer notation within braces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>template expression string, e.g. <code class="docutils literal notranslate"><span class="pre">{a}</span> <span class="pre">or</span> <span class="pre">{b}</span></code>, <code class="docutils literal notranslate"><span class="pre">{\a\b}</span> <span class="pre">or</span> <span class="pre">{\c}</span></code>, etc.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Link to this heading"></a></h3>
+<p>A string template operation can be used to combine multiple fields into a single string.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Template:</span> <span class="pre">&quot;template</span> <span class="pre">string&quot;</span></span></dt>
+<dd><p>Construct a string from a combination of field values using a template syntax, e.g. <code class="docutils literal notranslate"><span class="pre">Template:</span> <span class="pre">&quot;Door</span> <span class="pre">{/doorNumber}</span> <span class="pre">{/trigger}&quot;</span></code> (see below).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>template string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>A number of syntaxes are supported:</p>
+<ul class="simple">
+<li><p>a JSON pointer to a field, e.g. <cite>/body/door/id</cite></p></li>
+<li><p>a semicolon-separated list of JSON pointers, e.g. <cite>/path/1;/path/2</cite>; the template will use the value of the first pointer it finds with content</p></li>
+<li><p>a JSON pointer <em>template</em>, e.g. <code class="docutils literal notranslate"><span class="pre">http://{/server/name}/stuff/{/server/path}.png</span></code>; in this syntax, JSON pointers are used to insert
+values from the input value, and combined with the template value to produce a single string.</p></li>
+</ul>
+</section>
+<section id="structure">
+<h3>Structure<a class="headerlink" href="#structure" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ToArray:</span> <span class="pre">bool</span></span></dt>
+<dd><p>Convert a datum to an array of values, throwing out the keys, e.g. <code class="docutils literal notranslate"><span class="pre">{a:1,</span> <span class="pre">b:[2,</span> <span class="pre">3]}</span></code> converts to <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">[2,</span> <span class="pre">3]]</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>flatten</strong> – if true, values are flattened (so <code class="docutils literal notranslate"><span class="pre">{a:1,</span> <span class="pre">b:[2,</span> <span class="pre">3]}</span></code> converts to <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>); otherwise values are left as-is</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="datum-transform">
+<span id="id2"></span><h2>Datum Transformations<a class="headerlink" href="#datum-transform" title="Link to this heading"></a></h2>
+<p>Datum transformations convert an input datum to an output datum.</p>
+<section id="id3">
+<h3>Basic<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Identity:</span> <span class="pre">{}</span></span></dt>
+<dd><p>Return the input value without making any changes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">LogDatum:</span> <span class="pre">{</span> <span class="pre">level:</span> <span class="pre">&quot;X&quot;</span> <span class="pre">}</span></span></dt>
+<dd><p>Log and return the input datum without any other changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>level</strong> – log level string (one of <code class="docutils literal notranslate"><span class="pre">SEVERE</span></code>, <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>, <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, <code class="docutils literal notranslate"><span class="pre">CONFIG</span></code>, <code class="docutils literal notranslate"><span class="pre">FINE</span></code>, <code class="docutils literal notranslate"><span class="pre">FINER</span></code>, <code class="docutils literal notranslate"><span class="pre">FINEST</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><em>Currently `LogDatum` is maintained separately from `LogValue` but we plan to combine them.</em></p>
+</section>
+<section id="field-operations">
+<h3>Field Operations<a class="headerlink" href="#field-operations" title="Link to this heading"></a></h3>
+<p><strong>Field Changes</strong> operations work with fields in the datum.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">RemoveFields:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Remove given fields from the datum and return the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of field names to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">RetainFields:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Retain given fields from the datum, removing everything else, and return the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of field names to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">FlattenFields:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Flatten nested fields inside the given list of fields, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;f&quot;:</span> <span class="pre">{</span> <span class="pre">&quot;a&quot;:</span> <span class="pre">3</span> <span class="pre">}</span></code> flattens to <code class="docutils literal notranslate"><span class="pre">&quot;f.a&quot;:</span> <span class="pre">3</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of field names to flatten</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Symmetry:</span> <span class="pre">{</span> <span class="pre">f1:</span> <span class="pre">f1s,</span> <span class="pre">f2:</span> <span class="pre">f2s,</span> <span class="pre">...</span> <span class="pre">}</span></span></dt>
+<dd><p>Swap values in each provided pair of fields, e.g. <code class="docutils literal notranslate"><span class="pre">Symmetry:</span> <span class="pre">{</span> <span class="pre">ip1:</span> <span class="pre">ip2,</span> <span class="pre">port1:</span> <span class="pre">port2</span> <span class="pre">}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>key-value map where keys and values are pairs of fields that should be simultaneously swapped.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="field-creation">
+<h3>Field Creation<a class="headerlink" href="#field-creation" title="Link to this heading"></a></h3>
+<p>The functions here compute values for target fields and either add the results to the existing datum or create entirely new results.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Create:</span> <span class="pre">{</span> <span class="pre">&quot;f1&quot;:</span> <span class="pre">compute1,</span> <span class="pre">&quot;f2&quot;:</span> <span class="pre">compute2,</span> <span class="pre">...</span> <span class="pre">}</span></span></dt>
+<dd><p>Return datum whose values are computed using the provided compute functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param<span class="colon">:</span></dt>
+<dd class="field-odd"><p>key-value map where keys are fields to return and values are <code class="docutils literal notranslate"><span class="pre">ValueCompute</span></code> objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Augment:</span> <span class="pre">{</span> <span class="pre">&quot;f1&quot;:</span> <span class="pre">compute1,</span> <span class="pre">&quot;f2&quot;:</span> <span class="pre">compute2,</span> <span class="pre">...</span> <span class="pre">}</span></span></dt>
+<dd><p>Add new values to the input datum, using the given computations, and return the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param<span class="colon">:</span></dt>
+<dd class="field-odd"><p>key-value map where keys are fields to return and values are <code class="docutils literal notranslate"><span class="pre">ValueCompute</span></code> objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mapping-and-conditional-operations">
+<h3>Mapping and Conditional Operations<a class="headerlink" href="#mapping-and-conditional-operations" title="Link to this heading"></a></h3>
+<p>Conditional operations have different values depending on whether the input datum matches different filters. Examples are shown below.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Mapping:</span> <span class="pre">[</span> <span class="pre">{</span> <span class="pre">when:</span> <span class="pre">{</span> <span class="pre">field1:</span> <span class="pre">filter1,</span> <span class="pre">...</span> <span class="pre">},</span> <span class="pre">put:</span> <span class="pre">datum</span> <span class="pre">},</span> <span class="pre">...</span> <span class="pre">]</span></span></dt>
+<dd><p>Adds content to input datum for each matching filter and returns the augmented result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>when</strong> – key-value object where keys are <em>field</em> names and values are <code class="docutils literal notranslate"><span class="pre">ValueFilter</span></code> objects.</p></li>
+<li><p><strong>put</strong> – key-value object with content to be added to the datum if the filter passes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Change:</span> <span class="pre">{</span> <span class="pre">monitor:</span> <span class="pre">&quot;pointerField&quot;,</span> <span class="pre">&quot;groupBy&quot;:</span> <span class="pre">&quot;pointerField&quot;,</span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">&quot;whenChange&quot;:</span> <span class="pre">[</span> <span class="pre">{</span> <span class="pre">from:</span> <span class="pre">x1,</span> <span class="pre">to:</span> <span class="pre">x2,</span> <span class="pre">put:</span> <span class="pre">datum</span> <span class="pre">},</span> <span class="pre">...</span> <span class="pre">]</span> <span class="pre">}</span></span></dt>
+<dd><p>Monitors a single field for changes, adding content to the input datum when certain kinds of changes are made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>monitor</strong> – a single field or JSON pointer being tracked for changes</p></li>
+<li><p><strong>groupBy</strong> – (optional) field or JSON pointer; when checking for changes, a separate “last value” will be maintained for each value in this field, including null/missing values</p></li>
+<li><p><strong>whenChange</strong> – (optional) list of specific content to add to input datum when changes are detected</p></li>
+<li><p><strong>whenChange.from</strong> – (optional) value changing from; if null or omitted, tracks arbitrary values</p></li>
+<li><p><strong>whenChange.to</strong> – (optional) value changing to; if null or omitted, tracks arbitrary values</p></li>
+<li><p><strong>whenChange.put</strong> – (optional) key-value object with content to be added to the datum for this change condition</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Mapping</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> /messageBody/state</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Lt</span><span class="p">:</span><span class="w"> </span><span class="nv">20.0</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">put</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> state</span><span class="p">:</span><span class="w"> </span><span class="nv">low</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> /messageBody/state</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">20.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">39.99</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">put</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> state</span><span class="p">:</span><span class="w"> </span><span class="nv">med</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> /messageBody/state</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> Gt</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">40.0</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">put</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> state</span><span class="p">:</span><span class="w"> </span><span class="nv">high</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Change</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">monitor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">state</span>
+<span class="w">    </span><span class="nt">groupBy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/messageBody/sensorId</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="multi-datum-transformations">
+<h2>Multi-Datum Transformations<a class="headerlink" href="#multi-datum-transformations" title="Link to this heading"></a></h2>
+<p>Multi-datum transformations convert a single input datum to multiple output datums, i.e. a data set.</p>
+<section id="id4">
+<h3>Structure<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Fold:</span> <span class="pre">{</span> <span class="pre">fields:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">],</span> <span class="pre">as:</span> <span class="pre">[</span> <span class="pre">n1,</span> <span class="pre">n2</span> <span class="pre">]</span> <span class="pre">}</span></span></dt>
+<dd><p>Split a datum into multiple datums, one for each field given. The field name and value are encoded in new fields, for instance <code class="docutils literal notranslate"><span class="pre">Fold:</span> <span class="pre">{</span> <span class="pre">fields:</span> <span class="pre">[</span> <span class="pre">a,</span> <span class="pre">b</span> <span class="pre">]</span> <span class="pre">}</span></code> converts <code class="docutils literal notranslate"><span class="pre">{a:1,</span> <span class="pre">b:2}</span></code> to <code class="docutils literal notranslate"><span class="pre">[{a:1,</span> <span class="pre">b:2,</span> <span class="pre">key:a,</span> <span class="pre">value:1},</span> <span class="pre">{a:1,</span> <span class="pre">b:2,</span> <span class="pre">key:b,</span> <span class="pre">value:2}]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fields</strong> – list of fields to pull out as separate key-value pairs</p></li>
+<li><p><strong>as</strong> – (optional) list of two names to use for key and value fields in the result; defaults to <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">key,</span> <span class="pre">value</span> <span class="pre">]</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Flatten:</span> <span class="pre">{</span> <span class="pre">fields:</span> <span class="pre">[</span> <span class="pre">f1,</span> <span class="pre">f2,</span> <span class="pre">...</span> <span class="pre">],</span> <span class="pre">as:</span> <span class="pre">[</span> <span class="pre">n1,</span> <span class="pre">n2,</span> <span class="pre">...</span> <span class="pre">]</span> <span class="pre">}</span></span></dt>
+<dd><p>Split a datum into several datums by extracting values from lists for the given fields, for instance <code class="docutils literal notranslate"><span class="pre">Flatten:</span> <span class="pre">{</span> <span class="pre">fields:</span> <span class="pre">[a]</span> <span class="pre">}</span></code> converts <code class="docutils literal notranslate"><span class="pre">{a:</span> <span class="pre">[1,2]}</span></code> to <code class="docutils literal notranslate"><span class="pre">[{a:1},</span> <span class="pre">{a:2}]</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fields</strong> – list of fields whose values should be flattened into multiple datums</p></li>
+<li><p><strong>as</strong> – (optional) list of field names to use in the result; if omitted, uses the source field names</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="set.html" class="btn btn-neutral float-left" title="Set Operations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dataset.html" class="btn btn-neutral float-right" title="DataSet Transformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2020, JHU-APL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

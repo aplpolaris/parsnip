@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Colors</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            parsnip
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="parsnip/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="parsnip::com.googlecode.blaisemath.util/Colors///PointingToDeclaration//325567227">
+  <div class="breadcrumbs"><a href="../../../index.html">parsnip</a><span class="delimiter">/</span><a href="../index.html">com.googlecode.blaisemath.util</a><span class="delimiter">/</span><span class="current">Colors</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Colors</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">Colors</a></div><p class="paragraph">Provides a number of utilities for working with colors, e.g. creating lighter/darker colors, adjusting the alpha of a color, converting to/from hex strings.</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Elisha Peterson</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1783119099%2FFunctions%2F325567227" anchor-label="alpha" id="-1783119099%2FFunctions%2F325567227" data-filterable-set="parsnip/JVM"></a>
+          <div class="table-row" data-filterable-current="parsnip/JVM" data-filterable-set="parsnip/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="alpha.html"><span><span>alpha</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1783119099%2FFunctions%2F325567227"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="alpha.html"><span class="token function">alpha</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">col<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span><span class="token punctuation">, </span></span><span class="parameter ">a<span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></div><div class="brief ">Transform the alpha component of a color.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="334566900%2FFunctions%2F325567227" anchor-label="blanderThan" id="334566900%2FFunctions%2F325567227" data-filterable-set="parsnip/JVM"></a>
+          <div class="table-row" data-filterable-current="parsnip/JVM" data-filterable-set="parsnip/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="blander-than.html"><span>blander</span><wbr></wbr><span><span>Than</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="334566900%2FFunctions%2F325567227"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="blander-than.html"><span class="token function">blanderThan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">c<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></div><div class="brief ">Produces a color that is &quot;blander&quot; than the specified color (reducing saturation by 50%).</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="960325041%2FFunctions%2F325567227" anchor-label="decode" id="960325041%2FFunctions%2F325567227" data-filterable-set="parsnip/JVM"></a>
+          <div class="table-row" data-filterable-current="parsnip/JVM" data-filterable-set="parsnip/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="decode.html"><span><span>decode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="960325041%2FFunctions%2F325567227"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="decode.html"><span class="token function">decode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">v<span class="token operator">: </span><span data-unresolved-link="java.lang/String///PointingToDeclaration/">String</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></div><div class="brief ">Flexible color decoder.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="804611687%2FFunctions%2F325567227" anchor-label="encode" id="804611687%2FFunctions%2F325567227" data-filterable-set="parsnip/JVM"></a>
+          <div class="table-row" data-filterable-current="parsnip/JVM" data-filterable-set="parsnip/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="encode.html"><span><span>encode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="804611687%2FFunctions%2F325567227"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="encode.html"><span class="token function">encode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">c<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.lang/String///PointingToDeclaration/">String</span></div><div class="brief ">Convert color to string.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="992555909%2FFunctions%2F325567227" anchor-label="interpolate" id="992555909%2FFunctions%2F325567227" data-filterable-set="parsnip/JVM"></a>
+          <div class="table-row" data-filterable-current="parsnip/JVM" data-filterable-set="parsnip/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="interpolate.html"><span><span>interpolate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="992555909%2FFunctions%2F325567227"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="interpolate.html"><span class="token function">interpolate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">c1<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span><span class="token punctuation">, </span></span><span class="parameter ">wt<span class="token operator">: </span><span data-unresolved-link="kotlin/Float///PointingToDeclaration/">Float</span><span class="token punctuation">, </span></span><span class="parameter ">c2<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></div><div class="brief ">Interpolates between two colors, e.g.</div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="interpolate.html"><span class="token function">interpolate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">c1<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span><span class="token punctuation">, </span></span><span class="parameter ">wt1<span class="token operator">: </span><span data-unresolved-link="kotlin/Float///PointingToDeclaration/">Float</span><span class="token punctuation">, </span></span><span class="parameter ">c2<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span><span class="token punctuation">, </span></span><span class="parameter ">wt2<span class="token operator">: </span><span data-unresolved-link="kotlin/Float///PointingToDeclaration/">Float</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></div><div class="brief ">Interpolates between two colors.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1219459893%2FFunctions%2F325567227" anchor-label="lighterThan" id="-1219459893%2FFunctions%2F325567227" data-filterable-set="parsnip/JVM"></a>
+          <div class="table-row" data-filterable-current="parsnip/JVM" data-filterable-set="parsnip/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="lighter-than.html"><span>lighter</span><wbr></wbr><span><span>Than</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1219459893%2FFunctions%2F325567227"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="parsnip/JVM"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="lighter-than.html"><span class="token function">lighterThan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">c<span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.awt/Color///PointingToDeclaration/">Color</span></div><div class="brief ">Produces a color that is lighter than the specified color.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
