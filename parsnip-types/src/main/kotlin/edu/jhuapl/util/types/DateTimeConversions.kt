@@ -25,6 +25,7 @@ import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import edu.jhuapl.utilkt.core.fine
 import edu.jhuapl.utilkt.core.severe
+import edu.jhuapl.utilkt.core.warning
 import java.time.*
 import java.time.format.DateTimeParseException
 import java.util.*
@@ -163,21 +164,42 @@ fun String.toEpochMilliOrNull(): Long? = toInstantOrNull()?.toEpochMilli()
 
 typealias InstantParser = (String) -> Instant?
 
-private val PARSE_INSTANT: InstantParser = tryParse { Instant.parse(it) }
-private val DATE_TIME_PARSERS = DATE_TIME_FORMATS.map { f -> tryParse { LocalDateTime.parse(it, formatter(f)).toInstant() } }
-private val DATE_PARSERS = DATE_FORMATS.map { f -> tryParse { LocalDate.parse(it, formatter(f)).toInstant() } }
-private val TIME_PARSERS = TIME_FORMATS.map { f -> tryParse { LocalTime.parse(it, formatter(f)).toInstant() } }
-private val PARSERS = listOf(PARSE_INSTANT) + DATE_TIME_PARSERS + DATE_PARSERS + TIME_PARSERS
-private var LAST_WORKING_PARSER: InstantParser? = null
+/** Parses strings using [Instant#parse].  */
+private val PARSE_INSTANT: InstantParser = firstParserThatWorks({ Instant.parse(it) })
 
+/** Parses strings to [ZonedDateTime] using one of the [DATE_AND_TIME_FORMATS]. */
+private val DATE_TIME_PARSERS = DATE_AND_TIME_FORMATS.map { f -> firstParserThatWorks(
+    { ZonedDateTime.parse(it, formatter(f)).toInstant() },
+    { LocalDateTime.parse(it, formatter(f)).atZone(ZoneId.systemDefault()).toInstant() }
+) }
+
+/** Parses strings to [LocalDate] using one of the [DATE_ONLY_FORMATS]. */
+private val DATE_PARSERS = DATE_ONLY_FORMATS.map { f -> firstParserThatWorks({
+    LocalDate.parse(it, formatter(f)).toInstant()
+}) }
+
+/** Parses strings to [LocalTime] using one of the [TIME_ONLY_FORMATS]. */
+private val TIME_PARSERS = TIME_ONLY_FORMATS.map { f -> firstParserThatWorks({
+    LocalTime.parse(it, formatter(f)).toInstant()
+}) }
+
+/** All available parsers, in order of preference. */
+private val PARSERS = listOf(PARSE_INSTANT) + DATE_TIME_PARSERS + DATE_PARSERS + TIME_PARSERS
+/** Caching the last working parser to speed up repeated calls with the same format. */
+private var LAST_WORKING_PARSER: InstantParser? = null
+/** Internal count of number of parse attempts. */
 private val COUNT = AtomicInteger()
 
-private fun tryParse(ip: InstantParser): InstantParser = {
-    try {
-        ip.invoke(it)
-    } catch (x: DateTimeParseException) {
-        null
-    }
+// try each parser, returning value of first that succeeds, else null
+private fun firstParserThatWorks(vararg parsers: InstantParser): InstantParser = { str ->
+    parsers.asSequence().mapNotNull {
+        try {
+            it(str)
+        } catch (x: DateTimeParseException) {
+            // ignore and try next
+            null
+        }
+    }.firstOrNull()
 }
 
 /**
@@ -219,16 +241,16 @@ fun String.toInstantOrNull(): Instant? {
  * @return decoded date, or null if unable to parse
  */
 fun String.toLocalDateOrNull(): LocalDate? =
-        DATE_FORMATS.firstParsedValueOrNull { LocalDate.parse(this, formatter(it)) }
-                ?: PARSE_INSTANT(this)?.toDateTime(LocalDate::class.java)
+    (DATE_ONLY_FORMATS + DATE_AND_TIME_FORMATS).firstParsedValueOrNull { LocalDate.parse(this, formatter(it)) }
+        ?: PARSE_INSTANT(this)?.toDateTime(LocalDate::class.java)
 
 /**
  * Decode as an [LocalTime], using a few different options for parsing.
  * @return decoded time, or null if unable to parse
  */
 fun String.toLocalTimeOrNull(): LocalTime? =
-        DATE_FORMATS.firstParsedValueOrNull { LocalTime.parse(this, formatter(it)) }
-                ?: PARSE_INSTANT(this)?.toDateTime(LocalTime::class.java)
+    (TIME_ONLY_FORMATS + DATE_AND_TIME_FORMATS).firstParsedValueOrNull { LocalTime.parse(this, formatter(it)) }
+        ?: PARSE_INSTANT(this)?.toDateTime(LocalTime::class.java)
 
 //endregion
 

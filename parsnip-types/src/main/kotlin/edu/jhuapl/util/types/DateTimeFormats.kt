@@ -25,11 +25,12 @@ package edu.jhuapl.util.types
 import edu.jhuapl.utilkt.core.fine
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
+import java.time.temporal.ChronoField
 
 /**
  * Provides various [DateTimeFormatter] instances and utilities for converting strings to date/time types.
- * @author petereb1
  */
 private class DateTimeFormats
 
@@ -38,18 +39,19 @@ private const val MSG_PARSE_FAILED = "Parse failed"
 //region FORMAT DEFINITIONS
 
 // 6/1/2012 4:01:36 AM
-private val DATE_ONLY_FORMATS = listOf("M/d/yy", "M/d/yyyy", "yyyy/M/d", "M-d-yy", "M-d-yyyy", "yyyy-M-d", "MMMyyyy", "MMM d, yyyy")
-private val DATE_TIME_SEP = listOf(" ", "'T'")
-private val TIME_ONLY_FORMATS = listOf("h:mm:ss a", "H:mm:ss.SSS", "H:mm:ss", "H:mm")
-private val DATE_AND_TIME_FORMATS = DATE_ONLY_FORMATS * DATE_TIME_SEP * TIME_ONLY_FORMATS
+val DATE_ONLY_FORMATS = listOf("M/d/yy", "M/d/yyyy", "yyyy/M/d", "M-d-yy", "M-d-yyyy", "yyyy-M-d", "MMMyyyy", "MMM d, yyyy", "MMMM d, yyyy")
+val TIME_ONLY_FORMATS = listOf("h:mm:ss a", "H:mm:ss.SSS", "H:mm:ss", "H:mm")
+val DATE_AND_TIME_FORMATS = DATE_ONLY_FORMATS * listOf(" ", "'T'") * TIME_ONLY_FORMATS
 private val FORMATTER_CACHE: MutableMap<String, DateTimeFormatter> = mutableMapOf()
 
-val TIME_FORMATS = TIME_ONLY_FORMATS + DATE_AND_TIME_FORMATS
-val DATE_FORMATS = DATE_ONLY_FORMATS + DATE_AND_TIME_FORMATS
-val DATE_TIME_FORMATS = DATE_AND_TIME_FORMATS + DATE_ONLY_FORMATS + TIME_ONLY_FORMATS
-
 /** Lookup formatter by string, using cache, constructing formatter and adding it if not present. */
-internal fun formatter(f: String) = FORMATTER_CACHE.getOrPut(f) { DateTimeFormatter.ofPattern(f) }
+internal fun formatter(f: String) = FORMATTER_CACHE.getOrPut(f) {
+    DateTimeFormatterBuilder()
+        .appendPattern(f)
+        .appendPattern("[XXX][X]")
+        .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+        .toFormatter()
+}
 
 /** Given two arrays, creates a "product" formed by concatenating each pair in the two arrays. */
 private operator fun Iterable<String>.times(array: Iterable<String>) = flatMap { first -> array.map { second -> first + second } }
@@ -60,7 +62,6 @@ private operator fun Iterable<String>.times(array: Iterable<String>) = flatMap {
 
 /**
  * Compute and return the best date format from a given collection of date/time strings.
- * @param defFormat default format to return
  * @return best format
  */
 fun Collection<String>.bestFormatForParsing(): String? {
@@ -72,7 +73,9 @@ fun Collection<String>.bestFormatForParsing(): String? {
  * Get classifier for date/time format. Returns the best possible format for a given input.
  * @return date/time classifier
  */
-internal fun bestFormatForParsing(input: String): String = DATE_TIME_FORMATS.minByOrNull { DateTimeFormatRank(input, it) }!!
+internal fun bestFormatForParsing(input: String): String =
+    (DATE_AND_TIME_FORMATS + DATE_ONLY_FORMATS + TIME_ONLY_FORMATS)
+        .minByOrNull { DateTimeFormatRank(input, it) }!!
 
 /** Parse using first working format in supplied list, returning empty if none applies. */
 internal fun <X> Iterable<String>.firstParsedValueOrNull(parseWithFormat: (String) -> X): X? {
