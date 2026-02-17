@@ -4,7 +4,7 @@
  * DateTimeConversions.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2024 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2024 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,17 +58,17 @@ fun Class<*>.timeType() = TIME_TYPES.contains(this)
 /** Caches previously computed timestamp decodings.  */
 private val DECODED_EPOCH_CACHE = CacheBuilder.newBuilder()
         .maximumSize(100000L)
-        .build(object : CacheLoader<Any, Long>() {
+        .build(object : CacheLoader<Any, OptionalLong>() {
             @Throws(Exception::class)
-            override fun load(key: Any): Long? = key.toEpochMilli()
+            override fun load(key: Any): OptionalLong = key.toEpochMilli(false)?.let { OptionalLong.of(it) } ?: OptionalLong.empty()
         })
 
 /** Caches previously computed timestamp decodings.  */
 private val DECODED_EPOCH_CACHE_GUESS_MILLI = CacheBuilder.newBuilder()
         .maximumSize(100000L)
-        .build(object : CacheLoader<Any, Long>() {
+        .build(object : CacheLoader<Any, OptionalLong>() {
             @Throws(Exception::class)
-            override fun load(key: Any): Long? = key.toEpochMilli(true)
+            override fun load(key: Any): OptionalLong = key.toEpochMilli(true)?.let { OptionalLong.of(it) } ?: OptionalLong.empty()
         })
 
 /**
@@ -80,7 +80,7 @@ private val DECODED_EPOCH_CACHE_GUESS_MILLI = CacheBuilder.newBuilder()
  */
 fun cachedEpochFrom(n: Any?, guessMilli: Boolean = false): OptionalLong = try {
     val cache = if (guessMilli) DECODED_EPOCH_CACHE_GUESS_MILLI else DECODED_EPOCH_CACHE
-    if (n == null) OptionalLong.empty() else OptionalLong.of(cache.get(n))
+    if (n == null) OptionalLong.empty() else cache.get(n)
 } catch (ex: ExecutionException) {
     severe<DateTimeConversions>("Unexpected", ex)
     OptionalLong.empty()
