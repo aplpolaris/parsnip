@@ -4,7 +4,7 @@
  * DimensionType.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,20 @@
  */
 package edu.jhuapl.data.parsnip.gen
 
+import java.util.Locale.getDefault
+
 /** Object type for the dimension. */
 sealed class DimensionType<X>(internal val name: String) {
     override fun toString() = name
 }
 
 /** Get dimension from string. */
-fun dimensionType(type: String) = when(type.toLowerCase()) {
-    "BOOLEAN" -> BooleanDimensionType
-    "STRING" -> StringDimensionType
-    "INTEGER" -> IntegerDimensionType
-    "FLOAT" -> FloatDimensionType
-    "SET" -> SetDimensionType
+fun dimensionType(type: String) = when (type.lowercase(getDefault())) {
+    "boolean" -> BooleanDimensionType
+    "string" -> StringDimensionType
+    "integer" -> IntegerDimensionType
+    "float" -> FloatDimensionType
+    "set" -> SetDimensionType
     else -> throw IllegalArgumentException("$type is not a DimensionType")
 }
 

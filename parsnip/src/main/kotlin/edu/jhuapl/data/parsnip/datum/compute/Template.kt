@@ -6,7 +6,7 @@ package edu.jhuapl.data.parsnip.datum.compute
  * Template.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import edu.jhuapl.util.types.atPointer
 import edu.jhuapl.utilkt.core.fine
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Locale.getDefault
 import java.util.stream.Stream
 
 /**
@@ -113,7 +114,7 @@ private val LIKELY_DATE_TIME_FIELDS = arrayOf("date", "time")
  * @return true if a likely date/time field
  */
 private fun likelyDateTimeField(field: String): Boolean {
-    val lc = field.toLowerCase()
+    val lc = field.lowercase(getDefault())
     return Stream.of(*LIKELY_DATE_TIME_FIELDS).anyMatch { lc.contains(it) }
 }
 

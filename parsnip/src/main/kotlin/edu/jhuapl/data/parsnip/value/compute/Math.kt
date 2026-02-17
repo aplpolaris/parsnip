@@ -4,7 +4,7 @@
  * Math.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ class Divide @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(value:
  * defined by domain and range intervals.
  * @param <X> input type
  */
-class Linear @JsonCreator constructor(
+class Linear(
     @JsonProperty("domain") domain: DoubleArray = doubleArrayOf(0.0, 1.0),
     @JsonProperty("range") range: DoubleArray = doubleArrayOf(0.0, 1.0)
 ) : ValueCompute<Double> {
