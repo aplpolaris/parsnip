@@ -1,0 +1,53 @@
+site_name: Parsnip
+site_url: https://aplpolaris.github.io/parsnip/
+repo_url: https://github.com/aplpolaris/parsnip
+repo_name: aplpolaris/parsnip
+site_description: Parsnip — flexible, configurable JSON data manipulation for the JVM
+site_author: Johns Hopkins University Applied Physics Laboratory
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Overview: index.md
+  - Installation: install.md
+  - Quickstart: quickstart.md
+  - User Guide:
+      - Using Parsnip: usage.md
+      - Value Operations: reference/value.md
+      - Datum Transformations: reference/datum.md
+      - Set Operations: reference/set.md
+      - DataSet Transformations: reference/dataset.md
+  - Changelog: changelog.md
+  - FAQ: faq.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
