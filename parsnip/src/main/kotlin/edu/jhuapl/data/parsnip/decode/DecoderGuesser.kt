@@ -129,7 +129,7 @@ private data class TypeLikelihoods(val x: String) {
     val hex = scoreHex && isHexDigits(trimmed)
 }
 
-private val TIME_PATTERN = "\\d+:\\d+(:\\d)?(\\.\\d+)?".toRegex().toPattern()
+private val TIME_PATTERN = "\\d+:\\d+(:\\d+)?(\\.\\d+)?".toRegex().toPattern()
 private val DATE_PATTERN = "(\\d+[/\\-.]\\d+|\\d+[/\\-.]\\d+[/\\-.]\\d+)".toRegex().toPattern()
 private val NO_LETTER_PATTERN = "[^A-Za-z]*".toRegex().toPattern()
 private val HEX_LETTER_PATTERN = "[A-Fa-f0-9]+".toRegex().toPattern()
@@ -140,7 +140,7 @@ fun isFloatNearInteger(s: String): Boolean = with(s.toDoubleOrNull()) { this != 
 private fun isBooleanNumber(s: String) = "0" == s || "1" == s
 private fun isBoolean(s: String): Boolean = arrayOf("true", "false").any { it.equals(s, ignoreCase = true) }
 private fun hasNoLetters(s: String) = NO_LETTER_PATTERN.matcher(s).matches()
-private fun isHexDigits(s: String) = HEX_LETTER_PATTERN.matcher(s).matches() && s.toIntOrNull() != null
+private fun isHexDigits(s: String) = HEX_LETTER_PATTERN.matcher(s).matches() && s.toIntOrNull() == null
 private fun mightHaveTime(s: String) = TIME_PATTERN.matcher(s).find()
 private fun mightHaveDate(s: String) = DATE_PATTERN.matcher(s).find()
 private fun looksLikeIp(s: String) = IPV4_PATTERN.matcher(s).matches()
@@ -153,19 +153,11 @@ private fun looksLikeDomain(s: String) = DOMAIN_PATTERN.matcher(s).matches()
  * @return true if comma-delimited and suitable matches between elements
  */
 private fun likelyList(s: String, sep: Char = ','): Boolean {
-    if (s.length < 3) {
-        return false
-    }
+    if (s.length < 3) return false
     val split = s.split(sep).map { it.javaTrim() }
-    if (split.size == 1) {
-        return false
-    }
-    val types = mutableMapOf<StandardDecoders, Int>()
-    for (sub in split) {
-        val best = DecoderGuesser.bestGuess(sub)
-        types[best] = types.getOrDefault(best, 0) + 1
-    }
-    return types.size == 1 && types.keys.first() != STRING
+    if (split.size == 1) return false
+    val types = split.map { DecoderGuesser.bestGuess(it) }.toSet()
+    return types.size == 1 && types.first() != STRING
 }
 
 //endregion
