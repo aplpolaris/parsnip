@@ -82,4 +82,24 @@ class DecoderGuesserTest {
         assertFailsWith(DecoderException::class) { TIME.decode("Sep 11, 1980") }
     }
 
+    @Test
+    fun testTimeDetectionWithMultiDigitSeconds() {
+        // Positive: times with two-digit seconds should be guessed as TIME
+        bestDecoder(listOf("12:30:45")) shouldBe TIME
+        bestDecoder(listOf("08:00:00", "09:15:30")) shouldBe TIME
+        // Negative: plain strings with no time pattern are not TIME
+        bestDecoder(listOf("hello", "world")) shouldBe STRING
+    }
+
+    @Test
+    fun testListDetection() {
+        // Positive: comma-separated homogeneous non-string values detected as LIST
+        DecoderGuesser.bestGuess("1,2,3") shouldBe LIST
+        DecoderGuesser.bestGuess("1.1,2.2,3.3") shouldBe LIST
+        // Negative: comma-separated strings are not detected as LIST (element type is STRING)
+        DecoderGuesser.bestGuess("a,b,c") shouldBe STRING
+        // Negative: single value has no comma, cannot be a list
+        DecoderGuesser.bestGuess("42") shouldBe INTEGER
+    }
+
 }
