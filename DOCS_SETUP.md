@@ -99,7 +99,7 @@ The Sphinx configuration in `parsnip-docs/src/main/site/rst/conf.py` includes:
 
 - **Theme**: Read the Docs theme (`sphinx_rtd_theme`)
 - **Branding**: Custom colors matching the project theme
-- **Version**: Set to current release version (1.1.2)
+- **Version**: Automatically set from `${project.version}` via Maven filtering
 
 ### Landing Page
 
