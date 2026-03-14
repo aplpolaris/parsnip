@@ -72,10 +72,12 @@ jobs:
         fi
         echo "✅ Documentation structure verified successfully"
 
-    - name: Copy documentation index page
+    - name: Copy documentation index page and images
       run: |
         mkdir -p docs-output
         cp docs/index.html docs-output/index.html
+        cp docs/parsnip-logo.png docs-output/parsnip-logo.png
+        cp docs/parsnip-banner.jpg docs-output/parsnip-banner.jpg
 
     - name: Upload documentation artifact
       uses: actions/upload-pages-artifact@v3
