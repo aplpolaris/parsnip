@@ -28,7 +28,8 @@ import edu.jhuapl.data.parsnip.datum.MultiDatumTransform
 /**
  * Split one datum into several datums, one for each value in an array value field. For instance, flattening ``{ a: [1, 2] }``
  * will produce two datums: ``{ a: 1 }, { a: 2 }``. If there are multiple fields to flatten, this may either select each
- * unique set of elements (one from each field), or "collate" them, in which case the fields should have a parallel structure.
+ * unique set of elements (one from each field), or "collate" them, in which case the fields must have a parallel structure.
+ * When using collate mode with [as], the [as] list must be the same length as [fields].
  */
 data class Flatten @JsonCreator constructor(var fields: List<String>, var `as`: List<String> = emptyList(), var collate: Boolean = true): MultiDatumTransform {
 
@@ -48,6 +49,9 @@ data class Flatten @JsonCreator constructor(var fields: List<String>, var `as`: 
 
     /** Flatten multiple fields simultaneously. */
     private fun flattenCollatedFields(datum: Datum): List<Datum> {
+        require(`as`.isEmpty() || `as`.size == fields.size) {
+            "When 'as' is used with collate=true, it must have the same number of elements as 'fields' (got ${`as`.size}, expected ${fields.size})"
+        }
         val maxSize = fields.mapNotNull { (datum[it] as? Iterable<*>)?.count() }.maxOrNull() ?: return listOf(datum)
         return (0 until maxSize).map {
             datum.toMutableMap().apply {
