@@ -81,6 +81,13 @@
             <version>${jackson.version}</version>
         </dependency>
 
+        <!-- java.time.* serialization support (Instant, etc.) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.googlecode.blaisemath</groupId>
             <artifactId>blaise-parser</artifactId>

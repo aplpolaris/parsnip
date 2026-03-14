@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import edu.jhuapl.data.parsnip.dataset.DataSetCompute
 import edu.jhuapl.data.parsnip.dataset.DataSetFilter
@@ -75,6 +76,7 @@ object ParsnipMapper: CustomParsnipMapper(RuntimeServiceClassLoader)
 open class CustomParsnipMapper(loader: ClassLoader, mapper: ObjectMapper = ObjectMapper()): ObjectMapper(mapper) {
     init {
         registerModule(KotlinModule.Builder().build())
+        registerModule(JavaTimeModule())
         registerModule(parsnipModule(loader))
         registerModule(commonTypeModule())
     }
