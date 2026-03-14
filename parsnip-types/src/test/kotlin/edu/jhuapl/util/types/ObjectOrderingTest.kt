@@ -22,9 +22,17 @@
 package edu.jhuapl.util.types
 
 import edu.jhuapl.testkt.shouldBe
+import edu.jhuapl.testkt.shouldThrow
 import org.junit.Test
 
 class ObjectOrderingTest {
+
+    @Test
+    fun testCompare_Null() {
+        { ObjectOrdering.compare(null, "a") } shouldThrow IllegalArgumentException::class
+        { ObjectOrdering.compare("a", null) } shouldThrow IllegalArgumentException::class
+        { ObjectOrdering.compare(null, null) } shouldThrow IllegalArgumentException::class
+    }
 
     @Test
     fun testCompare_Boolean() {
