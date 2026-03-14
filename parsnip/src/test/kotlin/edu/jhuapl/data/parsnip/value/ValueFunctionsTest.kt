@@ -106,6 +106,11 @@ class ValueFunctionsTest : TestCase() {
         assertEquals(true, Range(1.0, 6.6).invoke("2.2"))
     }
 
+    fun testRange_requiresTwoElements() {
+        assertFailsWith<IllegalArgumentException> { Range() }
+        assertFailsWith<IllegalArgumentException> { Range(1.0) }
+    }
+
     fun testTestIP() {
         IsIP(null) shouldBe false
         assertEquals(true, IsIP("1.1.1.1"))

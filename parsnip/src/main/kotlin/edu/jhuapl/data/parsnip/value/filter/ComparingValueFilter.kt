@@ -96,9 +96,13 @@ class Lt @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(value: Any
 /** Less-than or equal filter. */
 class Lte @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(value: Any?) : ComparingValueFilter(value, { it <= 0 })
 
-/** In-range filter, for values between a minimum and a maximum (inclusive). */
+/** In-range filter, for values between a minimum and a maximum (inclusive). Requires exactly two constructor arguments: min and max. */
 class Range @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(vararg range: Any) : ValueFilter, SimpleValue {
     var range = listOf(*range)
+
+    init {
+        require(this.range.size >= 2) { "Range requires at least two values (min and max), but got ${this.range.size}" }
+    }
 
     @JsonIgnore
     val min = range[0]
