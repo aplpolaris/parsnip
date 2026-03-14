@@ -29,7 +29,7 @@ import kotlin.Comparator
 
 /**
  * An ordering that allows comparison of multiple object types. Nulls are NOT supported and will throw
- * [IllegalArgumentException]; callers are responsible for handling nulls before invoking [compare].
+ * [IllegalArgumentException]. Callers are responsible for handling nulls before invoking [compare].
  */
 object ObjectOrdering : Comparator<Any> {
 
