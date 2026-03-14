@@ -1,0 +1,4 @@
+{"id":1,"name":"Alice Smith","department":"Engineering","dept_code":1,"salary":85000,"salary_band":"mid"}
+{"id":3,"name":"Carol White","department":"Engineering","dept_code":1,"salary":95000,"salary_band":"mid"}
+{"id":4,"name":"Dave Brown","department":"HR","dept_code":3,"salary":55000,"salary_band":"junior"}
+{"id":5,"name":"Eve Davis","department":"Engineering","dept_code":1,"salary":105000,"salary_band":"senior"}

@@ -1,0 +1,5 @@
+{"id":1,"name":"Alice Smith","department":"Engineering","salary":85000,"status":"active"}
+{"id":2,"name":"Bob Jones","department":"Marketing","salary":65000,"status":"inactive"}
+{"id":3,"name":"Carol White","department":"Engineering","salary":95000,"status":"active"}
+{"id":4,"name":"Dave Brown","department":"HR","salary":55000,"status":"active"}
+{"id":5,"name":"Eve Davis","department":"Engineering","salary":105000,"status":"active"}
