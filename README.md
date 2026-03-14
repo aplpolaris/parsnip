@@ -15,8 +15,8 @@ within JSON/YAML files.
 
 ## Modules
 
-- **parsnip-types** [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip-types/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip-types) *general utilities, mostly for type deserialization*
-- **parsnip** [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.googlecode.blaisemath/parsnip) *primary library for data manipulation and ETL*
+- **parsnip-types** [![Maven Central](https://img.shields.io/maven-central/v/com.googlecode.blaisemath/parsnip-types.svg)](https://central.sonatype.com/artifact/com.googlecode.blaisemath/parsnip-types) *general utilities, mostly for type deserialization*
+- **parsnip** [![Maven Central](https://img.shields.io/maven-central/v/com.googlecode.blaisemath/parsnip.svg)](https://central.sonatype.com/artifact/com.googlecode.blaisemath/parsnip) *primary library for data manipulation and ETL*
 
 ## Documentation
 
