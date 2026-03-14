@@ -1,0 +1,135 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# OPERATION ZORBLAX
+# Galactic Incident Threat Assessment Pipeline
+#
+# A BatchEtl that ingests raw alien encounter sensor reports from across the
+# galaxy and outputs one structured threat alert per detected special ability.
+#
+# Features demonstrated:
+#   extract  — Range, OneOf, IsCidr, IsNotNull, IsNotEmpty filters
+#   transform — Flatten (array → multiple records)
+#   load     — Template, Field, Condition, Lookup, Calculate, Now
+#
+# ── SAMPLE INPUT RECORD ──────────────────────────────────────────────────────
+# {
+#   "incident_id":        "GX-4471",
+#   "reporter":           "Commander Zara",
+#   "species":            "Zorblax",
+#   "threat_level":       7,
+#   "sector":             "Epsilon Eridani",
+#   "sensor_subnet":      "10.42.0.0/24",
+#   "alert_status":       "ELEVATED",
+#   "special_abilities":  ["phase-shifting", "mind-control", "plasma-breath"],
+#   "encounter_location": "Station Omega",
+#   "encounter_outcome":  "contained"
+# }
+#
+# ── SAMPLE OUTPUT (3 records — one per ability) ───────────────────────────────
+# {
+#   "incident_label":  "GX-4471 [Zorblax] @ Station Omega",
+#   "ability":         "phase-shifting",
+#   "threat_class":    "ORANGE - High Threat",
+#   "threat_score":    70.0,
+#   "alert_label":     "On Alert",
+#   "sector":          "Epsilon Eridani",
+#   "reporter":        "Commander Zara",
+#   "outcome":         "contained",
+#   "processed_at":    <current Instant>
+# }
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── EXTRACT ───────────────────────────────────────────────────────────────────
+# Accept only well-formed, credible reports. Garbage in, garbage out — and we
+# really cannot afford to scramble the defense fleet over a false alarm.
+extract:
+  species:
+    IsNotNull: {}                       # We must know what we're dealing with
+  threat_level:
+    Range: [1, 10]                      # Valid galactic threat scale: 1–10
+  sensor_subnet:
+    IsCidr: {}                          # Source must come from a valid subnet
+  alert_status:
+    OneOf: [WATCH, ELEVATED, CRITICAL]  # Only recognised GalCom alert levels
+  encounter_outcome:
+    IsNotEmpty: {}                      # Outcome field must not be blank
+
+# ── TRANSFORM ─────────────────────────────────────────────────────────────────
+# Explode the abilities array so each ability becomes its own alert record.
+# A Zorblax with three abilities generates three output records.
+#
+# NOTE: Change (stateful escalation detector) is intentionally omitted here.
+# Change monitors field transitions across an *ordered* record stream, which
+# makes it a great fit for streaming ETL pipelines but not for static batch
+# processing of randomly-ordered input. See Etl / streaming usage for that.
+transform:
+  - Flatten:
+      fields:
+        - special_abilities
+      as:
+        - ability
+      collate: true
+
+# ── LOAD ──────────────────────────────────────────────────────────────────────
+# Construct the final alert record delivered to the Galactic Defense Dashboard.
+load:
+  # Human-readable label, e.g. "GX-4471 [Zorblax] @ Station Omega"
+  incident_label:
+    Template: "{/incident_id} [{/species}] @ {/encounter_location}"
+
+  # The specific ability that triggered this alert record (post-Flatten)
+  ability:
+    Field: ability
+
+  # Five-tier threat classification derived from numeric threat_level
+  threat_class:
+    Condition:
+      - when:
+          threat_level:
+            Range: [1, 2]
+        value:
+          Constant: "GREEN - Minor Annoyance"
+      - when:
+          threat_level:
+            Range: [3, 4]
+        value:
+          Constant: "YELLOW - Nuisance Level"
+      - when:
+          threat_level:
+            Range: [5, 6]
+        value:
+          Constant: "ORANGE - Moderate Threat"
+      - when:
+          threat_level:
+            Range: [7, 9]
+        value:
+          Constant: "RED - High Threat"
+      - when:
+          threat_level:
+            Gte: 10
+        value:
+          Constant: "BLACK - EXTINCTION-LEVEL EVENT"
+
+  # Normalised threat score: threat_level scaled to 0–100
+  threat_score:
+    Calculate: "{/threat_level} * 10"
+
+  # Map the terse alert_status code to a human-readable ops label
+  alert_label:
+    Field: alert_status
+    Lookup:
+      WATCH: "Monitoring"
+      ELEVATED: "On Alert"
+      CRITICAL: "BATTLE STATIONS"
+
+  sector:
+    Field: sector
+
+  reporter:
+    Field: reporter
+
+  outcome:
+    Field: encounter_outcome
+
+  # UTC timestamp stamped by the pipeline at processing time
+  processed_at:
+    Now: {}
