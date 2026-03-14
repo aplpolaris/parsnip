@@ -1,44 +1,22 @@
 ---
 extract:
-  status:
-    Equal: "active"
+  status: "active"
 transform:
 - Mapping:
-  - when:
-      department:
-        Equal: "Engineering"
-    put:
-      dept_code: 1
-  - when:
-      department:
-        Equal: "Marketing"
-    put:
-      dept_code: 2
-  - when:
-      department:
-        Equal: "HR"
-    put:
-      dept_code: 3
+  - when: { department: "Engineering" }
+    put: { dept_code: 1 }
+  - when: { department: "Marketing" }
+    put: { dept_code: 2 }
+  - when: { department: "HR" }
+    put: { dept_code: 3 }
 - Mapping:
-  - when:
-      salary:
-        Lt: 70000
-    put:
-      salary_band: "junior"
-  - when:
-      salary:
-        Range:
-        - 70000
-        - 99999
-    put:
-      salary_band: "mid"
-  - when:
-      salary:
-        Gte: 100000
-    put:
-      salary_band: "senior"
-- RemoveFields:
-  - "status"
+  - when: { salary: { Lt: 70000 } }
+    put: { salary_band: "junior" }
+  - when: { salary: { Range: [70000, 99999] } }
+    put: { salary_band: "mid" }
+  - when: { salary: { Gte: 100000 } }
+    put: { salary_band: "senior" }
+- RemoveFields: [ "status" ]
 load:
   id:
     Field: "id"
