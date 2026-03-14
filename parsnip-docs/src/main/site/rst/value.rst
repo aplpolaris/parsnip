@@ -120,7 +120,48 @@ Strings can be filtered using the functions below.
 
 Date/Time Tests
 *****************
-*These are TBD*
+Date/time tests accept values that can be interpreted as dates or date-times. Inputs may be strings in supported
+formats (including ISO-8601 and common locale formats such as ``"M/d/yyyy"``), or native date/time objects such as
+``LocalDate`` or ``Instant``. String timestamps with timezone offsets (e.g., ``"2021-06-15T12:00:00+02:00"``) are
+handled correctly.
+
+.. function:: IsDate: {}
+
+  Test whether the input can be interpreted as a date (e.g. ``"2021-01-15"``, ``"Jun 1, 2012"``).
+  Accepts date-only and date-time strings; returns false for null or unparseable values.
+
+.. function:: IsDateTime: {}
+
+  Test whether the input can be interpreted as a date-time instant (e.g. ``"2021-01-15T10:00:00Z"``,
+  ``"2021-01-15T10:00:00+05:30"``). Date-only strings are also accepted (treated as midnight UTC).
+  Returns false for null or unparseable values.
+
+.. function:: Before: "<timestamp>"
+
+  Test whether the input date/time is strictly before the given timestamp.
+
+  :parameter: ISO-8601 timestamp string, e.g. ``"2021-01-15T00:00:00Z"``
+
+  **Example:** ``Before: "2021-01-15T00:00:00Z"`` returns true for ``"2021-01-14T23:59:59Z"`` and false for
+  ``"2021-01-15T00:00:00Z"`` (equal is not before).
+
+.. function:: After: "<timestamp>"
+
+  Test whether the input date/time is strictly after the given timestamp.
+
+  :parameter: ISO-8601 timestamp string, e.g. ``"2021-01-15T00:00:00Z"``
+
+  **Example:** ``After: "2021-01-15T00:00:00Z"`` returns true for ``"2021-01-16T00:00:00Z"`` and false for
+  ``"2021-01-15T00:00:00Z"`` (equal is not after).
+
+.. function:: Between: ["<start>", "<end>"]
+
+  Test whether the input date/time falls within the given range, inclusive on both ends.
+
+  :parameter: list of two ISO-8601 timestamp strings ``[start, end]``
+
+  **Example:** ``Between: ["2021-01-01T00:00:00Z", "2021-12-31T23:59:59Z"]`` returns true for values within
+  the year 2021, including the exact boundary timestamps.
 
 IP/CIDR Tests
 ***************
