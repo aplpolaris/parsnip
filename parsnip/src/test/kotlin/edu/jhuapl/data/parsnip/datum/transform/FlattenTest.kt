@@ -62,7 +62,6 @@ class FlattenTest : TestCase() {
         Flatten(listOf("a", "b"), listOf("alt"), collate = false)(mapOf("a" to listOf(0, 1), "b" to 2)).size shouldBe 2
 
         // collate mode requires 'as' to be empty or the same length as 'fields'
-        val mismatch = Flatten(listOf("a", "b"), listOf("x"), collate = true)
-        { mismatch(mapOf("a" to listOf(0, 1), "b" to listOf(2, 3))) } shouldThrow IllegalArgumentException::class
+        { Flatten(listOf("a", "b"), listOf("x"), collate = true)(mapOf("a" to listOf(0, 1), "b" to listOf(2, 3))) } shouldThrow IllegalArgumentException::class
     }
 }
