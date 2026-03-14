@@ -41,7 +41,7 @@ class AlienEncounterPipelineTest : TestCase() {
         // ── Load pipeline from YAML ──────────────────────────────────────────
         val yamlMapper = YAMLMapper().registerModule(parsnipModule())
         val yamlText = AlienEncounterPipelineTest::class.java
-            .getResourceAsStream("/alien-encounter-pipeline.yaml")!!
+            .getResourceAsStream("alien-encounter-pipeline.yaml")!!
             .bufferedReader().readText()
         val etl = yamlMapper.readValue<BatchEtl>(yamlText)
 
