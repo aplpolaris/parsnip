@@ -4,7 +4,7 @@
  * ToArray.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,9 +31,12 @@ import edu.jhuapl.util.types.SimpleValue
  * @param flatten whether to flatten any field values
  * @param keepFieldNames if true, returns an array with two arrays, the first including the list of fields
  */
-class ToArray @JsonCreator constructor(var fields: List<String>? = null,
-                                                                           var flatten: Boolean = false,
-                                                                           var keepFieldNames: Boolean = false) : DatumCompute<Array<Any?>> {
+class ToArray(
+    var fields: List<String>? = null,
+    var flatten: Boolean = false,
+    var keepFieldNames: Boolean = false
+) : DatumCompute<Array<Any?>> {
+
     constructor(flatten: Boolean) : this(null, flatten)
     constructor(vararg fields: String, flatten: Boolean = false) : this(listOf(*fields), flatten)
 

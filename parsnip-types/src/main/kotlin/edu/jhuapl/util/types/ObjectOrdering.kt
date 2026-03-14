@@ -6,7 +6,7 @@ package edu.jhuapl.util.types
  * ObjectOrdering.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2024 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2024 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ package edu.jhuapl.util.types
  */
 
 import java.util.*
+import java.util.Locale
+import java.util.Locale.getDefault
 import kotlin.Comparator
 
 /**
@@ -63,8 +65,8 @@ object ObjectOrdering : Comparator<Any> {
 
     private fun compareBooleans(left: Boolean, right: Any) = when {
         right is Boolean -> left.compareTo(right)
-        "true" == right.toString().toLowerCase() -> left.compareTo(true)
-        "false" == right.toString().toLowerCase() -> left.compareTo(false)
+        "true" == right.toString().lowercase(getDefault()) -> left.compareTo(true)
+        "false" == right.toString().lowercase(getDefault()) -> left.compareTo(false)
         else -> left.toString().compareTo(right.toString())
     }
 

@@ -6,7 +6,7 @@ package edu.jhuapl.data.parsnip.gen
  * DimensionConstraint.kt
  * edu.jhuapl.data:parsnip
  * %%
- * Copyright (C) 2019 - 2025 Johns Hopkins University Applied Physics Laboratory
+ * Copyright (C) 2019 - 2026 Johns Hopkins University Applied Physics Laboratory
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import edu.jhuapl.util.types.convertTo
 import edu.jhuapl.utilkt.core.javaTrim
+import java.util.Locale.getDefault
 import kotlin.random.Random
 
 /**
@@ -76,7 +77,7 @@ private fun constraintFromString(s: String) : DimensionConstraint<*> {
     fun intParameterList(size: Int? = null) = parameterList.mapNotNull { it.toIntOrNull() }.also { require(it.size == size || size == null) }
     fun doubleParameterList(size: Int? = null) = parameterList.mapNotNull { it.toDoubleOrNull() }.also { require(it.size == size || size == null) }
 
-    return when (type.toLowerCase()) {
+    return when (type.lowercase(getDefault())) {
         "true" -> BooleanConstraint(true)
         "false" -> BooleanConstraint(false)
 
@@ -111,7 +112,7 @@ private fun <X> DimensionConstraint<X>.standardConstraintString(name: String, va
 class FreeConstraint<X>(type: DimensionType<X>, defaultValue: X) : DimensionConstraint<X>(type, defaultValue) {
     @JsonCreator constructor(type: String, defaultValue: X): this(dimensionType(type) as DimensionType<X>, defaultValue)
 
-    override fun toString() = standardConstraintString("${type.name.toLowerCase()}.free")
+    override fun toString() = standardConstraintString("${type.name.lowercase(getDefault())}.free")
     override fun contains(x: X) = true
     override fun random(random: Random): X {
         throw UnsupportedOperationException("cannot get random value from free constraint")
@@ -134,7 +135,7 @@ class EnumConstraint<X>(type: DimensionType<X>, _values: List<X>, defaultValue: 
     constructor(type: String, defaultValue: X, vararg _values: X): this(dimensionType(type) as DimensionType<X>, listOf(*_values), defaultValue)
     constructor(type: String, vararg _values: X): this(dimensionType(type) as DimensionType<X>, listOf(*_values), _values.first())
 
-    override fun toString() = standardConstraintString("${type.name.toLowerCase()}.enum", values)
+    override fun toString() = standardConstraintString("${type.name.lowercase(getDefault())}.enum", values)
     override fun contains(x: X) = values.contains(x)
     override fun random(random: Random) = values.random(random)
 }
