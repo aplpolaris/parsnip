@@ -22,6 +22,7 @@
 package edu.jhuapl.data.parsnip.datum.transform
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import edu.jhuapl.data.parsnip.datum.Datum
 import edu.jhuapl.data.parsnip.datum.MultiDatumTransform
 
@@ -31,7 +32,11 @@ import edu.jhuapl.data.parsnip.datum.MultiDatumTransform
  * unique set of elements (one from each field), or "collate" them, in which case the fields must have a parallel structure.
  * When using collate mode with [as], the [as] list must be the same length as [fields].
  */
-data class Flatten @JsonCreator constructor(var fields: List<String>, var `as`: List<String> = emptyList(), var collate: Boolean = true): MultiDatumTransform {
+data class Flatten @JsonCreator constructor(
+    @JsonProperty("fields") var fields: List<String>,
+    @JsonProperty("as") var `as`: List<String> = emptyList(),
+    @JsonProperty("collate") var collate: Boolean = true
+): MultiDatumTransform {
 
     constructor(vararg fields: String) : this(listOf(*fields))
 
