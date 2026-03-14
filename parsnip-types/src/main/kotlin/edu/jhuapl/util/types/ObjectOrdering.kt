@@ -28,8 +28,8 @@ import java.util.Locale.getDefault
 import kotlin.Comparator
 
 /**
- * An ordering that allows comparison of multiple object types. Nulls are allowed but placed last. May throw an
- * [IllegalArgumentException] if values are not comparable.
+ * An ordering that allows comparison of multiple object types. Nulls are NOT supported and will throw
+ * [IllegalArgumentException]. Callers are responsible for handling nulls before invoking [compare].
  */
 object ObjectOrdering : Comparator<Any> {
 

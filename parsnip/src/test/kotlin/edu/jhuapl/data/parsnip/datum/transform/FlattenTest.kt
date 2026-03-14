@@ -24,6 +24,7 @@ package edu.jhuapl.data.parsnip.datum.transform
 
 import edu.jhuapl.data.parsnip.datum.MultiDatumTransform
 import edu.jhuapl.testkt.shouldBe
+import edu.jhuapl.testkt.shouldThrow
 import edu.jhuapl.testkt.recycleJsonTest
 import junit.framework.TestCase
 import org.junit.Test
@@ -53,5 +54,14 @@ class FlattenTest : TestCase() {
         val flatten3 = Flatten(listOf("a", "b"), listOf("x", "y"), collate = true)
         flatten3(mapOf("a" to listOf(0, 1), "b" to 2)) shouldBe listOf(mapOf("x" to 0, "y" to 2), mapOf("x" to 1, "y" to null))
         flatten3(mapOf("a" to listOf(0, 1), "b" to listOf(2, 3, 4))).size shouldBe 3
+    }
+
+    @Test
+    fun testCollate_requiresParallelAs() {
+        // non-collate mode with a partial 'as' list is fine
+        Flatten(listOf("a", "b"), listOf("alt"), collate = false)(mapOf("a" to listOf(0, 1), "b" to 2)).size shouldBe 2
+
+        // collate mode requires 'as' to be empty or the same length as 'fields'
+        { Flatten(listOf("a", "b"), listOf("x"), collate = true)(mapOf("a" to listOf(0, 1), "b" to listOf(2, 3))) } shouldThrow IllegalArgumentException::class
     }
 }

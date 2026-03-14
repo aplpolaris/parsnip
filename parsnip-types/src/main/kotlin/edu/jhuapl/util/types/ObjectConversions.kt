@@ -29,6 +29,8 @@ import edu.jhuapl.utilkt.core.warning
 /** Utilities for converting between common object types. */
 private class ObjectConverters
 
+private val MAPPER = ObjectMapper()
+
 /**
  * Returns value converted to target type, possibly using [ObjectMapper]. Always converts an object. If the provided type
  * is null, returns the original input (except for the case where this is [MissingNode], which always returns null).
@@ -57,7 +59,7 @@ private fun Any.toNumberOrEpochLong(): Long? = toNumberOrNull(Long::class.java) 
 /** Returns value converted to target type using [ObjectMapper], null if conversion fails */
 internal fun <C> Any.mapperConvertTo(targetType: Class<C>): C? {
     return try {
-        ObjectMapper().convertValue(this, targetType)
+        MAPPER.convertValue(this, targetType)
     } catch (x: IllegalArgumentException) {
         warning<ObjectConverters>("Unable to convert $this to $targetType", x)
         null

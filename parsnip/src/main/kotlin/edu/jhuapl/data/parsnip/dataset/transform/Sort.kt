@@ -54,8 +54,16 @@ sealed class FieldSort(open var fields: List<String>, var ascending: Boolean = t
 
 private class ComparableTuple(val datum: Datum, val fields: List<String>) : Comparable<ComparableTuple> {
     override fun compareTo(other: ComparableTuple): Int = fields.asSequence()
-            .map { ObjectOrdering.compare(datum[it], other.datum[it]) }
+            .map { compareNullsLast(datum[it], other.datum[it]) }
             .firstOrNull { it != 0 } ?: 0
+}
+
+/** Compares two nullable values, placing nulls after non-nulls. */
+private fun compareNullsLast(a: Any?, b: Any?) = when {
+    a == null && b == null -> 0
+    a == null -> 1
+    b == null -> -1
+    else -> ObjectOrdering.compare(a, b)
 }
 
 //endregion

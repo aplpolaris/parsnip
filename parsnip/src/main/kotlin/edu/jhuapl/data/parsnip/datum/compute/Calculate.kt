@@ -43,7 +43,7 @@ class Calculate @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(_te
         set(value) {
             field = value
             expressionTree = try {
-                NumericExpressionTree(template)
+                NumericExpressionTree(value)
             } catch (ex: ParseException) {
                 fine<Calculate>("Invalid expression: $template")
                 null
