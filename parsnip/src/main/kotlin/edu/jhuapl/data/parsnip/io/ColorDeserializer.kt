@@ -19,16 +19,16 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
+import tools.jackson.core.JsonParser
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
 import com.googlecode.blaisemath.util.Colors
 import java.awt.Color
 import java.io.IOException
 import java.util.*
 
 /** Reads color strings. */
-object ColorDeserializer : JsonDeserializer<Color>() {
+object ColorDeserializer : ValueDeserializer<Color>() {
 
     @Throws(IOException::class)
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Color {

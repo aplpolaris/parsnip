@@ -22,7 +22,7 @@ package edu.jhuapl.data.parsnip.value
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.value.filter.*
 import edu.jhuapl.testkt.shouldBe
@@ -207,7 +207,7 @@ class ValueFunctionsTest : TestCase() {
         testSerialize(IpContainedIn("1.1.1.1/24"))
         testSerialize(CidrContains("1.1.1.1"))
 
-        println(ObjectMapper().convertValue(arrayOf(1, 2), Range::class.java))
+        println(Range(*ObjectMapper().convertValue(arrayOf(1, 2), Array<Any>::class.java)))
     }
 
     @Throws(IOException::class)

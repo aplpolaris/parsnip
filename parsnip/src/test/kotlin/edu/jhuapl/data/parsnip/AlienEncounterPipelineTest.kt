@@ -22,9 +22,9 @@ package edu.jhuapl.data.parsnip
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.dataformat.yaml.YAMLMapper
+import tools.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.io.parsnipModule
 import junit.framework.TestCase
@@ -39,7 +39,7 @@ class AlienEncounterPipelineTest : TestCase() {
 
     fun testAlienEncounterPipeline() {
         // ── Load pipeline from YAML ──────────────────────────────────────────
-        val yamlMapper = YAMLMapper().registerModule(parsnipModule())
+        val yamlMapper = YAMLMapper.builder().addModule(parsnipModule()).build()
         val yamlText = AlienEncounterPipelineTest::class.java
             .getResourceAsStream("alien-encounter-pipeline.yaml")!!
             .bufferedReader().readText()

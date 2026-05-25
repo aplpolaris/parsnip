@@ -22,9 +22,9 @@ package edu.jhuapl.data.parsnip
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.dataformat.yaml.YAMLMapper
+import tools.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.datum.Datum
 import edu.jhuapl.data.parsnip.datum.compute.Field
 import edu.jhuapl.data.parsnip.datum.filter.DatumFieldFilter
@@ -117,7 +117,7 @@ class EtlIntegrationTest : TestCase() {
      */
     fun testPipelineExecution() {
         // load the ETL pipeline from the YAML configuration file
-        val yamlMapper = YAMLMapper().registerModule(parsnipModule())
+        val yamlMapper = YAMLMapper.builder().addModule(parsnipModule()).build()
         val etl = yamlMapper.readValue<Etl>(File(pipelineFile))
 
         // verify the pipeline has the expected five-step structure
@@ -152,7 +152,7 @@ class EtlIntegrationTest : TestCase() {
      * and that the serialized YAML from the API matches what is in the pipeline file.
      */
     fun testPipelineYamlRoundTrip() {
-        val yamlMapper = YAMLMapper().registerModule(parsnipModule())
+        val yamlMapper = YAMLMapper.builder().addModule(parsnipModule()).build()
 
         // build the pipeline from the API
         val etl = buildPipeline()

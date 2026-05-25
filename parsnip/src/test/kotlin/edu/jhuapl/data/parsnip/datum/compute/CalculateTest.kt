@@ -22,9 +22,9 @@ package edu.jhuapl.data.parsnip.datum.compute
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.convertValue
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.module.kotlin.convertValue
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import com.googlecode.blaisemath.parser.BooleanGrammar
 import com.googlecode.blaisemath.parser.RealGrammar
 import edu.jhuapl.testkt.printJsonTest

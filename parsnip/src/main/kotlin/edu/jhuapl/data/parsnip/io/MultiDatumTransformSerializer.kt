@@ -21,13 +21,13 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonToken
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.SerializerProvider
+import tools.jackson.core.JsonGenerator
+import tools.jackson.core.JsonParser
+import tools.jackson.core.JsonToken
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.ValueSerializer
+import tools.jackson.databind.SerializationContext
 import edu.jhuapl.data.parsnip.datum.DatumTransform
 import edu.jhuapl.data.parsnip.datum.MultiDatumTransform
 import edu.jhuapl.data.parsnip.datum.MultiDatumTransformWrapper
@@ -35,10 +35,10 @@ import edu.jhuapl.util.types.tryServiceFromShortName
 import java.io.IOException
 
 /** Serializer that allows saving content that looks like either a [DatumTransform] or a [MultiDatumTransform]. */
-object MultiDatumTransformSerializer : JsonSerializer<MultiDatumTransform>() {
+object MultiDatumTransformSerializer : ValueSerializer<MultiDatumTransform>() {
 
     @Throws(IOException::class)
-    override fun serialize(mt: MultiDatumTransform?, gen: JsonGenerator, serializerProvider: SerializerProvider) {
+    override fun serialize(mt: MultiDatumTransform?, gen: JsonGenerator, serializerProvider: SerializationContext) {
         when (mt) {
             is MultiDatumTransformWrapper -> SimpleValueSerializer.serialize(mt.base, gen, serializerProvider)
             else -> SimpleValueSerializer.serialize(mt, gen, serializerProvider)
@@ -48,16 +48,16 @@ object MultiDatumTransformSerializer : JsonSerializer<MultiDatumTransform>() {
 }
 
 /** Flexible deserialization as either [DatumTransform] or [MultiDatumTransform]. */
-class MultiDatumTransformDeserializer(private val loader: ClassLoader) : JsonDeserializer<MultiDatumTransform>() {
+class MultiDatumTransformDeserializer(private val loader: ClassLoader) : ValueDeserializer<MultiDatumTransform>() {
     override fun deserialize(parser: JsonParser, context: DeserializationContext): MultiDatumTransform? {
-        var token = parser.currentToken
+        var token = parser.currentToken()
         return when (token) {
             JsonToken.VALUE_NULL -> null
             JsonToken.START_OBJECT -> {
-                val fieldName = parser.nextFieldName()
+                val fieldName = parser.nextName()
                 val type: Class<*>? = classFrom(fieldName, context)
                 parser.nextValue()
-                val res = type?.let { parser.readValueAs(it) }
+                val res = type?.let { parser.readValueAsCompatible(it, context) }
                 while (token != JsonToken.END_OBJECT) {
                     token = parser.nextToken()
                 }

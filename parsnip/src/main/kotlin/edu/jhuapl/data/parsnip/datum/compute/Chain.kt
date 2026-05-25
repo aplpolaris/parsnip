@@ -23,8 +23,8 @@ package edu.jhuapl.data.parsnip.datum.compute
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import tools.jackson.databind.annotation.JsonDeserialize
+import tools.jackson.databind.annotation.JsonSerialize
 import edu.jhuapl.data.parsnip.datum.Datum
 import edu.jhuapl.data.parsnip.datum.DatumCompute
 import edu.jhuapl.data.parsnip.decode.Decoder

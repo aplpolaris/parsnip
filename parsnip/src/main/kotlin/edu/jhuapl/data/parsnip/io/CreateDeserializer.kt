@@ -21,11 +21,11 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonToken
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.module.kotlin.convertValue
+import tools.jackson.core.JsonParser
+import tools.jackson.core.JsonToken
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.module.kotlin.convertValue
 import edu.jhuapl.data.parsnip.datum.DatumTransform
 import edu.jhuapl.data.parsnip.datum.compute.Constant
 import edu.jhuapl.data.parsnip.datum.transform.Augment
@@ -42,10 +42,10 @@ class AugmentDeserializer(loader: ClassLoader) : MapCreateDeserializerSupport<Au
 /**
  * Handles serialization of [Create].
  */
-open class MapCreateDeserializerSupport<T : Create>(val loader: ClassLoader, val init: () -> T) : JsonDeserializer<T>() {
+open class MapCreateDeserializerSupport<T : Create>(val loader: ClassLoader, val init: () -> T) : ValueDeserializer<T>() {
 
     override fun deserialize(p: JsonParser, context: DeserializationContext): T? {
-        return when (val token = p.currentToken) {
+        return when (val token = p.currentToken()) {
             JsonToken.VALUE_NULL -> init()
             JsonToken.START_OBJECT -> createMapEncode(p.readValueAs(LinkedHashMap::class.java))
             else -> throw context.instantiationException(DatumTransform::class.java, "Expected an object but was $token")!!

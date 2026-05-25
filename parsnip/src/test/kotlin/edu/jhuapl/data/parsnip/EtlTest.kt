@@ -22,9 +22,9 @@ package edu.jhuapl.data.parsnip
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinModule
+import tools.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.datum.compute.*
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.datum.filter.DatumFieldFilter
@@ -104,7 +104,7 @@ class EtlTest : TestCase() {
         etl.prettyPrintYamlTest()
         println(output)
 
-        val person = ObjectMapper().registerModule(KotlinModule.Builder().build()).convertValue(output, Person::class.java)
+        val person = JsonMapper.builder().addModule(KotlinModule.Builder().build()).build().convertValue(output, Person::class.java)
         println(person)
     }
 

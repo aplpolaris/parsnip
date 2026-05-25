@@ -19,19 +19,18 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.TreeNode
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonNode
+import tools.jackson.core.JsonParser
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.ValueDeserializer
 import java.io.IOException
 
 /** Used for deserialization of class strings, allowing primitive strings to omit the "java.lang" prefix. */
-object ClassDeserializer : JsonDeserializer<Class<*>>() {
+object ClassDeserializer : ValueDeserializer<Class<*>>() {
 
     @Throws(IOException::class)
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Class<*> {
-        val name = (p.codec.readTree<TreeNode>(p) as JsonNode).asText()
+        val name = p.readValueAsTree<JsonNode>().asText()
         if (PRIMITIVE_LOOKUP.containsKey(name)) {
             return PRIMITIVE_LOOKUP[name]!!
         }

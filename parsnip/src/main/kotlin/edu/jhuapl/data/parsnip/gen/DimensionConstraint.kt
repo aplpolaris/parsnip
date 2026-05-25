@@ -69,7 +69,10 @@ private fun constraintFromString(s: String) : DimensionConstraint<*> {
     fun doubleInitialValue() = if (initialValue == parameters) parameterList[0].toDouble() else initialValue?.toDouble() ?: 0.0
     fun setInitialValue() = initialValue.toSet()
 
-    fun booleanParameter() = parameters.convertTo(Boolean::class.java) ?: throw IllegalArgumentException()
+    fun booleanParameter() =
+        parameters.takeUnless { it.isNullOrBlank() }?.convertTo(Boolean::class.java)
+            ?: initialValue?.takeUnless { it.isBlank() }?.convertTo(Boolean::class.java)
+            ?: throw IllegalArgumentException()
     fun intParameter() = parameters!!.toInt()
     fun doubleParameter() = parameters!!.toDouble()
     fun setParameter() = parameters!!.toSet()

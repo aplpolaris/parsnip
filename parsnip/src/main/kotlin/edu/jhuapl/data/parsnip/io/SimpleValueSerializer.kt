@@ -22,11 +22,9 @@ package edu.jhuapl.data.parsnip.io
  * #L%
  */
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.*
-import com.fasterxml.jackson.databind.ser.BeanSerializerBuilder
-import com.fasterxml.jackson.databind.ser.BeanSerializerFactory
-import com.fasterxml.jackson.databind.type.SimpleType
+import tools.jackson.core.JsonGenerator
+import tools.jackson.databind.*
+import tools.jackson.databind.ser.BeanSerializerFactory
 import edu.jhuapl.util.types.SimpleValue
 
 import java.io.IOException
@@ -35,19 +33,18 @@ import java.io.IOException
  * Handles serialization of simple value objects. Uses the simple value for serialization if present, otherwise uses
  * the standard class serialization embedded in a single key-value map.
  */
-object SimpleValueSerializer : JsonSerializer<Any>() {
+object SimpleValueSerializer : ValueSerializer<Any>() {
 
     @Throws(IOException::class)
-    override fun serialize(mt: Any?, gen: JsonGenerator, serializerProvider: SerializerProvider) {
+    override fun serialize(mt: Any?, gen: JsonGenerator, serializerProvider: SerializationContext) {
         when {
             mt == null -> gen.writeNull()
-            mt is SimpleValue && mt.simpleValue != mt -> gen.writePairObject(mt::class.java.simpleName to mt.simpleSerializableValue(gen, serializerProvider))
+            mt is SimpleValue && mt.simpleValue != mt -> gen.writePairObject(mt::class.java.simpleName to mt.simpleSerializableValue(gen, serializerProvider), serializerProvider)
             else -> {
                 gen.writeStartObject()
-                gen.writeFieldName(mt::class.java.simpleName)
+                gen.writeName(mt::class.java.simpleName)
                 mt.writeBeanMapObject(gen, serializerProvider)
                 gen.writeEndObject()
-//                gen.writePairObject(mt::class.java.simpleName to mt.toSerializableMap(gen, serializerProvider))
             }
         }
     }
@@ -55,25 +52,36 @@ object SimpleValueSerializer : JsonSerializer<Any>() {
 }
 
 /** Gets the value object that should be used for serializing a [SimpleValue]. */
-internal fun SimpleValue.simpleSerializableValue(gen: JsonGenerator, serializerProvider: SerializerProvider): Any = when (val sv = simpleValue) {
+internal fun SimpleValue.simpleSerializableValue(gen: JsonGenerator, serializerProvider: SerializationContext): Any = when (val sv = simpleValue) {
     null -> mapOf<String, Any?>()
 //    this -> toSerializableMap(gen, serializerProvider)
     else -> sv
 }
 
-/** This uses a default [ObjectMapper] so that default object serialization is used; otherwise there's an infinite loop. */
-internal fun Any.writeBeanMapObject(gen: JsonGenerator, serializerProvider: SerializerProvider) {
-    val type = SimpleType.constructUnsafe(this.javaClass)
-    val beanInfo = serializerProvider.config.introspect(type)
-    val serializer = BeanSerializerFactory.instance.findBeanOrAddOnSerializer(serializerProvider, type, beanInfo, true)
+/** This uses bean serialization so that nested properties still use the active mapper/modules. */
+internal fun Any.writeBeanMapObject(gen: JsonGenerator, serializerProvider: SerializationContext) {
+    val type = serializerProvider.constructType(this.javaClass)
+    val serializer = BeanSerializerFactory.instance.createSerializer(serializerProvider, type)
     serializer.serialize(this, gen, serializerProvider)
 }
 
-
 /** This uses a default [ObjectMapper] so that default object serialization is used; otherwise there's an infinite loop. */
-internal fun Any.toSerializableMap(gen: JsonGenerator, serializerProvider: SerializerProvider): LinkedHashMap<*, *> {
+internal fun Any.toSerializableMap(gen: JsonGenerator, serializerProvider: SerializationContext): LinkedHashMap<*, *> {
     return ObjectMapper().convertValue(this, LinkedHashMap::class.java)
 }
 
-internal fun JsonGenerator.writePairObject(pair: Pair<Any, Any?>) = writeObject(mapOf(pair))
-internal fun JsonGenerator.writePairsObject(vararg pairs: Pair<Any, Any?>) = writeObject(mapOf(*pairs))
+internal fun JsonGenerator.writePairObject(pair: Pair<Any, Any?>, serializerProvider: SerializationContext) {
+    writeStartObject()
+    writeName(pair.first.toString())
+    serializerProvider.writeValue(this, pair.second)
+    writeEndObject()
+}
+
+internal fun JsonGenerator.writePairsObject(vararg pairs: Pair<Any, Any?>, serializerProvider: SerializationContext) {
+    writeStartObject()
+    for (pair in pairs) {
+        writeName(pair.first.toString())
+        serializerProvider.writeValue(this, pair.second)
+    }
+    writeEndObject()
+}

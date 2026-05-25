@@ -21,9 +21,9 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.SerializerProvider
+import tools.jackson.core.JsonGenerator
+import tools.jackson.databind.ValueSerializer
+import tools.jackson.databind.SerializationContext
 import edu.jhuapl.data.parsnip.datum.compute.Constant
 import edu.jhuapl.data.parsnip.datum.transform.Create
 import edu.jhuapl.data.parsnip.datum.transform.FieldEncode
@@ -35,15 +35,15 @@ import edu.jhuapl.util.types.SimpleValue
 /**
  * Handles serialization of [Create].
  */
-object CreateSerializer : JsonSerializer<Create>() {
-    override fun serialize(value: Create?, gen: JsonGenerator, serializers: SerializerProvider) {
+object CreateSerializer : ValueSerializer<Create>() {
+    override fun serialize(value: Create?, gen: JsonGenerator, serializers: SerializationContext) {
         when (value) {
             null -> gen.writeNull()
-            else -> gen.writeObject(delegateMap(value, gen, serializers))
+            else -> gen.writePOJO(delegateMap(value, gen, serializers))
         }
     }
 
-    private fun delegateMap(value: Create, gen: JsonGenerator, serializerProvider: SerializerProvider)
+    private fun delegateMap(value: Create, gen: JsonGenerator, serializerProvider: SerializationContext)
             = value.fields.associateBy({ it.targetSingle }, { delegateSerializableObject(it, gen, serializerProvider) })
 
     /**
@@ -51,7 +51,7 @@ object CreateSerializer : JsonSerializer<Create>() {
      * process steps, or a list where the first value is "from" and remainder are "process" steps otherwise. If the encode
      * targets multiple fields, an additional item is added to the end of the list of content.
      */
-    private fun delegateSerializableObject(value: FieldEncode<*>, gen: JsonGenerator, serializerProvider: SerializerProvider): Any? = when {
+    private fun delegateSerializableObject(value: FieldEncode<*>, gen: JsonGenerator, serializerProvider: SerializationContext): Any? = when {
         !value.targetMultipleFields && value.process.isEmpty() && value.from is Constant -> (value.from as Constant).value
         !value.targetMultipleFields && value.process.isEmpty() -> value.from
         value.targetMultipleFields -> listOrMapWithUniqueFields(listOf(value.from) + value.process + TargetMultipleFields(value.target), gen, serializerProvider)
@@ -64,7 +64,7 @@ object CreateSerializer : JsonSerializer<Create>() {
      * Otherwise, when object types are repeated, encodes result as a list, requiring the object type information to be
      * encoded with the list element.
      */
-    private fun listOrMapWithUniqueFields(list: List<Any>, gen: JsonGenerator, serializerProvider: SerializerProvider): Any {
+    private fun listOrMapWithUniqueFields(list: List<Any>, gen: JsonGenerator, serializerProvider: SerializationContext): Any {
         val setOfTypes = list.map { it::class.java }.toSet()
         return if (setOfTypes.size == list.size) {
             list.associateBy(
@@ -76,7 +76,7 @@ object CreateSerializer : JsonSerializer<Create>() {
     }
 
     /** Get the simple value representation of the object, if possible. */
-    private fun simplestValue(it: Any, gen: JsonGenerator, serializerProvider: SerializerProvider): Any = when (it) {
+    private fun simplestValue(it: Any, gen: JsonGenerator, serializerProvider: SerializationContext): Any = when (it) {
         is SimpleValue -> it.simpleSerializableValue(gen, serializerProvider)
         is ValueFilterCompute -> simplestValue(it.filter, gen, serializerProvider)
         else -> it.toSerializableMap(gen, serializerProvider)

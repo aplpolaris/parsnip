@@ -22,7 +22,7 @@ package edu.jhuapl.data.parsnip.datum.transform
  * #L%
  */
 
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.datum.compute.Field
 import edu.jhuapl.data.parsnip.datum.compute.Template
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
