@@ -65,7 +65,7 @@ internal fun Any.writeBeanMapObject(gen: JsonGenerator, serializerProvider: Seri
     serializer.serialize(this, gen, serializerProvider)
 }
 
-/** This uses a default [ObjectMapper] so that default object serialization is used; otherwise there's an infinite loop. */
+/** This uses a default [ObjectMapper] to isolate plain bean-to-map conversion and avoid recursive custom serializer lookup. */
 internal fun Any.toSerializableMap(gen: JsonGenerator, serializerProvider: SerializationContext): LinkedHashMap<*, *> {
     return ObjectMapper().convertValue(this, LinkedHashMap::class.java)
 }

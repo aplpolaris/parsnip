@@ -66,6 +66,7 @@ class DatumFilterDeserializer : ValueDeserializer<DatumFilter>() {
                 while (token != JsonToken.END_OBJECT) {
                     token = parser.nextToken()
                 }
+                // Jackson 3 leaves the parser on END_OBJECT here; advance once so parent callers do not see trailing tokens.
                 parser.nextToken()
                 if (type != null) { stackTypes.pop() }
                 res
