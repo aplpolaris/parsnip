@@ -21,12 +21,12 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.core.JsonToken
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
+import tools.jackson.core.JsonParser
+import tools.jackson.core.JacksonException
+import tools.jackson.core.JsonToken
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.DatabindException
 import edu.jhuapl.data.parsnip.datum.DatumFilter
 import edu.jhuapl.data.parsnip.datum.filter.And
 import edu.jhuapl.data.parsnip.datum.filter.DatumFieldFilter
@@ -40,18 +40,18 @@ import java.io.IOException
  * Handles serialization of Datum filter classes.
  * @author Christopher Paul
  */
-class DatumFilterDeserializer : JsonDeserializer<DatumFilter>() {
+class DatumFilterDeserializer : ValueDeserializer<DatumFilter>() {
 
     private var stackTypes = Stack<Class<out DatumFilter>?>()
 
-    @Throws(IOException::class, JsonProcessingException::class)
+    @Throws(IOException::class, JacksonException::class)
     override fun deserialize(parser: JsonParser, context: DeserializationContext): DatumFilter? {
-        var token = parser.currentToken
+        var token = parser.currentToken()
         var type: Class<out DatumFilter>? = null
         return when (token) {
             JsonToken.VALUE_NULL -> null
             JsonToken.START_OBJECT -> {
-                val nextField: String = parser.nextFieldName() ?: return DatumFieldFilter()
+                val nextField: String = parser.nextName() ?: return DatumFieldFilter()
                 // if logical comb filter type proceed
                 try {
                     type = filterType(nextField)
@@ -66,18 +66,18 @@ class DatumFilterDeserializer : JsonDeserializer<DatumFilter>() {
                 while (token != JsonToken.END_OBJECT) {
                     token = parser.nextToken()
                 }
+                // Jackson 3 leaves the parser on END_OBJECT here; advance once so parent callers do not see trailing tokens.
+                parser.nextToken()
                 if (type != null) { stackTypes.pop() }
                 res
             }
             JsonToken.START_ARRAY -> {
                 // deserialize all DatumFieldFilters in the array
                 val datumFieldFilterMutList: MutableList<DatumFilter> = ArrayList()
-                token = parser.nextValue()
+                token = parser.nextToken()
                 while (token != JsonToken.END_ARRAY) {
                     datumFieldFilterMutList.add(deserialize(parser, context)!!)
-                    while (parser.currentToken() == JsonToken.END_OBJECT) {
-                        token = parser.nextValue()
-                    }
+                    token = parser.currentToken()
                 }
 
                 val datumFieldFilterArr = datumFieldFilterMutList.toTypedArray()
@@ -95,7 +95,7 @@ class DatumFilterDeserializer : JsonDeserializer<DatumFilter>() {
         }
     }
 
-    @Throws(JsonMappingException::class)
+    @Throws(DatabindException::class)
     private fun filterType(typeString: String): Class<out DatumFilter> {
         return Class.forName(packageName(DatumFieldFilter::class.java) + "." + typeString) as Class<out DatumFilter>
     }
@@ -112,4 +112,3 @@ class DatumFilterDeserializer : JsonDeserializer<DatumFilter>() {
     }
 
 }
-

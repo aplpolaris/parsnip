@@ -21,8 +21,8 @@
  */
 package edu.jhuapl.data.parsnip.test
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.dataformat.yaml.YAMLMapper
+import tools.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.Etl
 import edu.jhuapl.data.parsnip.datum.Datum
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
@@ -128,7 +128,7 @@ class TestView : View() {
         try {
             val inputMap = ParsnipMapper.readValue(input.value) as Datum
             if (etlTextChanged) {
-                etl = YAMLMapper().registerModule(parsnipModule())
+                etl = YAMLMapper.builder().addModule(parsnipModule()).build()
                         .readValue(etlText.value) as Etl
             }
             output.value = ParsnipMapper.writerWithDefaultPrettyPrinter().writeValueAsString(etl(inputMap))

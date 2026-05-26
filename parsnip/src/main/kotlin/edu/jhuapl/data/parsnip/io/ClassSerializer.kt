@@ -19,15 +19,15 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.SerializerProvider
+import tools.jackson.core.JsonGenerator
+import tools.jackson.databind.ValueSerializer
+import tools.jackson.databind.SerializationContext
 import java.io.IOException
 
 /** Used for deserialization of class strings, allowing primitive strings to omit the "java.lang" prefix. */
-object ClassSerializer : JsonSerializer<Class<*>>() {
+object ClassSerializer : ValueSerializer<Class<*>>() {
     @Throws(IOException::class)
-    override fun serialize(value: Class<*>, gen: JsonGenerator, serializers: SerializerProvider) {
+    override fun serialize(value: Class<*>, gen: JsonGenerator, serializers: SerializationContext) {
         var nm = value.name
         if (nm.startsWith("java.lang.") || nm.startsWith("java.util.")) {
             nm = nm.substring(10)

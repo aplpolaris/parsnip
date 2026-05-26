@@ -22,27 +22,27 @@ package edu.jhuapl.data.parsnip.io
  * #L%
  */
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.core.JsonToken
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
+import tools.jackson.core.JsonParser
+import tools.jackson.core.JacksonException
+import tools.jackson.core.JsonToken
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.DatabindException
 
 import java.io.IOException
 
 /** Deserializes elements as target type, when the object is wrapped in a simple string representing the type. */
-abstract class NameObjectDeserializer<X>(private val nameLookup: (String) -> Class<out X>) : JsonDeserializer<X>() {
+abstract class NameObjectDeserializer<X>(private val nameLookup: (String) -> Class<out X>) : ValueDeserializer<X>() {
 
-    @Throws(IOException::class, JsonProcessingException::class)
+    @Throws(IOException::class, JacksonException::class)
     override fun deserialize(parser: JsonParser, context: DeserializationContext): X? {
-        var token = parser.currentToken
+        var token = parser.currentToken()
         return when (token) {
             JsonToken.VALUE_NULL -> null
             JsonToken.START_OBJECT -> {
-                val type: Class<out X> = classFrom(parser.nextFieldName(), context)
+                val type: Class<out X> = classFrom(parser.nextName(), context)
                 parser.nextValue()
-                val res = parser.readValueAs(type)
+                val res = parser.readValueAsCompatible(type, context)
                 while (token != JsonToken.END_OBJECT) {
                     token = parser.nextToken()
                 }
@@ -52,7 +52,7 @@ abstract class NameObjectDeserializer<X>(private val nameLookup: (String) -> Cla
         }
     }
 
-    @Throws(JsonMappingException::class)
+    @Throws(DatabindException::class)
     protected fun classFrom(typeString: String, context: DeserializationContext): Class<out X> {
         return try {
             classFromSimpleName(typeString)
@@ -71,19 +71,19 @@ abstract class NameObjectDeserializerWithAlternate<X, Y>(
     private val nameLookup: (String) -> Class<out X>,
     private val altNameLookup: (String) -> Class<out Y>,
     private val altTransform: (Y) -> X,
-) : JsonDeserializer<X>() {
+) : ValueDeserializer<X>() {
 
-    @Throws(IOException::class, JsonProcessingException::class)
+    @Throws(IOException::class, JacksonException::class)
     override fun deserialize(parser: JsonParser, context: DeserializationContext): X? {
-        var token = parser.currentToken
+        var token = parser.currentToken()
         return when (token) {
             JsonToken.VALUE_NULL -> null
             JsonToken.START_OBJECT -> {
-                val fieldName = parser.nextFieldName()
+                val fieldName = parser.nextName()
                 val xType = classFrom(fieldName)
                 val type: Class<*> = xType ?: altClassFrom(fieldName, context)
                 parser.nextValue()
-                val res = parser.readValueAs(type)
+                val res = parser.readValueAsCompatible(type, context)
                 while (token != JsonToken.END_OBJECT) {
                     token = parser.nextToken()
                 }
@@ -93,7 +93,7 @@ abstract class NameObjectDeserializerWithAlternate<X, Y>(
         }
     }
 
-    @Throws(JsonMappingException::class)
+    @Throws(DatabindException::class)
     protected fun classFrom(typeString: String): Class<out X>? {
         return try {
             nameLookup(typeString)
@@ -102,7 +102,7 @@ abstract class NameObjectDeserializerWithAlternate<X, Y>(
         }
     }
 
-    @Throws(JsonMappingException::class)
+    @Throws(DatabindException::class)
     protected fun altClassFrom(typeString: String, context: DeserializationContext): Class<out Y> {
         return try {
             altNameLookup(typeString)
@@ -111,4 +111,19 @@ abstract class NameObjectDeserializerWithAlternate<X, Y>(
         }
     }
 
+}
+
+internal fun <X> JsonParser.readValueAsCompatible(type: Class<out X>, context: DeserializationContext): X {
+    if (currentToken() == JsonToken.START_ARRAY) {
+        val varargConstructor = type.constructors.singleOrNull { it.parameterCount == 1 && it.isVarArgs }
+        if (varargConstructor != null) {
+            val values = context.readValue(this, Array<Any>::class.java)
+            val componentType = varargConstructor.parameterTypes[0].componentType
+            val typedArray = java.lang.reflect.Array.newInstance(componentType, values.size)
+            values.forEachIndexed { i, value -> java.lang.reflect.Array.set(typedArray, i, value) }
+            @Suppress("UNCHECKED_CAST")
+            return varargConstructor.newInstance(typedArray) as X
+        }
+    }
+    return readValueAs(type)
 }

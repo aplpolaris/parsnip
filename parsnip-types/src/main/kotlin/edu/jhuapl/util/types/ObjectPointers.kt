@@ -21,7 +21,7 @@
  */
 package edu.jhuapl.util.types
 
-import com.fasterxml.jackson.databind.JsonNode
+import tools.jackson.databind.JsonNode
 
 /**
  * Get value at expected location in message body. Expects it to be of the

@@ -21,9 +21,9 @@
  */
 package edu.jhuapl.testkt
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.dataformat.yaml.YAMLMapper
+import tools.jackson.module.kotlin.readValue
 import edu.jhuapl.data.parsnip.io.ParsnipMapper
 import edu.jhuapl.data.parsnip.io.parsnipModule
 
@@ -33,7 +33,7 @@ fun Any.recyclePlainMapperJsonTest() = testRecycle(this)
 
 fun Any.printJsonTest() = println(ParsnipMapper.writeValueAsString(this))
 fun Any.prettyPrintJsonTest() = println(ParsnipMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this))
-fun Any.prettyPrintYamlTest() = println(YAMLMapper().registerModule(parsnipModule()).writerWithDefaultPrettyPrinter().writeValueAsString(this))
+fun Any.prettyPrintYamlTest() = println(YAMLMapper.builder().addModule(parsnipModule()).build().writerWithDefaultPrettyPrinter().writeValueAsString(this))
 inline fun <reified X> X.recycleJsonTest() = testRecycle(this)
 inline fun <reified X> X.recycleYamlTest() = testYamlRecycle(this)
 
@@ -48,7 +48,7 @@ inline fun <reified X> testRecycle(value: X): X {
 }
 
 inline fun <reified X> testYamlRecycle(value: X): X {
-    val mapper = YAMLMapper().registerModule(parsnipModule())
+    val mapper = YAMLMapper.builder().addModule(parsnipModule()).build()
     val firstTime = mapper.writeValueAsString(value)
     println(firstTime)
     val this2 = mapper.readValue<X>(firstTime)

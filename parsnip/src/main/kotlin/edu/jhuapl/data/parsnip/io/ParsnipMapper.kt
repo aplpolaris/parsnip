@@ -21,12 +21,12 @@
  */
 package edu.jhuapl.data.parsnip.io
 
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.ValueSerializer
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.module.SimpleModule
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinModule
 import edu.jhuapl.data.parsnip.dataset.DataSetCompute
 import edu.jhuapl.data.parsnip.dataset.DataSetFilter
 import edu.jhuapl.data.parsnip.dataset.DataSetTransform
@@ -73,14 +73,12 @@ object ParsnipMapper: CustomParsnipMapper(RuntimeServiceClassLoader)
  * Class that allows specification of a custom class loader.
  * @param loader class loader used for looking up classes by id/string
  */
-open class CustomParsnipMapper(loader: ClassLoader, mapper: ObjectMapper = ObjectMapper()): ObjectMapper(mapper) {
-    init {
-        registerModule(KotlinModule.Builder().build())
-        registerModule(JavaTimeModule())
-        registerModule(parsnipModule(loader))
-        registerModule(commonTypeModule())
-    }
-}
+open class CustomParsnipMapper(loader: ClassLoader): ObjectMapper(
+    JsonMapper.builder()
+        .addModule(KotlinModule.Builder().build())
+        .addModule(parsnipModule(loader))
+        .addModule(commonTypeModule())
+)
 
 /**
  * Module for a few basic types, including [Color] and [Class].
@@ -181,7 +179,7 @@ internal fun packageName(cls: Class<*>): String {
 //endregion
 
 /** Extension function to simplify adding serializers to module. */
-private inline fun <reified T> SimpleModule.serialize(serializer: JsonSerializer<in T>) { addSerializer(T::class.java, serializer) }
+private inline fun <reified T> SimpleModule.serialize(serializer: ValueSerializer<in T>) { addSerializer(T::class.java, serializer) }
 
 /** Extension function to simplify adding deserializers to module. */
-private inline fun <reified T> SimpleModule.deserialize(deserializer: JsonDeserializer<out T>) { addDeserializer(T::class.java, deserializer) }
+private inline fun <reified T> SimpleModule.deserialize(deserializer: ValueDeserializer<out T>) { addDeserializer(T::class.java, deserializer) }

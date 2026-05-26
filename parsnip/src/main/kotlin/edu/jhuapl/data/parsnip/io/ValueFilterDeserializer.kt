@@ -22,13 +22,13 @@ package edu.jhuapl.data.parsnip.io
  * #L%
  */
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.core.JsonToken
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
+import tools.jackson.core.JsonParser
+import tools.jackson.core.JacksonException
+import tools.jackson.core.JsonToken
+import tools.jackson.core.type.TypeReference
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.DatabindException
 import edu.jhuapl.data.parsnip.value.ValueFilter
 import edu.jhuapl.data.parsnip.value.filter.*
 
@@ -37,15 +37,15 @@ import java.io.IOException
 /**
  * Handles serialization of value filter classes.
  */
-class ValueFilterDeserializer() : JsonDeserializer<ValueFilter>() {
+class ValueFilterDeserializer() : ValueDeserializer<ValueFilter>() {
 
-    @Throws(IOException::class, JsonProcessingException::class)
+    @Throws(IOException::class, JacksonException::class)
     override fun deserialize(parser: JsonParser, context: DeserializationContext): ValueFilter? {
-        var token = parser.currentToken
+        var token = parser.currentToken()
         return when (token) {
             JsonToken.VALUE_NULL -> null
             JsonToken.START_OBJECT -> {
-                val type = filterType(parser.nextFieldName(), context)
+                val type = filterType(parser.nextName(), context)
                 parser.nextValue()
                 val res = constructFilter(type, parser, context)
                 while (token != JsonToken.END_OBJECT) {
@@ -58,7 +58,7 @@ class ValueFilterDeserializer() : JsonDeserializer<ValueFilter>() {
         }
     }
 
-    @Throws(JsonMappingException::class)
+    @Throws(DatabindException::class)
     private fun filterType(typeString: String, context: DeserializationContext): Class<out ValueFilter> {
         return try {
             Class.forName(packageName(ValueFilter::class.java) + ".filter." + typeString) as Class<out ValueFilter>
@@ -75,8 +75,8 @@ class ValueFilterDeserializer() : JsonDeserializer<ValueFilter>() {
             Not::class.java -> deserialize(parser, context)!!.not()
             And::class.java -> And(*constructFilterArray(parser, context))
             Or::class.java -> Or(*constructFilterArray(parser, context))
-//            Range::class.java -> Range(*parser.readArray())
-            else -> parser.readValueAs(type)
+            Range::class.java -> Range(*parser.readArray<Any>())
+            else -> parser.readValueAsCompatible(type, context)
         }
     }
 
@@ -84,7 +84,7 @@ class ValueFilterDeserializer() : JsonDeserializer<ValueFilter>() {
 
     @Throws(IOException::class)
     private fun constructFilterArray(parser: JsonParser, context: DeserializationContext): Array<ValueFilter> {
-        return when (parser.currentToken) {
+        return when (parser.currentToken()) {
             JsonToken.START_ARRAY -> context.readValue(parser, Array<ValueFilter>::class.java)
             else -> deserialize(parser, context)?.let { arrayOf(it) } ?: emptyArray()
         }
