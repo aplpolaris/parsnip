@@ -99,3 +99,13 @@ for any single library.
     `parsnip-types` first only if *its own* artifact version is changing
     (since `parsnip` pins a fixed `parsnip-types` version); otherwise
     release order between the two modules is unconstrained.
+13. **If `parsnip-types` was released in this cycle, sync the pin.**
+    Immediately after `parsnip-types`'s `mvn release:perform` completes,
+    update the pinned `<version>` under the `parsnip-types` dependency in
+    `parsnip/pom.xml` to the version just released, in its own small commit
+    pushed straight to `main` (verify with `mvn test` in `parsnip` first —
+    it should resolve the new `parsnip-types` artifact from Central). Do
+    this **before** running `parsnip`'s own `release:prepare`, so `parsnip`
+    is never released pinned to a stale `parsnip-types` version. Skipping
+    this step is exactly what caused an aborted, wrongly-pinned `parsnip`
+    release attempt in the 2026-07-27 cycle.
