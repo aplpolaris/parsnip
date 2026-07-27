@@ -71,8 +71,11 @@ for any single library.
 3. **Classify updates** — patch/minor (batchable, low risk) vs. major
    (review changelogs/breaking changes individually). Record the
    classification in the tracking issue.
-4. **Decide scope for this cycle** — edit the issue with the exact target
-   versions being tackled now; explicitly defer the rest to a future issue.
+4. **Decide scope for this cycle** — the agent proposes which updates to
+   tackle now (based on the classification in step 3) and which to defer,
+   but the **user approves the final list** before any code changes are
+   made. Edit the issue with the exact target versions agreed on;
+   explicitly defer the rest to a future issue.
 5. **Branch and update** — one combined branch/PR touching both modules'
    `pom.xml` (and README where a version is user-visible), since version
    properties here (e.g. `kotlin.version`) aren't cross-module-dependent.
@@ -109,3 +112,8 @@ for any single library.
     is never released pinned to a stale `parsnip-types` version. Skipping
     this step is exactly what caused an aborted, wrongly-pinned `parsnip`
     release attempt in the 2026-07-27 cycle.
+14. **Publish on Sonatype Central.** After `mvn release:perform` completes
+    for a module, its artifacts land in a Central Publishing Portal
+    deployment that still needs a manual publish action. Go to
+    **https://central.sonatype.com/publishing** and hit the **Publish**
+    button for that deployment.
