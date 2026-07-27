@@ -60,11 +60,14 @@ class InstantDecoderTest {
         assertTimestampFails(inst4, 2017, 10, 31, 16, 40, 10, 132000000, "2017-10-31T16:40:10.132")
         assertTimestampFails(inst4, 2017, 10, 31, 16, 40, 10, 130000000, "2017-10-31T16:40:10.13")
         assertTimestampFails(inst4, 2017, 10, 31, 16, 40, 10, 100000000, "2017-10-31T16:40:10.1")
-        assertTimestamp(inst4, 2017, 10, 31, 12, 41, 13, 196000000, "2017-10-31T16:41:13.196Z")
+        // Pattern ends in 'Z' (Zulu/UTC), which InstantDecoder decodes as an explicit,
+        // zone-independent instant rather than applying the system default zone -- so the
+        // expected value here must be built against UTC, not the local zone. See issue #45.
+        assertTimestamp(inst4, 2017, 10, 31, 16, 41, 13, 196000000, "2017-10-31T16:41:13.196Z", zulu = true)
         assertTimestampFails(inst4, 2017, 10, 31, 12, 41, 13, 196000000, "2017-10-31T16:41:13.1964711Z")
 
         val inst5 = InstantDecoder("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
-        assertTimestamp(inst5, 2017, 10, 31, 12, 41, 13, 196471000, "2017-10-31T16:41:13.196471Z")
+        assertTimestamp(inst5, 2017, 10, 31, 16, 41, 13, 196471000, "2017-10-31T16:41:13.196471Z", zulu = true)
         assertTimestampFails(inst5, 2017, 10, 31, 12, 41, 13, 196000000, "2017-10-31T16:41:13.196Z")
 
         val inst6 = InstantDecoder("EEE MMM d HH:mm:ss yyyy")
@@ -76,8 +79,10 @@ class InstantDecoderTest {
         assertTimestamp(InstantDecoder("yyyy/MM/dd"), 2012, 1, 1, 0, 0, 0, 0, "2012/01/01")
     }
 
-    private fun assertTimestamp(dec: InstantDecoder, yr: Int, mo: Int, day: Int, hr: Int, min: Int, sec: Int, nanos: Int, date: String) {
-        dec.decode(date) shouldBe LocalDateTime.of(yr, mo, day, hr, min, sec, nanos).toLocalInstant()
+    private fun assertTimestamp(dec: InstantDecoder, yr: Int, mo: Int, day: Int, hr: Int, min: Int, sec: Int, nanos: Int, date: String, zulu: Boolean = false) {
+        val d = LocalDateTime.of(yr, mo, day, hr, min, sec, nanos)
+        val expected = if (zulu) d.atZone(ZoneId.of("Z")).toInstant() else d.toLocalInstant()
+        dec.decode(date) shouldBe expected
     }
 
     private fun assertTimestampFails(dec: InstantDecoder, yr: Int, mo: Int, day: Int, hr: Int, min: Int, sec: Int, nanos: Int, date: String) {

@@ -51,15 +51,18 @@ class DecoderGuesserTest {
         assertTimestamp(1980, 9, 11, 0, 0, 0, 0, "Sep 11, 1980")
         assertTimestamp(2017, 10, 31, 16, 40, 10, 132000000, "2017-10-31T16:40:10.132")
         assertTimestampFails(2017, 10, 31, 16, 40, 10, 130000000, "2017-10-31T16:40:10.13")
-        //todo - these next two tests need to be adapted for zulu offset (daylight savings)
-        assertTimestamp(2017, 10, 31, 12, 41, 13, 196000000, "2017-10-31T16:41:13.196Z")
-        assertTimestamp(2017, 10, 31, 12, 41, 13, 196471100, "2017-10-31T16:41:13.1964711Z")
+        // These two inputs end in 'Z' (Zulu/UTC), which DATE_TIME decodes as an explicit,
+        // zone-independent instant rather than applying the system default zone -- so the
+        // expected value here must be built against UTC, not the local zone. See issue #45.
+        assertTimestamp(2017, 10, 31, 16, 41, 13, 196000000, "2017-10-31T16:41:13.196Z", zulu = true)
+        assertTimestamp(2017, 10, 31, 16, 41, 13, 196471100, "2017-10-31T16:41:13.1964711Z", zulu = true)
     }
 
     @Suppress("unused")
-    private fun assertTimestamp(yr: Int, mo: Int, day: Int, hr: Int, min: Int, sec: Int, nanos: Int, date: String) {
+    private fun assertTimestamp(yr: Int, mo: Int, day: Int, hr: Int, min: Int, sec: Int, nanos: Int, date: String, zulu: Boolean = false) {
         val d = LocalDateTime.of(yr, mo, day, hr, min, sec, nanos)
-        DATE_TIME.decode(date) shouldBe d.toLocalInstant()
+        val expected = if (zulu) d.atZone(ZoneId.of("Z")).toInstant() else d.toLocalInstant()
+        DATE_TIME.decode(date) shouldBe expected
     }
 
     @Suppress("unused")

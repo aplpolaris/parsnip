@@ -40,7 +40,13 @@ class TypesTest {
     @Test
     fun testAs_Invoke() {
         As(Date::class.java).invoke("2012-07-16 19:35:06.000") shouldBe Date(112, 6, 16, 19, 35, 6)
-        As(Long::class.java).invoke("2012-07-16 19:35:06.000") shouldBe 1342481706000L
+        // Input has no zone/offset, so decoding intentionally applies the JVM's default zone
+        // (see InstantDecoder) -- compute the expected value the same way instead of a
+        // hardcoded literal tied to one specific zone (this used to assume America/New_York,
+        // which made the test fail on UTC CI runners; see issue #45).
+        val expectedMillis = LocalDateTime.parse("2012-07-16T19:35:06.000")
+                .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        As(Long::class.java).invoke("2012-07-16 19:35:06.000") shouldBe expectedMillis
     }
 
     @Test
