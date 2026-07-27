@@ -41,6 +41,8 @@ import edu.jhuapl.testkt.prettyPrintJsonTest
 import edu.jhuapl.testkt.prettyPrintYamlTest
 import junit.framework.TestCase
 import java.io.IOException
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class EtlTest : TestCase() {
 
@@ -90,7 +92,13 @@ class EtlTest : TestCase() {
         res.load.fields.add(FieldEncode<Long>("start", Field("Date"), As(Long::class.java)))
         res.load.fields.add(FieldEncode<String>("sensor", Constant("my sensor")))
         val input = mapOf("Date" to "09/11/1980 02:03", "SrcPort" to "25", "Sensor" to "a sensor")
-        assertEquals(337500180000L, res(input)!!["start"])
+        // "Date" has no zone/offset, so decoding intentionally applies the JVM's default zone
+        // (see InstantDecoder) -- compute the expected value the same way instead of a
+        // hardcoded literal tied to one specific zone (this used to assume America/New_York,
+        // which made the test fail on UTC CI runners; see issue #45).
+        val expectedMillis = LocalDateTime.of(1980, 9, 11, 2, 3)
+                .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        assertEquals(expectedMillis, res(input)!!["start"])
     }
 
     fun testMapToObject() {
