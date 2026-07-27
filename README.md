@@ -28,3 +28,7 @@ Complete documentation is available at **[aplpolaris.github.io/parsnip](https://
 - **[API Reference](https://aplpolaris.github.io/parsnip/api/)** - Complete API documentation for all classes and methods
 
 For local development and documentation setup instructions, see [DOCS_SETUP.md](DOCS_SETUP.md).
+
+## Agent Instructions
+
+- **[CLAUDE.md](CLAUDE.md)** - Guidance for Claude Code (and other coding agents) working in this repository, including build/test/release commands and a repeatable dependency maintenance playbook.
