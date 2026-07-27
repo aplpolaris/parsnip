@@ -92,7 +92,10 @@ for any single library.
 8. **Fix and iterate** until all triggered tests are green.
 9. **Push the branch and open a PR** via `gh pr create`, referencing the
    tracking issue, summarizing the change and test evidence gathered.
-10. **Wait for CI/review**, address feedback, push fixes.
+10. **Wait for CI, then the user reviews and merges.** The agent does not
+    merge dependency-update PRs itself — a human must review and click
+    merge, even if CI is green. Address any review feedback by pushing
+    fixes to the same branch.
 11. **On merge** — close the tracking issue (`gh issue close`), pull `main`
     locally.
 12. **Release — prepared by the agent, executed by the user.** Prepare a
