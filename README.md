@@ -32,3 +32,4 @@ For local development and documentation setup instructions, see [DOCS_SETUP.md](
 ## Agent Instructions
 
 - **[CLAUDE.md](CLAUDE.md)** - Guidance for Claude Code (and other coding agents) working in this repository, including build/test/release commands and a repeatable dependency maintenance playbook.
+  - To run the dependency maintenance playbook, start a new agent session in this repo and ask: *"Let's run a dependency maintenance cycle"* (optionally naming a specific library to focus on). The agent will follow the playbook in `CLAUDE.md`, starting with opening a tracking issue and surveying dependencies, and will pause for your approval before making any changes.
