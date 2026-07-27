@@ -13,6 +13,8 @@ Parsnip is useful in any environment that needs to make these kinds of transform
 editing data transformations *requires no code modifications* -- all ETLs and transformations can be configured entirely
 within JSON/YAML files.
 
+Parsnip is built with **Kotlin 2.4.10**.
+
 ## Modules
 
 - **parsnip-types** [![Maven Central](https://img.shields.io/maven-central/v/com.googlecode.blaisemath/parsnip-types.svg)](https://central.sonatype.com/artifact/com.googlecode.blaisemath/parsnip-types) *general utilities, mostly for type deserialization*

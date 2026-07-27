@@ -49,7 +49,7 @@ class AlienEncounterPipelineTest : TestCase() {
         val input = generateRandomEncounters(count = 8, seed = 42)
 
         // Write to a temp JSON file (the "random input file")
-        val inputFile = createTempFile(prefix = "alien-encounters-", suffix = ".json")
+        val inputFile = java.io.File.createTempFile("alien-encounters-", ".json")
         ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(inputFile, input)
 
         // Read back from the file to demonstrate the round-trip
