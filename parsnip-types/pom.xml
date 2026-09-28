@@ -50,7 +50,7 @@
         <license.organizationName>Johns Hopkins University Applied Physics Laboratory</license.organizationName>
         <license.licenseName>apache_v2</license.licenseName>
         <guava.version>33.6.0-jre</guava.version>
-        <jackson.version>3.2.1</jackson.version>
+        <jackson.version>3.2.2</jackson.version>
         <kotlin.version>2.4.10</kotlin.version>
         <kotlin-dokka.version>2.2.0</kotlin-dokka.version>
     </properties>
